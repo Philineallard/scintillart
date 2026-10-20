@@ -24,7 +24,8 @@ export type PortalManifest = {
   layers: PortalLayer[]
 }
 
-export const PORTAL_BASE = '/portal'
+/** Respects Vite's `base`, so the site also works from a sub-path (e.g. the preview build). */
+export const PORTAL_BASE = `${import.meta.env.BASE_URL}portal`
 
 /** Static geometry fallback, used if the manifest can't be fetched. Mirrors the generated manifest. */
 export const DEFAULT_GEOMETRY: Pick<PortalManifest, 'width' | 'height' | 'aperture' | 'arch'> = {

@@ -1,5 +1,5 @@
 import { lazy, type MouseEvent, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useHref, useNavigate } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
 import { BrandDefinition } from '../components/BrandDefinition'
 import { ScintillartWordmark } from '../components/ScintillartWordmark'
@@ -19,6 +19,7 @@ const PortalScene = lazy(() => import('../portal/PortalScene'))
 export default function EntryPage() {
   useDocumentTitle('Scintillart. Where a spark becomes art.')
   const navigate = useNavigate()
+  const retreatsHref = useHref('/retreats')
   const reducedMotion = useMemo(prefersReducedMotion, [])
   const quality = useMemo(detectQuality, [])
   const pointerParallax = useMemo(() => !reducedMotion && hasFinePointer(), [reducedMotion])
@@ -147,7 +148,7 @@ export default function EntryPage() {
 
         <div ref={ctaRef} className={styles.ctaBlock}>
           <p className={styles.line}>{brand.line}</p>
-          <ActionLink href="/retreats" onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
+          <ActionLink href={retreatsHref} onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
             {brand.primaryAction}
           </ActionLink>
         </div>

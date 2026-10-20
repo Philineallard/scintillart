@@ -1,9 +1,11 @@
 node_modules
 dist
+dist-preview
 .DS_Store
 *.local
 .env
 .env.*
 !.env.example
+!.env.preview
 .wrangler
 __pycache__

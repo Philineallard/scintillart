@@ -4,6 +4,7 @@ import { ActionLink } from '../components/ActionLink'
 import { brand } from '../content/brand'
 import { interestHref, retreat } from '../content/retreat'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { PORTAL_BASE } from '../portal/manifest'
 import styles from './RetreatPage.module.css'
 
 type Props = {
@@ -35,7 +36,7 @@ export default function RetreatPage({ embedded = false }: Props) {
       <div className={styles.body}>
         <figure className={styles.figure}>
           <img
-            src="/portal/doorway.webp"
+            src={`${PORTAL_BASE}/doorway.webp`}
             width={201}
             height={423}
             alt="Detail of the collage: a vaulted cathedral corridor leading to a mirrored doorway."

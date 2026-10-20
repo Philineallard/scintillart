@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "build:preview": "tsc -b && vite build --mode preview --base ./ --outDir dist-preview",
     "typecheck": "tsc -b --pretty",
     "portal:layers": "python3 scripts/prepare_portal_layers.py"
   },
