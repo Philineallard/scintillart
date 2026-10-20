@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Route, Routes, useLocation } from 'react-router'
 import { Atmosphere } from './components/Atmosphere'
 import { ScintillaCursor } from './components/ScintillaCursor'
+import { RefractionGlints } from './cursor/RefractionGlints'
 import EntryPage from './pages/EntryPage'
 import NotFound from './pages/NotFound'
 import RetreatPage from './pages/RetreatPage'
@@ -37,7 +38,9 @@ export default function App() {
     <>
       <Atmosphere fluid={location.pathname === '/'} />
       <RouteFocus />
-      <ScintillaCursor variant={location.pathname === '/retreats' ? 'holo' : 'plain'} />
+      {/* Homepage: custom cursor + fluid portal. Other pages: normal cursor + refraction glints.
+          Keyed by route so each page's effect mounts fresh and cleans up when you leave. */}
+      {location.pathname === '/' ? <ScintillaCursor key="home" /> : <RefractionGlints key={location.pathname} />}
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/retreats" element={<RetreatPage />} />
