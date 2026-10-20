@@ -38,9 +38,9 @@
   /* IPA glyphs are not in Poppins; let the platform supply them. */
   --font-ipa: 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', Arial, sans-serif;
 
-  /* Wordmark width in em: "Scintill" in Playfair Display Italic (3.06em) + "art" in
-     Poppins Bold at 0.92em with tight tracking (≈1.33em). Re-measure if a face changes. */
-  --wordmark-em-width: 4.42;
+  /* Wordmark width in em: "Scinti" + "art" in Playfair Display Italic (2.51 + 1.29em)
+     and "ll" in Poppins Bold (0.59em + spacing). Re-measure if a face changes. */
+  --wordmark-em-width: 4.44;
   --wordmark-tracking: -0.005em;
 
   --text-xs: 0.75rem;
