@@ -110,7 +110,7 @@
   min-height: 44px;
   padding: 0.5rem 0.9rem;
   border: 0;
-  background: var(--paper);
+  background: rgb(255 255 255 / 0.5);
   color: var(--ink);
   font: inherit;
   font-size: var(--text-xs);

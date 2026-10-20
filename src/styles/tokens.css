@@ -5,8 +5,15 @@
  */
 :root {
   /* Colour */
-  --paper: #e8dfcf;
-  --paper-deep: #ddd2bf;
+  /* Ground: a grainy dusk sky, pale blue drifting into blush pink. --paper is its flat fallback. */
+  --paper: #ece2e5;
+  --paper-deep: #dfd3d8;
+  --sky-image:
+    radial-gradient(115% 85% at 8% 0%, rgb(170 199 226 / 0.85) 0%, rgb(170 199 226 / 0) 62%),
+    radial-gradient(90% 70% at 100% 8%, rgb(206 222 238 / 0.7) 0%, rgb(206 222 238 / 0) 60%),
+    radial-gradient(95% 80% at 92% 100%, rgb(232 182 190 / 0.9) 0%, rgb(232 182 190 / 0) 64%),
+    radial-gradient(70% 60% at 30% 85%, rgb(242 206 212 / 0.75) 0%, rgb(242 206 212 / 0) 70%),
+    linear-gradient(172deg, #dfe8f1 0%, #ece3ea 48%, #f1d9dc 100%);
   --ink: #27231f;
   --ink-soft: #4a433c; /* 7.3:1 on paper */
   --clay: #a46b52; /* decorative only on paper (3.5:1): never small text */
@@ -15,7 +22,7 @@
   --rule: rgb(39 35 31 / 0.22);
 
   /* Paper grain: a static 160px SVG turbulence tile (never animated). */
-  --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.33 0 0 0 0 0.27 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.25 0 0 0 0 0.3 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
   /* Typography: replace a typeface by changing one token (and the imports in fonts.ts). */
   --font-display: 'Playfair Display', 'Iowan Old Style', 'Times New Roman', serif;
