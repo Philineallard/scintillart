@@ -6,7 +6,7 @@
   visibility: hidden;
   opacity: 0;
   background-color: var(--paper);
-  background-image: var(--sky-image);
+  background-image: var(--vignette-image), var(--atmosphere-still);
   pointer-events: none;
   will-change: clip-path, opacity;
 }
@@ -18,7 +18,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: var(--grain-opacity);
   mix-blend-mode: multiply;
   background-image: var(--grain-image);
 }

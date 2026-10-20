@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Route, Routes, useLocation } from 'react-router'
+import { Atmosphere } from './components/Atmosphere'
 import { ScintillaCursor } from './components/ScintillaCursor'
 import EntryPage from './pages/EntryPage'
 import NotFound from './pages/NotFound'
@@ -33,6 +34,7 @@ function RouteFocus() {
 export default function App() {
   return (
     <>
+      <Atmosphere />
       <RouteFocus />
       <ScintillaCursor />
       <Routes>

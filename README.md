@@ -90,6 +90,10 @@ Fallbacks:
 
 Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lift, camera stop, shadow strength, DPR caps).
 
+## Background
+
+`src/components/Atmosphere.tsx`, four layers: warm ivory base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps, with a broad damped response to mouse movement); a static fine grain; a faint vignette. It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL. Tuning values are at the top of the file; colours are in the shader.
+
 ## Cursor
 
 `src/components/ScintillaCursor.tsx`: an ink point with a trailing ring that scatters four-point sparks and soft ripples in the collage colours; clicking sends a larger ripple, and the ring opens over links. Only for a mouse (fine pointer) and never with reduced motion; touch devices keep their normal behaviour. Tuning values are at the top of the file.

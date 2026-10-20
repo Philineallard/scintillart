@@ -47,7 +47,7 @@ export default function RetreatPage({ embedded = false }: Props) {
             <h2 id={practicesId} className={styles.label}>
               Practices
             </h2>
-            <PracticeList practices={retreat.practices} embedded={embedded} />
+            <PracticeList practices={retreat.practices} />
           </section>
 
           <Takeaways
