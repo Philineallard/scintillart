@@ -5,17 +5,17 @@
 }
 
 html {
-  /* Same scrollbar gutter on every route, so the portal hand-off to /retreats never shifts horizontally. */
-  scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background: var(--paper);
+  /* The sky lives on the root so it also covers any scrollbar area. */
+  background-color: var(--paper);
+  background-image: var(--sky-image);
+  background-attachment: fixed;
 }
 
 /* The entry cover is one screen; its short scroll track only drives the definitions. Hide the bar there. */
 html:has([data-entry]) {
   scrollbar-width: none;
-  scrollbar-gutter: auto;
 }
 html:has([data-entry])::-webkit-scrollbar {
   display: none;
@@ -31,9 +31,6 @@ body {
   margin: 0;
   min-height: 100vh;
   min-height: 100svh;
-  background-color: var(--paper);
-  background-image: var(--sky-image);
-  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-text);
   font-weight: var(--font-text-weight);

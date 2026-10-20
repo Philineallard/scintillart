@@ -26,6 +26,4 @@
 .destination > * {
   position: relative;
   z-index: 1;
-  /* Leave room for the scrollbar the real /retreats page will have, so nothing shifts at the hand-off. */
-  width: calc(100% - var(--scrollbar-width, 0px));
 }

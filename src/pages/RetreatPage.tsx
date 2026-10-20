@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { Link } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
+import { PracticeList } from '../components/PracticeList'
 import { Takeaways } from '../components/Takeaways'
 import { brand } from '../content/brand'
 import { interestHref, retreat } from '../content/retreat'
@@ -42,6 +43,13 @@ export default function RetreatPage({ embedded = false }: Props) {
             <p className={styles.line}>{retreat.line}</p>
           </section>
 
+          <section className={styles.practices} aria-labelledby={practicesId}>
+            <h2 id={practicesId} className={styles.label}>
+              Practices
+            </h2>
+            <PracticeList practices={retreat.practices} embedded={embedded} />
+          </section>
+
           <Takeaways
             title={retreat.takeaways.title}
             items={retreat.takeaways.items}
@@ -73,16 +81,6 @@ export default function RetreatPage({ embedded = false }: Props) {
             ))}
           </dl>
 
-          <section className={styles.practices} aria-labelledby={practicesId}>
-            <h2 id={practicesId} className={styles.label}>
-              Practices
-            </h2>
-            <ul>
-              {retreat.practices.map((p) => (
-                <li key={p}>{p}</li>
-              ))}
-            </ul>
-          </section>
 
           <div className={styles.interest}>
             <ActionLink href={interestHref()} tabIndex={tab}>

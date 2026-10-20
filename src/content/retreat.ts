@@ -9,6 +9,7 @@
  * reconcile this file against it.
  */
 export type RetreatFact = { term: string; detail: string; note?: string }
+export type Practice = { name: string; image?: { slug: string; w: number; h: number; alt: string } }
 
 export const retreat = {
   eyebrow: 'Our retreats',
@@ -40,7 +41,23 @@ export const retreat = {
       'Rich memories to take home',
     ],
   },
-  practices: ['Art', 'Photography', 'Collage', 'Ceramics', 'Performance', 'Qi Gong', 'Breathwork', 'Meditation'],
+  /**
+   * Practices. `image` is a photo from a past Scintillart / Artspace workshop, shown when the
+   * practice is hovered, tapped or focused. Files live in public/workshops (max 720px, WebP).
+   * Ceramics has no photo yet: add one and set `image` to show it.
+   */
+  practices: [
+    { name: 'Art', image: { slug: 'art', w: 535, h: 720, alt: 'Painting on a large cloth outdoors at sunset' } },
+    { name: 'Photography', image: { slug: 'photography', w: 542, h: 720, alt: 'A participant photographing with a camera' } },
+    { name: 'Collage', image: { slug: 'collage', w: 484, h: 720, alt: 'A wall of handmade collages' } },
+    { name: 'Ceramics' },
+    { name: 'Performance', image: { slug: 'performance', w: 542, h: 720, alt: 'A performance in the evening light' } },
+    { name: 'Life drawing', image: { slug: 'life-drawing', w: 720, h: 481, alt: 'Life drawing on paper at the studio table' } },
+    { name: 'Qi Gong', image: { slug: 'qi-gong', w: 720, h: 286, alt: 'A group practising Qi Gong' } },
+    { name: 'Breathwork', image: { slug: 'breathwork', w: 540, h: 720, alt: 'Participants resting on the floor in a movement and breath session' } },
+    { name: 'Meditation', image: { slug: 'meditation', w: 542, h: 720, alt: 'A sound meditation with crystal singing bowls' } },
+    { name: 'Tea ceremony', image: { slug: 'tea-ceremony', w: 542, h: 720, alt: 'A ceremony pot, ladle and small cups on a woven cloth' } },
+  ] as Practice[],
   interest: {
     label: 'Register your interest',
     /**
