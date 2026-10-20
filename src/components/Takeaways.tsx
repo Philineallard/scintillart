@@ -3,6 +3,8 @@ import styles from './Takeaways.module.css'
 
 type Props = {
   title: string
+  /** Small note under the title, e.g. where the words come from. */
+  caption?: string
   items: readonly string[]
   /** Rotate automatically (off inside the hidden transition layer and for reduced motion). */
   autoplay: boolean
@@ -32,7 +34,7 @@ function sparks(seed: number) {
  * rotation pauses on hover, on focus, with the pause button, and for reduced motion
  * (which gets previous/next only).
  */
-export function Takeaways({ title, items, autoplay, embedded = false }: Props) {
+export function Takeaways({ title, caption, items, autoplay, embedded = false }: Props) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const [held, setHeld] = useState(false) // hover or focus inside
@@ -63,9 +65,12 @@ export function Takeaways({ title, items, autoplay, embedded = false }: Props) {
       }}
     >
       <div className={styles.head}>
-        <h2 id={titleId} className={styles.title}>
-          {title}
-        </h2>
+        <div>
+          <h2 id={titleId} className={styles.title}>
+            {title}
+          </h2>
+          {caption && <p className={styles.caption}>{caption}</p>}
+        </div>
         <span className={styles.count} aria-hidden="true">
           {String(index + 1).padStart(2, '0')} / {String(n).padStart(2, '0')}
         </span>

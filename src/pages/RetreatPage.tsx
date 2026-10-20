@@ -53,6 +53,7 @@ export default function RetreatPage({ embedded = false }: Props) {
 
           <Takeaways
             title={retreat.takeaways.title}
+            caption={retreat.takeaways.caption}
             items={retreat.takeaways.items}
             autoplay={!embedded}
             embedded={embedded}

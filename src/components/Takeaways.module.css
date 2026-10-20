@@ -19,6 +19,15 @@
   text-transform: uppercase;
 }
 
+.caption {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
 .count {
   font-size: var(--text-xs);
   color: var(--ink-soft);

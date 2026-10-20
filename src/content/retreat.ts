@@ -22,9 +22,10 @@ export const retreat = {
     { term: 'Where', detail: 'Near Aljezur, Algarve, Portugal', note: 'Guest house being confirmed.' },
     { term: 'Price', detail: 'Being confirmed' },
   ] satisfies RetreatFact[],
-  /** Philine's own words, from past retreats. Shown one at a time on the page. */
+  /** Words from previous participants, shown one at a time on the page. */
   takeaways: {
     title: 'What people take home',
+    caption: 'Words from previous participants',
     items: [
       'A wonderful, nourishing creative time',
       'A community that feels like a family, even in a short time',
