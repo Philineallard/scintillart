@@ -92,15 +92,11 @@ Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lif
 
 ## Background
 
-`src/components/Atmosphere.tsx`, four layers: warm ivory base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps, with a broad damped response to mouse movement); a static fine grain; a faint vignette. On the homepage the same layers take a light cement character: cooler stone tones from the collage (kraft, rose-clay, a faint sage), mid-scale mottling in the shader and a static cement tile (`--cement-image` in tokens.css, strength `--cement-opacity`). It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL. Tuning values are at the top of the file; colours are in the shader.
-
-## Fluid distortion (homepage)
-
-`src/fluid/pointerTrail.ts`: a smoothed follower chases the mouse and leaves a short trail of disturbances (position, direction, strength from speed). Each one is an elongated soft displacement that eases in, stretches along the movement, spreads and fades within about 1.8 s. It distorts only the background light field (`Atmosphere.tsx`); the collage and the text are never distorted. It is an analytic approximation of a disturbed liquid surface, not a full fluid simulation. Mouse only; off for reduced motion and touch. Tuning: `FLUID` in `pointerTrail.ts`.
+`src/components/Atmosphere.tsx` (every page), in layers: light stone base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps) with cement mottling, in stone tones from the collage (kraft, rose-clay, a faint sage); a static cement tile (`--cement-image`, strength `--cement-opacity`); film grain that flickers gently (`--grain-image`, `--grain-opacity`); a faint vignette. The pointer does not affect the background. It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL.
 
 ## Cursor
 
-`src/components/ScintillaCursor.tsx` (all pages): an ink point with a trailing ring that opens over links, scattering small four-point sparks and soft ripples as it moves; a click sends a larger ripple. Colours are sampled from the prismatic foil around the collage's doorway (rose-clay, peach, blush champagne, pale gold, mint and sage glints). Mouse only, off for reduced motion; tuning values at the top of the file. On the homepage it sits over the background's fluid distortion.
+`src/components/ScintillaCursor.tsx` (all pages): an ink point with a trailing ring that opens over links, scattering small four-point sparks and soft ripples as it moves; a click sends a larger ripple. Colours are sampled from the prismatic foil around the collage's doorway (rose-clay, peach, blush champagne, pale gold, mint and sage glints). Mouse only, off for reduced motion; tuning values at the top of the file.
 
 ## Retreats page
 

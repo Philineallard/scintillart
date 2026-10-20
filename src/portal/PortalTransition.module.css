@@ -6,7 +6,9 @@
   visibility: hidden;
   opacity: 0;
   background-color: var(--paper);
-  background-image: var(--vignette-image), var(--atmosphere-still);
+  background-image: var(--vignette-image), var(--cement-image), var(--atmosphere-still);
+  background-size: auto, 640px 640px, auto;
+  background-blend-mode: normal, multiply, normal;
   pointer-events: none;
   will-change: clip-path, opacity;
 }

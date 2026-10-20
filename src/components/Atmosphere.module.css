@@ -24,31 +24,45 @@
   opacity: 0;
 }
 
-/*
- * Cement texture (homepage only): a static tile of soft mottling plus a scatter of
- * tiny pores, multiplied lightly over the light field. Fades in/out with the route.
- */
+/* Cement texture: a static tile of soft mottling plus a scatter of tiny pores. */
 .cement {
   position: absolute;
   inset: 0;
   background-image: var(--cement-image);
   background-size: 640px 640px;
   mix-blend-mode: multiply;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-.atmosphere[data-cement] .cement {
   opacity: var(--cement-opacity);
 }
 
-/* Layer 3: fine grain. Static, device-pixel scale, barely perceptible. */
+/*
+ * Film grain: an oversized grain layer that jumps between a few offsets (transform
+ * only, stays on the compositor), so the grain lives like film. Still for reduced motion.
+ */
 .grain {
   position: absolute;
-  inset: 0;
+  inset: -20%;
   background-image: var(--grain-image);
   opacity: var(--grain-opacity);
   mix-blend-mode: multiply;
+  animation: film-grain 0.8s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes film-grain {
+  0% { transform: translate(0, 0); }
+  14% { transform: translate(-4%, 3%); }
+  28% { transform: translate(3%, -4%); }
+  42% { transform: translate(-6%, -2%); }
+  57% { transform: translate(5%, 4%); }
+  71% { transform: translate(-2%, -6%); }
+  85% { transform: translate(6%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
 }
 
 /* Layer 4: vignette. Depth without visibly dark corners. */

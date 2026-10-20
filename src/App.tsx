@@ -32,10 +32,9 @@ function RouteFocus() {
 }
 
 export default function App() {
-  const location = useLocation()
   return (
     <>
-      <Atmosphere fluid={location.pathname === '/'} cement={location.pathname === '/'} />
+      <Atmosphere />
       <RouteFocus />
       <ScintillaCursor />
       <Routes>
