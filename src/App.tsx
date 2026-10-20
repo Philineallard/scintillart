@@ -35,7 +35,7 @@ export default function App() {
   const location = useLocation()
   return (
     <>
-      <Atmosphere fluid={location.pathname === '/'} />
+      <Atmosphere fluid={location.pathname === '/'} cement={location.pathname === '/'} />
       <RouteFocus />
       <ScintillaCursor />
       <Routes>

@@ -24,6 +24,24 @@
   opacity: 0;
 }
 
+/*
+ * Cement texture (homepage only): a static tile of soft mottling plus a scatter of
+ * tiny pores, multiplied lightly over the light field. Fades in/out with the route.
+ */
+.cement {
+  position: absolute;
+  inset: 0;
+  background-image: var(--cement-image);
+  background-size: 640px 640px;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.atmosphere[data-cement] .cement {
+  opacity: var(--cement-opacity);
+}
+
 /* Layer 3: fine grain. Static, device-pixel scale, barely perceptible. */
 .grain {
   position: absolute;

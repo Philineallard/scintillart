@@ -92,7 +92,7 @@ Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lif
 
 ## Background
 
-`src/components/Atmosphere.tsx`, four layers: warm ivory base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps, with a broad damped response to mouse movement); a static fine grain; a faint vignette. It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL. Tuning values are at the top of the file; colours are in the shader.
+`src/components/Atmosphere.tsx`, four layers: warm ivory base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps, with a broad damped response to mouse movement); a static fine grain; a faint vignette. On the homepage the same layers take a light cement character: cooler stone tones from the collage (kraft, rose-clay, a faint sage), mid-scale mottling in the shader and a static cement tile (`--cement-image` in tokens.css, strength `--cement-opacity`). It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL. Tuning values are at the top of the file; colours are in the shader.
 
 ## Fluid distortion (homepage)
 

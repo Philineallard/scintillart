@@ -39,6 +39,7 @@ uniform vec2 uRes;
 uniform float uTime;
 uniform vec2 uPointer;   // 0..1, y up
 uniform float uPointerAmt;
+uniform float uCement;     // 0 = ivory (content pages), 1 = cement (homepage)
 
 // Value noise + fbm (smooth, no visible lattice at this resolution).
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -75,15 +76,24 @@ void main() {
                 fbm(p + 1.6 * q + vec2(8.3, 2.8) - t * 0.35 - g * 0.6));
   float f = fbm(p + 1.5 * r);
 
-  // Warm ivory, muted stone, faint rose/clay.
-  vec3 stone = vec3(0.855, 0.822, 0.776);
-  vec3 ivory = vec3(0.937, 0.912, 0.872);
-  vec3 light = vec3(0.968, 0.950, 0.918);
-  vec3 rose  = vec3(0.912, 0.842, 0.808);
+  // Content pages: warm ivory, muted stone, faint rose/clay.
+  // Homepage (cement): light poured-concrete stones taken from the collage's kraft,
+  // rose-clay and sage, a touch cooler and more mottled.
+  vec3 stone = mix(vec3(0.855, 0.822, 0.776), vec3(0.808, 0.776, 0.737), uCement);
+  vec3 ivory = mix(vec3(0.937, 0.912, 0.872), vec3(0.895, 0.868, 0.834), uCement);
+  vec3 light = mix(vec3(0.968, 0.950, 0.918), vec3(0.935, 0.915, 0.886), uCement);
+  vec3 rose  = mix(vec3(0.912, 0.842, 0.808), vec3(0.866, 0.784, 0.745), uCement);
+  vec3 sage  = vec3(0.800, 0.812, 0.776);
 
   vec3 col = mix(stone, ivory, smoothstep(0.22, 0.72, f));
   col = mix(col, rose, smoothstep(0.45, 0.85, r.x) * 0.45);
   col = mix(col, light, smoothstep(0.6, 0.95, f) * 0.55);
+
+  // Cement: mid-scale mottling (cloudy patches poured at different densities)
+  // and a faint sage cast in places, like the collage's foil glints seen in stone.
+  float m = fbm(p * 3.6 + vec2(3.1, 7.7) + q * 0.35);
+  col *= 1.0 + (m - 0.5) * 0.09 * uCement;
+  col = mix(col, sage, smoothstep(0.55, 0.85, q.y) * 0.25 * uCement);
 
   // Light catching the disturbed surface: a faint highlight on one slope, shade on the other.
   float slope = dot(fd, vec2(0.6, 0.8)) * 26.0;
@@ -101,7 +111,9 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null
 }
 
-export function Atmosphere({ fluid = false }: { fluid?: boolean }) {
+export function Atmosphere({ fluid = false, cement = false }: { fluid?: boolean; cement?: boolean }) {
+  const cementRef = useRef(cement)
+  cementRef.current = cement
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fluidRef = useRef(fluid)
   fluidRef.current = fluid
@@ -136,6 +148,8 @@ export function Atmosphere({ fluid = false }: { fluid?: boolean }) {
     const uTrailB = gl.getUniformLocation(prog, 'uTrailB')
     const uAspect = gl.getUniformLocation(prog, 'uAspect')
     const uTrailGain = gl.getUniformLocation(prog, 'uTrailGain')
+    const uCement = gl.getUniformLocation(prog, 'uCement')
+    let cementMix = cementRef.current ? 1 : 0
     const trailA = new Float32Array(TRAIL_N * 4)
     const trailB = new Float32Array(TRAIL_N * 4)
     let trailGain = 0
@@ -180,6 +194,8 @@ export function Atmosphere({ fluid = false }: { fluid?: boolean }) {
       gl.uniform4fv(uTrailB, trailB)
       gl.uniform1f(uAspect, window.innerWidth / window.innerHeight)
       gl.uniform1f(uTrailGain, trailGain)
+      cementMix += ((cementRef.current ? 1 : 0) - cementMix) * Math.min(1, dt * 2.5)
+      gl.uniform1f(uCement, cementMix)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
 
@@ -241,8 +257,9 @@ export function Atmosphere({ fluid = false }: { fluid?: boolean }) {
   }, [])
 
   return (
-    <div className={styles.atmosphere} aria-hidden="true">
+    <div className={styles.atmosphere} aria-hidden="true" data-cement={cement ? '' : undefined}>
       <canvas ref={canvasRef} className={styles.field} />
+      <div className={styles.cement} />
       <div className={styles.grain} />
       <div className={styles.vignette} />
     </div>
