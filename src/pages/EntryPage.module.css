@@ -1,9 +1,11 @@
 /*
- * Entry page layout.
+ * Entry page layout: a magazine cover.
+ * The masthead (wordmark) spans the width and sits IN FRONT of the artwork,
+ * which starts behind the lower part of the letters and fills the cover.
  *
  * Flow layout (phones, tablets, short or narrow windows):
  *   wordmark → portal → definition → CTA (sticky at the bottom while reading).
- * Cinematic layout (≥ 1100px wide and ≥ 640px tall):
+ * Cover layout (≥ 1200px wide and ≥ 640px tall):
  *   wordmark across the top; portal centred; definition lower left; CTA lower right.
  */
 
@@ -24,7 +26,9 @@
 }
 
 .header {
+  z-index: 3; /* masthead in front of the artwork */
   display: flex;
+  pointer-events: none;
   justify-content: center;
 }
 
@@ -33,13 +37,14 @@
   flex-direction: column;
   align-items: center;
   gap: clamp(1.75rem, 5vw, 2.75rem);
-  margin-top: clamp(1rem, 3.5vw, 2rem);
+  /* Tuck the artwork behind the lower third of the masthead. */
+  margin-top: calc(var(--wm-size) * -0.3);
 }
 
 .portalSlot {
   position: relative;
   margin: 0;
-  width: min(100%, calc(clamp(18rem, 100svh - var(--wm-size) - 8rem, 40rem) * 1068 / 1398));
+  width: min(100% + var(--gutter), calc(clamp(20rem, 100svh - var(--wm-size) * 0.7 - 5rem, 46rem) * 1068 / 1398));
   aspect-ratio: 1068 / 1398;
 }
 
@@ -106,10 +111,12 @@
 }
 
 /* ---------- Cinematic desktop composition ---------- */
-@media (min-width: 1100px) and (min-height: 640px) {
+@media (min-width: 1200px) and (min-height: 640px) {
   .entry {
-    --wm-size: min(calc((100vw - 2 * var(--gutter)) / var(--wordmark-em-width) * 0.76), 24svh);
-    --stage-gap: clamp(0.5rem, 2vh, 1.5rem);
+    /* Full-width masthead (capped by height on wide, short windows). */
+    --wm-size: min(calc((100vw - 2 * var(--gutter)) / var(--wordmark-em-width)), 30svh);
+    /* How far below the masthead's top edge the artwork begins (fraction of the masthead size). */
+    --cover-overlap: 0.3;
     padding-bottom: calc(var(--pad-bottom) + var(--safe-bottom));
   }
 
@@ -119,8 +126,8 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: end;
-    column-gap: clamp(2rem, 4vw, 5rem);
-    margin-top: var(--stage-gap);
+    column-gap: clamp(1.5rem, 2.5vw, 3rem);
+    margin-top: calc(var(--wm-size) * (var(--cover-overlap) - 0.92));
   }
 
   .portalSlot {
@@ -128,13 +135,10 @@
     grid-row: 1;
     align-self: center;
     width: auto;
-    /* Explicit, viewport-derived height: the artwork fills the space left by the wordmark. */
+    /* Explicit, viewport-derived height: from behind the masthead to the foot of the cover. */
     height: min(
-      54rem,
-      calc(
-        100svh - var(--pad-top) - var(--wm-size) * 0.92 - var(--stage-gap) - var(--pad-bottom) -
-          var(--safe-bottom)
-      )
+      66rem,
+      calc(100svh - var(--pad-top) - var(--wm-size) * var(--cover-overlap) - var(--pad-bottom) - var(--safe-bottom))
     );
   }
 
@@ -166,26 +170,12 @@
     font-size: 1.125rem;
   }
 
-  /* During the reveal: top right, clear of the wordmark and the artwork.
-     During the transition: bottom centre, clear of the arriving page's header. */
-  .entry[data-phase='entering'] .skip {
-    top: auto;
-    right: auto;
-    left: 50%;
-    bottom: calc(var(--pad-bottom) + var(--safe-bottom));
-    translate: -50% 0;
-  }
-
   .skip {
-    left: auto;
-    right: calc(var(--gutter) + var(--safe-right));
-    top: var(--pad-top);
-    bottom: auto;
-    translate: none;
+    bottom: calc(var(--pad-bottom) + var(--safe-bottom));
   }
 }
 
-@media (min-width: 1100px) and (min-height: 640px) and (max-height: 760px) {
+@media (min-width: 1200px) and (min-height: 640px) and (max-height: 760px) {
   /* Short desktop windows: let the definition fit by tightening its rhythm a little. */
   .definition {
     line-height: 1.5;

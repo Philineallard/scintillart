@@ -131,7 +131,7 @@ export default function EntryPage() {
               className={styles.staticArt}
               src={STATIC_ART.src}
               srcSet={`${STATIC_ART.srcSmall} 534w, ${STATIC_ART.src} 1068w`}
-              sizes="(min-width: 1100px) 36vw, 86vw"
+              sizes="(min-width: 1200px) 44vw, 92vw"
               width={STATIC_ART.width}
               height={STATIC_ART.height}
               alt=""
