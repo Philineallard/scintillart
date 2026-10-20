@@ -27,7 +27,15 @@ const TUNING = {
 type Spark = { x: number; y: number; vx: number; vy: number; size: number; born: number; colour: string; spin: number }
 type Ripple = { x: number; y: number; born: number; radius: number; colour: string }
 
-export function ScintillaCursor() {
+type Variant = 'spark' | 'holo'
+
+/**
+ * `spark`: collage colours (entry page).
+ * `holo`:  the holographic foil of the collage: hues shift with position and time,
+ *          like light catching the prism foil (retreats page).
+ */
+export function ScintillaCursor({ variant = 'spark' }: { variant?: Variant }) {
+  const layerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
@@ -61,7 +69,12 @@ export function ScintillaCursor() {
     let sinceRipple = 0
     let frame = 0
     let visible = false
-    const pick = () => COLOURS[(Math.random() * COLOURS.length) | 0]
+    const holo = () => layerRef.current?.dataset.variant === 'holo'
+    // Iridescent hue: drifts with position and time, so the trail runs through the spectrum.
+    const holoColour = (x: number, y: number, light = 68) =>
+      `hsl(${(x * 0.25 + y * 0.18 + performance.now() * 0.06) % 360} 90% ${light}%)`
+    const pick = (x = pos.x, y = pos.y) =>
+      holo() ? holoColour(x + Math.random() * 120, y) : COLOURS[(Math.random() * COLOURS.length) | 0]
 
     const addSpark = (x: number, y: number, speed: number) => {
       if (sparks.length >= TUNING.maxParticles) sparks.shift()
@@ -74,12 +87,12 @@ export function ScintillaCursor() {
         vy: Math.sin(a) * v - 0.015, // a little lift
         size: 3.5 + Math.random() * 5,
         born: performance.now(),
-        colour: pick(),
+        colour: pick(x, y),
         spin: Math.random() * Math.PI,
       })
     }
     const addRipple = (x: number, y: number, radius: number) => {
-      ripples.push({ x, y, born: performance.now(), radius, colour: pick() })
+      ripples.push({ x, y, born: performance.now(), radius, colour: pick(x, y) })
     }
 
     // Four-point star, like the cut foil glints in the collage.
@@ -120,6 +133,13 @@ export function ScintillaCursor() {
         ctx.globalAlpha = (1 - t) * 0.55
         ctx.strokeStyle = r.colour
         ctx.lineWidth = 1.25
+        // Holographic ripples carry the whole spectrum around the ring, slowly turning.
+        if (holo() && 'createConicGradient' in ctx) {
+          const g = ctx.createConicGradient(now * 0.0015, r.x, r.y)
+          ;[0, 60, 120, 180, 240, 300, 360].forEach((h, i) => g.addColorStop(i / 6, `hsl(${h} 90% 66%)`))
+          ctx.strokeStyle = g
+          ctx.lineWidth = 1.6
+        }
         ctx.beginPath()
         ctx.arc(r.x, r.y, 4 + e * r.radius, 0, Math.PI * 2)
         ctx.stroke()
@@ -231,7 +251,7 @@ export function ScintillaCursor() {
   }, [])
 
   return (
-    <div className={styles.layer} aria-hidden="true">
+    <div ref={layerRef} className={styles.layer} data-variant={variant} aria-hidden="true">
       <canvas ref={canvasRef} className={styles.canvas} />
       <div ref={ringRef} className={styles.ring} />
       <div ref={dotRef} className={styles.dot} />

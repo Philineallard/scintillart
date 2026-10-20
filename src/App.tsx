@@ -32,11 +32,12 @@ function RouteFocus() {
 }
 
 export default function App() {
+  const location = useLocation()
   return (
     <>
       <Atmosphere />
       <RouteFocus />
-      <ScintillaCursor />
+      <ScintillaCursor variant={location.pathname === '/retreats' ? 'holo' : 'spark'} />
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/retreats" element={<RetreatPage />} />
