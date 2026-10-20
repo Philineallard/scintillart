@@ -1,9 +1,0 @@
-/* Behind all content (above the background layers): text and images are never covered. */
-.canvas {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}

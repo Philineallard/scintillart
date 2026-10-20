@@ -98,11 +98,9 @@ Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lif
 
 `src/fluid/pointerTrail.ts`: a smoothed follower chases the mouse and leaves a short trail of disturbances (position, direction, strength from speed). Each one is an elongated soft displacement that eases in, stretches along the movement, spreads and fades within about 1.8 s. The background light field (`Atmosphere.tsx`) and the portal (`FluidPass` in `PortalScene.tsx`, a post-process over the collage scene) both evaluate the same displacement, so they move together; text is never distorted. It is an analytic approximation of a disturbed liquid surface, not a full fluid simulation. Mouse only; off for reduced motion and touch. Tuning: `FLUID` in `pointerTrail.ts`.
 
-## Cursor effects
+## Cursor
 
-- Homepage: `src/components/ScintillaCursor.tsx`, an ink point with a trailing ring that opens over links. The pointer's trail is the fluid distortion above.
-- Other pages: the normal system cursor, plus `src/cursor/RefractionGlints.tsx`, occasional thin slivers of light that appear slightly behind the pointer and dissolve, with a faint rose/mint separation at their edges, like the collage's foil catching the sun. It is a 2D canvas drawing translucent light fragments (it does not refract the page), drawn behind all content, and it stays quiet over links, buttons, fields and photographs. Controls (intensity, highlight size, colour separation, frequency, fade duration) are in `src/cursor/glintConfig.ts`.
-- Both are mouse-only, off for reduced motion, and mount per route so they clean up when you leave a page.
+`src/components/ScintillaCursor.tsx` (all pages): an ink point with a trailing ring that opens over links, scattering small four-point sparks and soft ripples as it moves; a click sends a larger ripple. Colours are sampled from the prismatic foil around the collage's doorway (rose-clay, peach, blush champagne, pale gold, mint and sage glints). Mouse only, off for reduced motion; tuning values at the top of the file. On the homepage it sits on top of the fluid distortion.
 
 ## Retreats page
 
