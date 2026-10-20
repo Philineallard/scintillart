@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { Link } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
+import { Logotype } from '../components/Logotype'
 import { PracticeList } from '../components/PracticeList'
 import { Takeaways } from '../components/Takeaways'
 import { brand } from '../content/brand'
@@ -28,8 +29,8 @@ export default function RetreatPage({ embedded = false }: Props) {
   return (
     <Root className={styles.page}>
       <header className={styles.top}>
-        <Link to="/" className={styles.home} tabIndex={tab}>
-          {brand.name}
+        <Link to="/" className={styles.home} tabIndex={tab} aria-label={`${brand.name}, home`}>
+          <Logotype />
         </Link>
         <p className={styles.eyebrow}>{retreat.eyebrow}</p>
       </header>

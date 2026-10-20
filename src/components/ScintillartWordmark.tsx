@@ -1,5 +1,5 @@
 import type { Ref } from 'react'
-import { brand } from '../content/brand'
+import { Logotype } from './Logotype'
 import styles from './ScintillartWordmark.module.css'
 
 type Props = {
@@ -18,7 +18,7 @@ export function ScintillartWordmark({ ref, as: Tag = 'h1', className }: Props) {
   return (
     <Tag className={[styles.wordmark, className].filter(Boolean).join(' ')} tabIndex={-1} data-route-heading="">
       <span ref={ref} className={styles.inner}>
-        {brand.name}
+        <Logotype />
       </span>
     </Tag>
   )
