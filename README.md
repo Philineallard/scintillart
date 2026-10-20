@@ -19,6 +19,10 @@ npm run preview    # serve dist/ locally (http://localhost:4173)
 
 Append `?portal-debug` to the URL to expose `window.__scintillart` (`gsap`, `controller`) for tuning timelines in the console. It's always on with `npm run dev`.
 
+## Shareable preview
+
+`npm run build:preview` builds into `dist-preview/` with relative paths, an in-memory router (no URL changes) and the fonts embedded in the CSS, so the site can run inside a sandboxed preview frame such as a Claude artifact. Use the normal `npm run build` for the real site.
+
 ## Routes
 
 | Path        | Page                                                    |
@@ -73,7 +77,8 @@ State machine: `loading → revealing → idle → entering → entered`.
 
 - **loading**: critical fonts (max 1.5s) and the portal textures load. No fake progress. If the art isn't ready after 1.2s, the text is revealed on its own and the art follows when it arrives. The "Our retreats" link is a real `<a href="/retreats">` and works throughout, even without JavaScript.
 - **revealing** (about 2s): wordmark settles, the collage fades in flat, its paper layers part in depth, one light sweep crosses the foil, the definition and CTA fade in. A "Skip animation" button is visible.
-- **idle**: pointer-driven tilt (fine pointers only, damped), foil highlight follows the pointer, the crystal and owl breathe very slightly. Text is still. Rendering pauses when the tab is hidden or the portal is off screen.
+- **scroll**: the cover is one screen (`position: sticky`). The page has a short scroll track whose only job is to step through the three definitions, one at a time; the 1 2 3 marks jump between them. The scrollbar is hidden on the entry page.
+- **idle**: pointer-driven tilt and parallax (fine pointers only, damped), foil highlight follows the pointer, the crystal and owl breathe very slightly. Text is still. Rendering pauses when the tab is hidden or the portal is off screen.
 - **entering** (about 1.6s, plus a short scroll back to the top on phones): copy fades, the wordmark lifts away, the roof lifts and the base drops, the camera travels into the doorway, and the pre-rendered retreat page appears inside the projected pointed arch and expands with it. Repeat clicks are ignored; "Skip animation" jumps to the end.
 - **entered**: route changes to `/retreats`; the identical page replaces the overlay with no jump, and focus moves to its heading.
 
@@ -84,6 +89,14 @@ Fallbacks:
 - If even the image fails, the page still has the wordmark, definition and a working link.
 
 Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lift, camera stop, shadow strength, DPR caps).
+
+## Cursor
+
+`src/components/ScintillaCursor.tsx`: an ink point with a trailing ring that scatters four-point sparks and soft ripples in the collage colours; clicking sends a larger ripple, and the ring opens over links. Only for a mouse (fine pointer) and never with reduced motion; touch devices keep their normal behaviour. Tuning values are at the top of the file.
+
+## Retreats page
+
+One screen on desktop and standard phones (it scrolls only on very short screens). "What people take home" (`retreat.ts` → `takeaways`) rotates one line at a time with a light sweep and sparks, pausing on hover, focus, the pause button, or reduced motion; all lines stay in the page for screen readers.
 
 ## Artwork assets
 

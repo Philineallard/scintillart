@@ -47,10 +47,10 @@ const fragmentShader = /* glsl */ `
       float d = (p.x * 0.75 + p.y * 0.45) - uSweep;
       float band = exp(-d * d * 60.0);
 
-      float glint = exp(-distance(p, uLight) * 7.0) * uLightAmt;
+      float glint = exp(-distance(p, uLight) * 5.0) * uLightAmt;
 
       vec3 tint = mix(vec3(1.0, 0.97, 0.92), uFoil * 1.18, 0.35 + 0.35 * sin(p.y * 38.0 + uLight.x * 5.0));
-      rgb += tint * spec * uReflect * (band * 0.42 + glint * 0.16);
+      rgb += tint * spec * uReflect * (band * 0.42 + glint * 0.3);
     }
 
     gl_FragColor = vec4(rgb, c.a * uOpacity);

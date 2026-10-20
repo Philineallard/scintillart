@@ -12,6 +12,21 @@ html {
   background: var(--paper);
 }
 
+/* The entry cover is one screen; its short scroll track only drives the definitions. Hide the bar there. */
+html:has([data-entry]) {
+  scrollbar-width: none;
+  scrollbar-gutter: auto;
+}
+html:has([data-entry])::-webkit-scrollbar {
+  display: none;
+}
+
+/* The custom cursor replaces the system one only where it is active (fine pointer, motion allowed). */
+html.has-scintilla-cursor,
+html.has-scintilla-cursor * {
+  cursor: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;

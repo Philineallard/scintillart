@@ -239,11 +239,6 @@ export function usePortalMachine(options: Options) {
     const tl = gsap.timeline({ onComplete: finishEnter })
     enterTl.current = tl
 
-    if (window.scrollY > 2) {
-      // On small screens the visitor may have scrolled down to the CTA: glide back to the portal first.
-      const proxy = { y: window.scrollY }
-      tl.to(proxy, { y: 0, duration: E.scrollToTop, ease: 'power2.inOut', onUpdate: () => window.scrollTo(0, proxy.y) })
-    }
     tl.addLabel('go')
     tl.to(copyEls(), { opacity: 0, y: 8, duration: E.copyOut, ease: 'power1.in' }, 'go')
     tl.to(refs.wordmark.current, { opacity: 0, yPercent: -55, duration: E.wordmarkOut, ease: 'power2.in' }, 'go')

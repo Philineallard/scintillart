@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Route, Routes, useLocation } from 'react-router'
+import { ScintillaCursor } from './components/ScintillaCursor'
 import EntryPage from './pages/EntryPage'
 import NotFound from './pages/NotFound'
 import RetreatPage from './pages/RetreatPage'
@@ -33,6 +34,7 @@ export default function App() {
   return (
     <>
       <RouteFocus />
+      <ScintillaCursor />
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/retreats" element={<RetreatPage />} />

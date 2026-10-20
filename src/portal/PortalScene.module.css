@@ -1,15 +1,11 @@
 /*
- * The canvas covers the first screen of the entry page and scrolls with it
- * (absolute, not fixed), so the artwork never lags behind native scrolling.
- * It's only ever decorative: the accessible artwork is the <img> in the slot.
+ * The canvas fills the pinned cover (the sticky one-screen container), so the
+ * layers can travel anywhere on screen during the transition.
+ * It's only ever decorative: the accessible artwork is the labelled slot.
  */
 .canvasWrap {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100lvh;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
 }

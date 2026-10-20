@@ -26,11 +26,14 @@ function staticRouteHtml(routes: string[]): Plugin {
   }
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react(), staticRouteHtml(['retreats'])],
   build: {
+    // The shareable preview runs in a sandboxed frame that may refuse font files:
+    // embed the woff2 fonts in the CSS there. The production build keeps separate, cacheable files.
+    assetsInlineLimit: mode === 'preview' ? (file: string) => (file.endsWith('.woff2') ? true : undefined) : 4096,
     target: 'es2020',
     // three.js lives in its own lazily loaded chunk (portal only).
     chunkSizeWarningLimit: 1000,
   },
-})
+}))

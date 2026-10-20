@@ -5,6 +5,7 @@ import { BrandDefinition } from '../components/BrandDefinition'
 import { ScintillartWordmark } from '../components/ScintillartWordmark'
 import { brand } from '../content/brand'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useScrollSteps } from '../hooks/useScrollSteps'
 import { canUseWebGL, detectQuality, hasFinePointer, prefersReducedMotion } from '../portal/capabilities'
 import { DEFAULT_GEOMETRY, loadManifest, type PortalManifest, STATIC_ART } from '../portal/manifest'
 import { PortalErrorBoundary } from '../portal/PortalErrorBoundary'
@@ -31,6 +32,9 @@ export default function EntryPage() {
   const wordmarkRef = useRef<HTMLSpanElement>(null)
   const definitionRef = useRef<HTMLElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
+  const sloganRef = useRef<HTMLParagraphElement>(null)
+  const entryRef = useRef<HTMLElement>(null)
+  const { sense, goToSense } = useScrollSteps(entryRef, brand.senses.length, reducedMotion)
   const slotRef = useRef<HTMLElement>(null)
   const staticArtRef = useRef<HTMLImageElement>(null)
   const destinationRef = useRef<HTMLDivElement>(null)
@@ -38,7 +42,7 @@ export default function EntryPage() {
   const machine = usePortalMachine({
     refs: {
       wordmark: wordmarkRef,
-      copy: [definitionRef, ctaRef],
+      copy: [sloganRef, definitionRef, ctaRef],
       slot: slotRef,
       staticArt: staticArtRef,
       destination: destinationRef,
@@ -102,28 +106,34 @@ export default function EntryPage() {
   const showSkip = !reducedMotion && (machine.phase === 'revealing' || machine.phase === 'entering')
 
   return (
-    <main className={styles.entry} data-phase={machine.phase} data-mode={mode}>
-      {mode === 'webgl' && manifest && (
-        <PortalErrorBoundary onError={onSceneError}>
-          <Suspense fallback={null}>
-            <PortalScene
-              manifest={manifest}
-              quality={quality}
-              controller={machine.controller}
-              slotRef={slotRef}
-              pointerParallax={pointerParallax}
-              onReady={onSceneReady}
-              onError={onSceneError}
-            />
-          </Suspense>
-        </PortalErrorBoundary>
-      )}
+    <main ref={entryRef} className={styles.entry} data-phase={machine.phase} data-mode={mode} data-entry="">
 
-      <header className={styles.header}>
-        <ScintillartWordmark ref={wordmarkRef} />
-      </header>
+      {/* The cover is pinned to one screen; scrolling only steps through the three definitions. */}
+      <div className={styles.pin}>
+        {mode === 'webgl' && manifest && (
+          <PortalErrorBoundary onError={onSceneError}>
+            <Suspense fallback={null}>
+              <PortalScene
+                manifest={manifest}
+                quality={quality}
+                controller={machine.controller}
+                slotRef={slotRef}
+                pointerParallax={pointerParallax}
+                onReady={onSceneReady}
+                onError={onSceneError}
+              />
+            </Suspense>
+          </PortalErrorBoundary>
+        )}
+        <header className={styles.header}>
+          <ScintillartWordmark ref={wordmarkRef} />
+          <p ref={sloganRef} className={styles.slogan}>
+            {brand.line}
+          </p>
+        </header>
 
-      <div className={styles.stage}>
+        <div className={styles.stage}>
+          <div className={styles.slotBox}>
         <figure ref={slotRef} className={styles.portalSlot} role="img" aria-label={brand.artworkAlt}>
           {mode === 'static' && (
             <img
@@ -131,7 +141,7 @@ export default function EntryPage() {
               className={styles.staticArt}
               src={STATIC_ART.src}
               srcSet={`${STATIC_ART.srcSmall} 534w, ${STATIC_ART.src} 1068w`}
-              sizes="(min-width: 1200px) 44vw, 92vw"
+              sizes="(min-width: 900px) 44vw, 92vw"
               width={STATIC_ART.width}
               height={STATIC_ART.height}
               alt=""
@@ -143,14 +153,21 @@ export default function EntryPage() {
             />
           )}
         </figure>
+          </div>
 
-        <BrandDefinition ref={definitionRef} className={styles.definition} />
+          <BrandDefinition
+            ref={definitionRef}
+            className={styles.definition}
+            active={sense}
+            onSelect={goToSense}
+            reducedMotion={reducedMotion}
+          />
 
-        <div ref={ctaRef} className={styles.ctaBlock}>
-          <p className={styles.line}>{brand.line}</p>
-          <ActionLink href={retreatsHref} onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
-            {brand.primaryAction}
-          </ActionLink>
+          <div ref={ctaRef} className={styles.ctaBlock}>
+            <ActionLink href={retreatsHref} onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
+              {brand.primaryAction}
+            </ActionLink>
+          </div>
         </div>
       </div>
 

@@ -302,8 +302,12 @@ function PortalLayers({ loaded, manifest, controller, slotRef, wrapRef, pointerP
       const f = (D - z) / D // perspective compensation: keeps the fragment aligned from the resting camera
       const breathe = (VISUAL.breathe.amplitude[l.id] ?? 0) * Math.sin(t * breatheW + i * 1.7) * reveal * calm
       const lift = ((VISUAL.openLift[l.id] ?? 0) * open + breathe) * S
-      const px = X0 + (l.x + l.w / 2) * Wc
-      const py = Y0 - (l.y + l.h / 2) * S + lift
+      // Pointer parallax: nearer fragments drift further with the pointer than deeper ones.
+      const depthK = l.depth / 0.2
+      const shiftX = sm.ty * depthK * VISUAL.parallaxShift * S
+      const shiftY = -sm.tx * depthK * VISUAL.parallaxShift * S
+      const px = X0 + (l.x + l.w / 2) * Wc + shiftX
+      const py = Y0 - (l.y + l.h / 2) * S + lift + shiftY
       mesh.position.set(px * f - Cx, py * f - Cy, z)
       mesh.scale.set(l.w * Wc * f, l.h * S * f, 1)
       mesh.renderOrder = i * 2 + 1
@@ -322,11 +326,11 @@ function PortalLayers({ loaded, manifest, controller, slotRef, wrapRef, pointerP
       const shadow = shadowRefs.current[i]
       if (shadow && l.shadow && it.shadowMaterial) {
         // Soft contact shadow just behind the fragment, falling down-right; grows with depth.
-        const depthK = (l.depth / 0.2) * sep
+        const shadowK = depthK * sep
         const zS = z * 0.94
         const fS = (D - zS) / D
-        const sx = X0 + (l.shadow.x + l.shadow.w / 2) * Wc + 0.01 * S * depthK
-        const sy = Y0 - (l.shadow.y + l.shadow.h / 2) * S + lift - 0.014 * S * depthK
+        const sx = X0 + (l.shadow.x + l.shadow.w / 2) * Wc + shiftX + 0.01 * S * shadowK
+        const sy = Y0 - (l.shadow.y + l.shadow.h / 2) * S + lift + shiftY - 0.014 * S * shadowK
         shadow.position.set(sx * fS - Cx, sy * fS - Cy, zS)
         shadow.scale.set(l.shadow.w * Wc * fS, l.shadow.h * S * fS, 1)
         shadow.renderOrder = i * 2

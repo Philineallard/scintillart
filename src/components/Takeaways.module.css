@@ -1,0 +1,189 @@
+.takeaways {
+  --takeaway-size: clamp(1.3rem, 2.3vw, 2.25rem);
+  display: grid;
+  gap: clamp(0.4rem, 1.4svh, 0.9rem);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: var(--font-strong-weight);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.count {
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.stage {
+  position: relative;
+}
+
+/* All lines share one cell: the block keeps the height of the longest line. */
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--takeaway-size);
+  line-height: 1.18;
+  text-wrap: balance;
+}
+
+.item {
+  grid-area: 1 / 1;
+  min-height: 2.36em; /* two lines */
+  opacity: 0;
+  transform: translateY(0.35em);
+  filter: blur(6px);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.8s var(--ease-out),
+    filter 0.6s var(--ease-out);
+}
+
+.item[data-active] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition-delay: 0.15s;
+}
+
+/* One warm light sweep across the arriving line. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .item[data-active] .text {
+    background-image: linear-gradient(
+      100deg,
+      var(--ink) 0 40%,
+      #c99a5b 46%,
+      #fff3dc 50%,
+      #c99a5b 54%,
+      var(--ink) 60% 100%
+    );
+    background-size: 300% 100%;
+    background-position: 0% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: sweep 1.6s var(--ease-out) 0.2s both;
+  }
+}
+
+@keyframes sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}
+
+.sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-size: var(--takeaway-size);
+}
+
+.spark {
+  position: absolute;
+  fill: var(--clay);
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  animation: spark 1.2s var(--ease-out) both;
+}
+
+.spark:nth-child(even) {
+  fill: #c99a5b;
+}
+
+@keyframes spark {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(110deg);
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.progress {
+  flex: 1;
+  height: 1px;
+  margin-right: 0.75rem;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.bar[data-playing] {
+  animation: fill 3.6s linear both;
+}
+
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.control {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.control svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.control svg .fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.takeaways[data-reduced] .item {
+  transform: none;
+  filter: none;
+  transition: opacity 0.15s linear;
+}

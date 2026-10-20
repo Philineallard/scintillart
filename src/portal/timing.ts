@@ -20,7 +20,6 @@ export const TIMING = {
   }, // total ≈ 2.1s
 
   enter: {
-    scrollToTop: 0.45, // only when the visitor has scrolled (mostly mobile)
     copyOut: 0.35,
     wordmarkOut: 0.7,
     open: 0.95, // roof lifts, base drops, layers spread
@@ -37,7 +36,9 @@ export const VISUAL = {
   fov: 30,
   cameraDistance: 10,
   /** Max stack tilt from the pointer (degrees). Small: the cut-outs share one photograph. */
-  maxTiltDeg: 2.2,
+  maxTiltDeg: 4,
+  /** Pointer parallax: deepest fragment shifts by this fraction of collage height at full pointer travel. */
+  parallaxShift: 0.014,
   /** Exponential damping rate for pointer response (per second). Lower = lazier. */
   tiltDamping: 3.2,
   /** Idle breathing: only these layers move, by a fraction of the collage height. */

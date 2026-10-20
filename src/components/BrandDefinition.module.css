@@ -33,26 +33,50 @@
 }
 
 .pos {
-  margin: 0.1em 0 1.25em;
+  margin: 0.1em 0 1.1em;
   font-family: var(--font-display);
   font-style: italic;
   font-size: 1.1em;
   color: var(--ink-soft);
 }
 
+/* All senses share one grid cell, so the block keeps the height of the longest one: no layout jump. */
 .senses {
   list-style: none;
   counter-reset: sense;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1.1em;
 }
 
 .sense {
+  grid-area: 1 / 1;
   counter-increment: sense;
   display: grid;
   grid-template-columns: 1.75em minmax(0, 1fr);
+  align-content: start;
+  opacity: 0;
+  transform: translateY(0.9em);
+  filter: blur(3px);
+  transition:
+    opacity 0.45s var(--ease-out),
+    transform 0.6s var(--ease-out),
+    filter 0.45s var(--ease-out);
+  pointer-events: none;
+}
+
+.sense[data-active] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition-delay: 0.12s; /* the outgoing sense clears first */
+  pointer-events: auto;
+}
+
+.definition[data-reduced-motion] .sense {
+  transform: none;
+  filter: none;
+  transition: opacity 0.15s linear;
 }
 
 .sense::before {
@@ -78,4 +102,47 @@
 
 .body {
   color: var(--ink-soft);
+}
+
+/* 1 2 3 marks: show which sense is visible, and jump to one. */
+.steps {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.9em;
+  margin-left: 1.25em;
+}
+
+.step {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05em;
+  cursor: pointer;
+  position: relative;
+}
+
+.step::after {
+  content: '';
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.35rem;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.step[aria-pressed='true'] {
+  color: var(--ink);
+}
+
+.step[aria-pressed='true']::after {
+  transform: scaleX(1);
 }

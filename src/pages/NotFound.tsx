@@ -12,7 +12,7 @@ export default function NotFound() {
           {brand.name}
         </Link>
       </header>
-      <section className={styles.hero}>
+      <section>
         <h1 className={styles.title} tabIndex={-1} data-route-heading="">
           This page doesn’t exist.
         </h1>

@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { Link } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
+import { Takeaways } from '../components/Takeaways'
 import { brand } from '../content/brand'
 import { interestHref, retreat } from '../content/retreat'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -12,37 +13,51 @@ type Props = {
   embedded?: boolean
 }
 
+/**
+ * The retreat, on one screen: title and the rotating "What people take home" on the
+ * left, the collage doorway in the middle, the practical facts and the call to action
+ * on the right. On small screens it stacks; it scrolls only if the screen is too short.
+ */
 export default function RetreatPage({ embedded = false }: Props) {
   useDocumentTitle(`${retreat.eyebrow} · ${brand.name}`, !embedded)
   const practicesId = useId()
   const Root = embedded ? 'div' : 'main'
+  const tab = embedded ? -1 : undefined
 
   return (
     <Root className={styles.page}>
       <header className={styles.top}>
-        <Link to="/" className={styles.home} tabIndex={embedded ? -1 : undefined}>
+        <Link to="/" className={styles.home} tabIndex={tab}>
           {brand.name}
         </Link>
         <p className={styles.eyebrow}>{retreat.eyebrow}</p>
       </header>
 
-      <section className={styles.hero}>
-        <h1 className={styles.title} tabIndex={-1} {...(embedded ? {} : { 'data-route-heading': '' })}>
-          {retreat.title}
-        </h1>
-        <p className={styles.line}>{retreat.line}</p>
-      </section>
+      <div className={styles.grid}>
+        <div className={styles.lead}>
+          <section className={styles.hero}>
+            <h1 className={styles.title} tabIndex={-1} {...(embedded ? {} : { 'data-route-heading': '' })}>
+              {retreat.title}
+            </h1>
+            <p className={styles.line}>{retreat.line}</p>
+          </section>
 
-      <div className={styles.body}>
+          <Takeaways
+            title={retreat.takeaways.title}
+            items={retreat.takeaways.items}
+            autoplay={!embedded}
+            embedded={embedded}
+          />
+        </div>
+
         <figure className={styles.figure}>
           <img
             src={`${PORTAL_BASE}/doorway.webp`}
-            width={201}
-            height={423}
+            width={174}
+            height={419}
             alt="Detail of the collage: a vaulted cathedral corridor leading to a mirrored doorway."
             decoding="async"
           />
-          <figcaption className={styles.caption}>Detail from the Scintillart collage</figcaption>
         </figure>
 
         <div className={styles.details}>
@@ -70,18 +85,13 @@ export default function RetreatPage({ embedded = false }: Props) {
           </section>
 
           <div className={styles.interest}>
-            <ActionLink href={interestHref()} tabIndex={embedded ? -1 : undefined}>
+            <ActionLink href={interestHref()} tabIndex={tab}>
               {retreat.interest.label}
             </ActionLink>
             <p className={styles.note}>{retreat.interest.note}</p>
           </div>
         </div>
       </div>
-
-      <footer className={styles.footer}>
-        <span>{brand.name}</span>
-        <span>{brand.domain}</span>
-      </footer>
     </Root>
   )
 }

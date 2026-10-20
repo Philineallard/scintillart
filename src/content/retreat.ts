@@ -21,6 +21,25 @@ export const retreat = {
     { term: 'Where', detail: 'Near Aljezur, Algarve, Portugal', note: 'Guest house being confirmed.' },
     { term: 'Price', detail: 'Being confirmed' },
   ] satisfies RetreatFact[],
+  /** Philine's own words, from past retreats. Shown one at a time on the page. */
+  takeaways: {
+    title: 'What people take home',
+    items: [
+      'A wonderful, nourishing creative time',
+      'A community that feels like a family, even in a short time',
+      'Less isolation and new perspectives',
+      'Exchanging ideas, skills and motivating talks',
+      'Permission to show your emotions and be vulnerable',
+      'Seeing how your inner world can express itself through creativity',
+      'Stepping out of your comfort zone and the usual grooves of everyday life',
+      'Reconnecting with your playfulness and innate creative capacity',
+      'Discovering you’re creative once you drop the idea that you’re not',
+      'Feeling good enough about yourself and daring to show your true self',
+      'More self-assurance and the wish to keep expanding your creativity',
+      'Moving, heartfelt moments that stay with you',
+      'Rich memories to take home',
+    ],
+  },
   practices: ['Art', 'Photography', 'Collage', 'Ceramics', 'Performance', 'Qi Gong', 'Breathwork', 'Meditation'],
   interest: {
     label: 'Register your interest',
