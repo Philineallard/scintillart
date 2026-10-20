@@ -4,7 +4,7 @@ import styles from './Atmosphere.module.css'
 /**
  * The page background (every page), built as layers, back to front:
  *
- *   1. Base colour       light stone on <html> (tokens.css: --paper)
+ *   1. Base colour       bone on <html> (tokens.css: --paper)
  *   2. Light field       this WebGL canvas: broad, domain-warped pools of light and
  *                        shadow drifting very slowly, plus cement mottling, in stone
  *                        tones taken from the collage (kraft, rose-clay, faint sage)
@@ -61,12 +61,12 @@ void main() {
                 fbm(p + 1.6 * q + vec2(8.3, 2.8) - t * 0.35));
   float f = fbm(p + 1.5 * r);
 
-  // Light poured-concrete stones taken from the collage.
-  vec3 stone = vec3(0.808, 0.776, 0.737);
-  vec3 base  = vec3(0.895, 0.868, 0.834);
-  vec3 light = vec3(0.935, 0.915, 0.886);
-  vec3 rose  = vec3(0.866, 0.784, 0.745);
-  vec3 sage  = vec3(0.800, 0.812, 0.776);
+  // Bone: creamy, slightly yellowed off-white with warm grey shadow, faint rose and sage.
+  vec3 stone = vec3(0.886, 0.847, 0.780);
+  vec3 base  = vec3(0.965, 0.933, 0.875);
+  vec3 light = vec3(0.984, 0.965, 0.925);
+  vec3 rose  = vec3(0.937, 0.871, 0.816);
+  vec3 sage  = vec3(0.898, 0.890, 0.831);
 
   vec3 col = mix(stone, base, smoothstep(0.22, 0.72, f));
   col = mix(col, rose, smoothstep(0.45, 0.85, r.x) * 0.45);
@@ -75,7 +75,7 @@ void main() {
   // Cement: mid-scale mottling and a faint sage cast in places.
   float m = fbm(p * 3.6 + vec2(3.1, 7.7) + q * 0.35);
   col *= 1.0 + (m - 0.5) * 0.09;
-  col = mix(col, sage, smoothstep(0.55, 0.85, q.y) * 0.25);
+  col = mix(col, sage, smoothstep(0.55, 0.85, q.y) * 0.18);
 
   gl_FragColor = vec4(col, 1.0);
 }
