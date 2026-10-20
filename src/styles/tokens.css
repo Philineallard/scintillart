@@ -38,9 +38,10 @@
   /* IPA glyphs are not in Poppins; let the platform supply them. */
   --font-ipa: 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', Arial, sans-serif;
 
-  /* Wordmark width in em: "Scinti" + "art" in Playfair Display Italic (2.51 + 1.29em)
-     and "ll" in Poppins Bold (0.59em + spacing). Re-measure if a face changes. */
-  --wordmark-em-width: 4.44;
+  /* Wordmark: advance width of "Scintillart" in Playfair Display Italic 400 is 4.345em
+     (the hover split moves letters with transforms, so it never changes the width).
+     Changing the display face means re-measuring this value. */
+  --wordmark-em-width: 4.33;
   --wordmark-tracking: -0.005em;
 
   --text-xs: 0.75rem;

@@ -1,22 +1,67 @@
 .logotype {
+  --split: 0.09em; /* how far "Scinti" and "art" move apart on hover */
+  --split-duration: 0.7s;
+  display: inline-flex;
+  align-items: baseline;
   white-space: nowrap;
-}
-
-.italic {
+  pointer-events: auto;
   font-family: var(--font-display);
   font-style: var(--font-display-style);
   font-weight: var(--font-display-weight);
 }
 
-/*
- * The "ll" in the second brand face, at full size (its ascenders sit close to
- * Playfair's), with a hair of space either side so the upright strokes breathe
- * between the italic letters.
- */
+.left,
+.right {
+  display: inline-block;
+  transition: transform var(--split-duration) var(--ease-out);
+}
+
+/* The two "ll" versions share one cell, so the word never reflows. */
 .ll {
+  display: inline-grid;
+  justify-items: center;
+}
+
+.llItalic,
+.llBold {
+  grid-area: 1 / 1;
+  transition:
+    opacity calc(var(--split-duration) * 0.6) var(--ease-out),
+    transform var(--split-duration) var(--ease-out),
+    filter calc(var(--split-duration) * 0.6) var(--ease-out);
+}
+
+.llBold {
   font-family: var(--font-text);
   font-style: normal;
   font-weight: var(--font-strong-weight);
   letter-spacing: 0.02em;
-  margin-inline: 0.035em 0.01em;
+  opacity: 0;
+  transform: scaleY(0.85);
+  filter: blur(0.04em);
+}
+
+.logotype:hover .left {
+  transform: translateX(calc(-1 * var(--split)));
+}
+
+.logotype:hover .right {
+  transform: translateX(var(--split));
+}
+
+.logotype:hover .llItalic {
+  opacity: 0;
+  filter: blur(0.04em);
+}
+
+.logotype:hover .llBold {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logotype {
+    --split-duration: 0.01s;
+  }
 }
