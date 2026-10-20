@@ -45,18 +45,39 @@ body {
 }
 
 /*
- * Paper grain: one static, tiny SVG turbulence tile, blended very lightly.
- * It never animates. Fixed to the viewport so it doesn't repaint on scroll.
+ * Film grain: a small SVG noise tile on an oversized layer that jumps between a few
+ * offsets (transform only, so it stays on the compositor and costs almost nothing).
+ * Still for prefers-reduced-motion.
  */
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
+  inset: -25%;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.6;
   mix-blend-mode: multiply;
   background-image: var(--grain-image);
+  animation: film-grain 0.9s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes film-grain {
+  0% { transform: translate(0, 0); }
+  12% { transform: translate(-3%, 2%); }
+  25% { transform: translate(4%, -3%); }
+  37% { transform: translate(-6%, -1%); }
+  50% { transform: translate(2%, 5%); }
+  62% { transform: translate(-2%, -5%); }
+  75% { transform: translate(5%, 3%); }
+  87% { transform: translate(-4%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
 }
 
 #root {
