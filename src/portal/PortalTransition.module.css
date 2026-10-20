@@ -1,0 +1,28 @@
+.destination {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  background-color: var(--paper);
+  pointer-events: none;
+  will-change: clip-path, opacity;
+}
+
+/* Same grain as the body, so the hand-off to the real /retreats page is seamless. */
+.destination::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: multiply;
+  background-image: var(--grain-image);
+}
+
+.destination > * {
+  position: relative;
+  z-index: 1;
+}

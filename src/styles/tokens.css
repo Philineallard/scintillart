@@ -1,0 +1,51 @@
+/*
+ * Scintillart brand tokens (provisional website palette).
+ * Paper and ink dominate. Rose and clay come from the collage.
+ * Foil is a restrained highlight used inside the artwork shader, not in UI gradients.
+ */
+:root {
+  /* Colour */
+  --paper: #e8dfcf;
+  --paper-deep: #ddd2bf;
+  --ink: #27231f;
+  --ink-soft: #4a433c; /* 7.3:1 on paper */
+  --clay: #a46b52; /* decorative only on paper (3.5:1): never small text */
+  --rose: #c49a91;
+  --foil: #b8c4b6;
+  --rule: rgb(39 35 31 / 0.22);
+
+  /* Paper grain: a static 160px SVG turbulence tile (never animated). */
+  --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.33 0 0 0 0 0.27 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* Typography: replace a typeface by changing one token (and the imports in fonts.ts). */
+  --font-display: 'Playfair Display', 'Iowan Old Style', 'Times New Roman', serif;
+  --font-display-style: italic;
+  --font-display-weight: 400;
+  --font-text: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-text-weight: 400;
+  --font-strong-weight: 700;
+  /* IPA glyphs are not in Poppins; let the platform supply them. */
+  --font-ipa: 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', Arial, sans-serif;
+
+  /* Wordmark: advance width of "Scintillart" in Playfair Display Italic 400 is 4.345em.
+     Changing the display face means re-measuring this value. */
+  --wordmark-em-width: 4.33;
+  --wordmark-tracking: -0.005em;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem; /* 14px definition copy */
+  --text-md: 1rem;
+  --leading-copy: 1.62;
+
+  /* Space */
+  --gutter: clamp(1.25rem, 3.2vw, 3.25rem);
+  --pad-top: clamp(1rem, 2.6vh, 2rem);
+  --pad-bottom: clamp(1.25rem, 3.4vh, 2.5rem);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* Motion (CSS side; GSAP timings live in src/portal/timing.ts) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}

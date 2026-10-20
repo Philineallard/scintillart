@@ -1,0 +1,81 @@
+.definition {
+  font-size: var(--text-sm);
+  line-height: var(--leading-copy);
+  /* ≈ 40–48 characters per line in Poppins at this size */
+  max-width: 24em;
+  color: var(--ink);
+}
+
+.headword {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5em;
+  margin: 0;
+}
+
+.term {
+  font-family: var(--font-display);
+  font-style: var(--font-display-style);
+  font-weight: var(--font-display-weight);
+  font-size: 2em;
+  line-height: 1.1;
+}
+
+.dash {
+  color: var(--ink-soft);
+}
+
+.pron {
+  font-family: var(--font-ipa);
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+.pos {
+  margin: 0.1em 0 1.25em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1em;
+  color: var(--ink-soft);
+}
+
+.senses {
+  list-style: none;
+  counter-reset: sense;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.1em;
+}
+
+.sense {
+  counter-increment: sense;
+  display: grid;
+  grid-template-columns: 1.75em minmax(0, 1fr);
+}
+
+.sense::before {
+  content: counter(sense);
+  grid-row: 1 / span 2;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1em;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.lead,
+.body {
+  grid-column: 2;
+  margin: 0;
+}
+
+.lead {
+  font-weight: var(--font-strong-weight);
+  letter-spacing: 0.002em;
+}
+
+.body {
+  color: var(--ink-soft);
+}

@@ -1,0 +1,22 @@
+.wordmark {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: var(--font-display-style);
+  font-weight: var(--font-display-weight);
+  font-size: var(--wm-size, clamp(3rem, 14vw, 14rem));
+  line-height: 0.92;
+  letter-spacing: var(--wordmark-tracking);
+  text-align: center;
+  white-space: nowrap;
+  font-kerning: normal;
+  font-feature-settings: 'kern', 'liga', 'calt';
+  font-synthesis: none;
+  color: var(--ink);
+}
+
+.inner {
+  display: inline-block;
+  /* Italic overhang on both sides, so nothing is clipped while it animates. */
+  padding-inline: 0.04em;
+  will-change: transform, opacity;
+}

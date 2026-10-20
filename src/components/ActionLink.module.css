@@ -1,0 +1,39 @@
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 44px;
+  padding-block: 0.5rem;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-text);
+  font-weight: var(--font-strong-weight);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.label {
+  background: linear-gradient(currentColor, currentColor) left bottom / 100% 1.5px no-repeat;
+  padding-bottom: 0.12em;
+  transition: background-size 0.45s var(--ease-out);
+}
+
+.arrow {
+  flex: none;
+  transition: transform 0.45s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .action:hover .label {
+    background-size: 0% 1.5px;
+    background-position: right bottom;
+  }
+  .action:hover .arrow {
+    transform: translate(2px, 2px);
+  }
+}
+
+.action[aria-disabled='true'] {
+  pointer-events: none;
+}
