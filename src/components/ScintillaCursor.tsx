@@ -27,10 +27,11 @@ const TUNING = {
 type Spark = { x: number; y: number; vx: number; vy: number; size: number; born: number; colour: string; spin: number }
 type Ripple = { x: number; y: number; born: number; radius: number; colour: string }
 
-type Variant = 'spark' | 'holo'
+type Variant = 'plain' | 'spark' | 'holo'
 
 /**
- * `spark`: collage colours (entry page).
+ * `plain`: point and ring only (homepage, where the fluid distortion is the trail).
+ * `spark`: sparks and ripples in the collage colours.
  * `holo`:  the holographic foil of the collage: hues shift with position and time,
  *          like light catching the prism foil (retreats page).
  */
@@ -70,6 +71,7 @@ export function ScintillaCursor({ variant = 'spark' }: { variant?: Variant }) {
     let frame = 0
     let visible = false
     const holo = () => layerRef.current?.dataset.variant === 'holo'
+    const plain = () => layerRef.current?.dataset.variant === 'plain'
     // Iridescent hue: drifts with position and time, so the trail runs through the spectrum.
     const holoColour = (x: number, y: number, light = 68) =>
       `hsl(${(x * 0.25 + y * 0.18 + performance.now() * 0.06) % 360} 90% ${light}%)`
@@ -192,7 +194,7 @@ export function ScintillaCursor({ variant = 'spark' }: { variant?: Variant }) {
         dot.dataset.visible = ''
         ring.dataset.visible = ''
       }
-      if (last) {
+      if (last && !plain()) {
         const d = Math.hypot(pos.x - last.x, pos.y - last.y)
         sinceSpark += d
         sinceRipple += d
@@ -210,8 +212,10 @@ export function ScintillaCursor({ variant = 'spark' }: { variant?: Variant }) {
     }
     const onDown = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return
-      addRipple(e.clientX, e.clientY, TUNING.clickRippleRadius)
-      for (let i = 0; i < 10; i++) addSpark(e.clientX, e.clientY, 30)
+      if (!plain()) {
+        addRipple(e.clientX, e.clientY, TUNING.clickRippleRadius)
+        for (let i = 0; i < 10; i++) addSpark(e.clientX, e.clientY, 30)
+      }
       ring.dataset.pressed = ''
       kick()
     }

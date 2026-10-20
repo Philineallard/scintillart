@@ -35,9 +35,9 @@ export default function App() {
   const location = useLocation()
   return (
     <>
-      <Atmosphere />
+      <Atmosphere fluid={location.pathname === '/'} />
       <RouteFocus />
-      <ScintillaCursor variant={location.pathname === '/retreats' ? 'holo' : 'spark'} />
+      <ScintillaCursor variant={location.pathname === '/retreats' ? 'holo' : 'plain'} />
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/retreats" element={<RetreatPage />} />

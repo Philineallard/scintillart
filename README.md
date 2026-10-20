@@ -94,9 +94,13 @@ Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lif
 
 `src/components/Atmosphere.tsx`, four layers: warm ivory base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps, with a broad damped response to mouse movement); a static fine grain; a faint vignette. It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL. Tuning values are at the top of the file; colours are in the shader.
 
+## Fluid distortion (homepage)
+
+`src/fluid/pointerTrail.ts`: a smoothed follower chases the mouse and leaves a short trail of disturbances (position, direction, strength from speed). Each one is an elongated soft displacement that eases in, stretches along the movement, spreads and fades within about 1.8 s. The background light field (`Atmosphere.tsx`) and the portal (`FluidPass` in `PortalScene.tsx`, a post-process over the collage scene) both evaluate the same displacement, so they move together; text is never distorted. It is an analytic approximation of a disturbed liquid surface, not a full fluid simulation. Mouse only; off for reduced motion and touch. Tuning: `FLUID` in `pointerTrail.ts`.
+
 ## Cursor
 
-`src/components/ScintillaCursor.tsx`: an ink point with a trailing ring that scatters four-point sparks and soft ripples in the collage colours; clicking sends a larger ripple, and the ring opens over links. Only for a mouse (fine pointer) and never with reduced motion; touch devices keep their normal behaviour. Tuning values are at the top of the file.
+`src/components/ScintillaCursor.tsx`: an ink point with a trailing ring that opens over links. On the homepage that's all (the fluid distortion is the trail); on the retreats page it scatters holographic sparks and rainbow ripples, like the collage's prism foil. Only for a mouse (fine pointer) and never with reduced motion; touch devices keep their normal behaviour. Tuning values are at the top of the file.
 
 ## Retreats page
 

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { FLUID_GLSL, pointerTrail, TRAIL_N } from '../fluid/pointerTrail'
 import styles from './Atmosphere.module.css'
 
 /**
@@ -33,6 +34,7 @@ void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
 
 const fragment = /* glsl */ `
 precision mediump float;
+${FLUID_GLSL}
 uniform vec2 uRes;
 uniform float uTime;
 uniform vec2 uPointer;   // 0..1, y up
@@ -54,7 +56,11 @@ float fbm(vec2 p) {
 }
 
 void main() {
-  vec2 uv = gl_FragCoord.xy / uRes;
+  vec2 uv0 = gl_FragCoord.xy / uRes;
+  // Fluid-like disturbance from the pointer trail (homepage). Amplified here because the
+  // light field is broad and soft; the surface shading below gives it a tactile edge.
+  vec2 fd = fluidDisplace(uv0);
+  vec2 uv = uv0 + fd * 3.2;
   float aspect = uRes.x / uRes.y;
   vec2 p = vec2(uv.x * aspect, uv.y) * 0.85; // broad pools, no fine detail
   float t = uTime;
@@ -79,6 +85,10 @@ void main() {
   col = mix(col, rose, smoothstep(0.45, 0.85, r.x) * 0.45);
   col = mix(col, light, smoothstep(0.6, 0.95, f) * 0.55);
 
+  // Light catching the disturbed surface: a faint highlight on one slope, shade on the other.
+  float slope = dot(fd, vec2(0.6, 0.8)) * 26.0;
+  col *= 1.0 + clamp(slope, -0.035, 0.035);
+
   gl_FragColor = vec4(col, 1.0);
 }
 `
@@ -91,8 +101,10 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null
 }
 
-export function Atmosphere() {
+export function Atmosphere({ fluid = false }: { fluid?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const fluidRef = useRef(fluid)
+  fluidRef.current = fluid
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -120,6 +132,14 @@ export function Atmosphere() {
     const uTime = gl.getUniformLocation(prog, 'uTime')
     const uPointer = gl.getUniformLocation(prog, 'uPointer')
     const uPointerAmt = gl.getUniformLocation(prog, 'uPointerAmt')
+    const uTrailA = gl.getUniformLocation(prog, 'uTrailA')
+    const uTrailB = gl.getUniformLocation(prog, 'uTrailB')
+    const uAspect = gl.getUniformLocation(prog, 'uAspect')
+    const uTrailGain = gl.getUniformLocation(prog, 'uTrailGain')
+    const trailA = new Float32Array(TRAIL_N * 4)
+    const trailB = new Float32Array(TRAIL_N * 4)
+    let trailGain = 0
+    pointerTrail.start()
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
@@ -151,13 +171,23 @@ export function Atmosphere() {
       pointer.amt += (Math.min(1, pointer.energy) * TUNING.pointerStrength - pointer.amt) * k
       gl.uniform1f(uTime, t0 + (reduced ? 0 : now / 1000) * TUNING.speed)
       gl.uniform2f(uPointer, pointer.x, pointer.y)
-      gl.uniform1f(uPointerAmt, pointer.amt)
+      // On the homepage the broad pointer warp gives way to the fluid trail.
+      trailGain += ((fluidRef.current ? 1 : 0) - trailGain) * Math.min(1, dt * 4)
+      gl.uniform1f(uPointerAmt, pointer.amt * (1 - trailGain))
+      pointerTrail.update(now)
+      pointerTrail.fill(trailA, trailB, { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight }, now)
+      gl.uniform4fv(uTrailA, trailA)
+      gl.uniform4fv(uTrailB, trailB)
+      gl.uniform1f(uAspect, window.innerWidth / window.innerHeight)
+      gl.uniform1f(uTrailGain, trailGain)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
 
     const loop = (now: number) => {
       raf = requestAnimationFrame(loop)
-      if (now - last < 1000 / TUNING.fps) return
+      // Full frame rate only while the surface is disturbed; slow drift needs far less.
+      const busy = fluidRef.current && !pointerTrail.idle
+      if (!busy && now - last < 1000 / TUNING.fps) return
       last = now
       draw(now)
     }
@@ -198,6 +228,7 @@ export function Atmosphere() {
 
     return () => {
       cancelAnimationFrame(raf)
+      pointerTrail.stop()
       document.removeEventListener('visibilitychange', onVisibility)
       window.removeEventListener('resize', onResize)
       canvas.removeEventListener('webglcontextlost', onLost)

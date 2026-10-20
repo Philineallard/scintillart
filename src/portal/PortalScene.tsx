@@ -15,13 +15,19 @@ import {
   MathUtils,
   Mesh,
   MeshBasicMaterial,
+  NoBlending,
+  OrthographicCamera,
   PlaneGeometry,
-  type ShaderMaterial,
+  Scene,
+  ShaderMaterial,
+  Vector2,
+  WebGLRenderTarget,
   type Texture,
   TextureLoader,
   Vector3,
   Vector4,
 } from 'three'
+import { FLUID_GLSL, pointerTrail, TRAIL_N } from '../fluid/pointerTrail'
 import type { Quality } from './capabilities'
 import type { PortalController } from './controller'
 import { createLayerMaterial, type LayerUniforms } from './layerMaterial'
@@ -142,6 +148,7 @@ export default function PortalScene(props: PortalSceneProps) {
           }}
         >
           <PortalLayers {...props} loaded={loaded} wrapRef={wrapRef} />
+          {props.pointerParallax && <FluidPass controller={props.controller} />}
         </Canvas>
       )}
     </div>
@@ -410,4 +417,89 @@ function PortalLayers({ loaded, manifest, controller, slotRef, wrapRef, pointerP
       ))}
     </group>
   )
+}
+
+/**
+ * Fluid pass: renders the portal scene into an offscreen texture, then draws it
+ * through the pointer-trail displacement (the same function the background uses),
+ * so the collage looks as if a finger were drawn through a liquid surface above it.
+ * When the trail is idle it renders straight to the screen (no extra cost).
+ */
+const fluidVertex = /* glsl */ `
+varying vec2 vUv;
+void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
+`
+const fluidFragment = /* glsl */ `
+${FLUID_GLSL}
+uniform sampler2D tScene;
+varying vec2 vUv;
+void main() {
+  vec2 fd = fluidDisplace(vUv);
+  gl_FragColor = texture2D(tScene, vUv - fd);
+}
+`
+
+function FluidPass({ controller }: { controller: PortalController }) {
+  const post = useMemo(() => {
+    const target = new WebGLRenderTarget(2, 2, { depthBuffer: false })
+    const trailA = new Float32Array(TRAIL_N * 4)
+    const trailB = new Float32Array(TRAIL_N * 4)
+    const material = new ShaderMaterial({
+      uniforms: {
+        tScene: { value: target.texture },
+        uTrailA: { value: trailA },
+        uTrailB: { value: trailB },
+        uAspect: { value: 1 },
+        uTrailGain: { value: 1 },
+      },
+      vertexShader: fluidVertex,
+      fragmentShader: fluidFragment,
+      depthTest: false,
+      depthWrite: false,
+      blending: NoBlending,
+    })
+    const geometry = new PlaneGeometry(2, 2)
+    const scene = new Scene()
+    scene.add(new Mesh(geometry, material))
+    return { target, material, geometry, scene, camera: new OrthographicCamera(), trailA, trailB, size: new Vector2() }
+  }, [])
+
+  useEffect(() => {
+    pointerTrail.start()
+    return () => {
+      pointerTrail.stop()
+      post.target.dispose()
+      post.material.dispose()
+      post.geometry.dispose()
+    }
+  }, [post])
+
+  // Priority 1: this callback takes over rendering for the canvas.
+  useFrame(({ gl, scene, camera }) => {
+    const now = performance.now()
+    pointerTrail.update(now)
+    const gain = 1 - Math.min(1, controller.open * 2) // calm the surface as the portal opens
+    if (pointerTrail.idle || gain <= 0.001) {
+      gl.setRenderTarget(null)
+      gl.render(scene, camera)
+      return
+    }
+    gl.getDrawingBufferSize(post.size)
+    if (post.target.width !== post.size.x || post.target.height !== post.size.y) {
+      post.target.setSize(post.size.x, post.size.y)
+    }
+    const rect = gl.domElement.getBoundingClientRect()
+    pointerTrail.fill(post.trailA, post.trailB, rect, now)
+    const u = post.material.uniforms
+    u.uAspect.value = rect.width / rect.height
+    u.uTrailGain.value = gain
+
+    gl.setRenderTarget(post.target)
+    gl.clear()
+    gl.render(scene, camera)
+    gl.setRenderTarget(null)
+    gl.render(post.scene, post.camera)
+  }, 1)
+
+  return null
 }
