@@ -92,6 +92,9 @@ Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lif
 
 ## Background
 
+Homepage: cinematic white. The light field turns near-white with only broad, soft exposure changes; the cement texture is hidden; a neutral film grain (`--grain-white-image`, `--grain-opacity-white`) and a slightly deeper vignette (`--vignette-white`) give a projected-film feel.
+
+
 `src/components/Atmosphere.tsx` (every page), in layers: light stone base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps) with cement mottling, in stone tones from the collage (kraft, rose-clay, a faint sage); a static cement tile (`--cement-image`, strength `--cement-opacity`); film grain that flickers gently (`--grain-image`, `--grain-opacity`); a faint vignette. The pointer does not affect the background. It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL.
 
 ## Cursor

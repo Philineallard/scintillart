@@ -108,3 +108,26 @@
   inset: 0;
   background: var(--vignette-image);
 }
+
+/*
+ * Cinematic white (homepage): no cement; heavier, finer film grain blended softly
+ * so it reads on white; a slightly deeper, neutral vignette like a projected frame.
+ */
+.atmosphere[data-white] .cement {
+  opacity: 0;
+}
+
+.atmosphere[data-white] .grain {
+  /* neutral, fine grain that sits on white without greying it: dark + light specks */
+  background-image: var(--grain-white-image);
+  mix-blend-mode: normal;
+  opacity: var(--grain-opacity-white);
+}
+
+.vignette {
+  transition: opacity 0.9s ease;
+}
+
+.atmosphere[data-white] .vignette {
+  background: var(--vignette-white);
+}

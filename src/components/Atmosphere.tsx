@@ -37,6 +37,7 @@ const fragment = /* glsl */ `
 precision mediump float;
 uniform vec2 uRes;
 uniform float uTime;
+uniform float uWhite; // 1 = cinematic white (homepage), 0 = bone
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
@@ -77,8 +78,13 @@ void main() {
 
   // Cement: mid-scale mottling and a faint sage cast in places.
   float m = fbm(p * 3.6 + vec2(3.1, 7.7) + q * 0.35);
-  col *= 1.0 + (m - 0.5) * 0.09;
-  col = mix(col, sage, smoothstep(0.55, 0.85, q.y) * 0.18);
+  col *= 1.0 + (m - 0.5) * 0.09 * (1.0 - uWhite);
+  col = mix(col, sage, smoothstep(0.55, 0.85, q.y) * 0.18 * (1.0 - uWhite));
+
+  // Cinematic white: clean, slightly warm white light with very soft exposure falloff,
+  // like a bright film frame. Only broad pools of light survive, almost colourless.
+  vec3 white = mix(vec3(0.958, 0.952, 0.940), vec3(0.992, 0.989, 0.982), smoothstep(0.25, 0.8, f));
+  col = mix(col, white, uWhite);
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -94,7 +100,9 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
 
 const base = import.meta.env.BASE_URL
 
-export function Atmosphere({ sky = false }: { sky?: boolean }) {
+export function Atmosphere({ sky = false, white = false }: { sky?: boolean; white?: boolean }) {
+  const whiteRef = useRef(white)
+  whiteRef.current = white
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // The sky photo is also used by the portal transition layer, so expose it globally.
@@ -131,6 +139,9 @@ export function Atmosphere({ sky = false }: { sky?: boolean }) {
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
     const uRes = gl.getUniformLocation(prog, 'uRes')
     const uTime = gl.getUniformLocation(prog, 'uTime')
+    const uWhite = gl.getUniformLocation(prog, 'uWhite')
+    let whiteMix = whiteRef.current ? 1 : 0
+    let lastDraw = performance.now()
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -150,6 +161,10 @@ export function Atmosphere({ sky = false }: { sky?: boolean }) {
     let last = 0
 
     const draw = (now: number) => {
+      const dt = Math.min(0.2, (now - lastDraw) / 1000)
+      lastDraw = now
+      whiteMix += ((whiteRef.current ? 1 : 0) - whiteMix) * (reduced ? 1 : Math.min(1, dt * 2.5))
+      gl.uniform1f(uWhite, whiteMix)
       gl.uniform1f(uTime, t0 + (reduced ? 0 : now / 1000) * TUNING.speed)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
@@ -197,7 +212,7 @@ export function Atmosphere({ sky = false }: { sky?: boolean }) {
   }, [])
 
   return (
-    <div className={styles.atmosphere} aria-hidden="true" data-sky={sky ? '' : undefined}>
+    <div className={styles.atmosphere} aria-hidden="true" data-sky={sky ? '' : undefined} data-white={white ? '' : undefined}>
       <canvas ref={canvasRef} className={styles.field} />
       <div className={styles.sky} />
       <div className={styles.cement} />

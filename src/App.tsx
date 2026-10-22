@@ -35,7 +35,7 @@ export default function App() {
   const location = useLocation()
   return (
     <>
-      <Atmosphere sky={location.pathname === '/retreats'} />
+      <Atmosphere sky={location.pathname === '/retreats'} white={location.pathname === '/'} />
       <RouteFocus />
       <ScintillaCursor />
       <Routes>
