@@ -37,7 +37,7 @@ export default function App() {
     <>
       <Atmosphere sky={location.pathname === '/retreats'} />
       <RouteFocus />
-      <ScintillaCursor variant={location.pathname === '/retreats' ? 'gem' : 'ring'} />
+      <ScintillaCursor />
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/retreats" element={<RetreatPage />} />
