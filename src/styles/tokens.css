@@ -21,6 +21,8 @@
   /* Cement: mottled patches (low frequency) + sparse pores (high frequency). */
   --cement-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='m' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='5' seed='7' stitchTiles='stitch' result='a'/%3E%3CfeColorMatrix in='a' values='0 0 0 0 0.44 0 0 0 0 0.37 0 0 0 0 0.28 1.1 0 0 0 -0.45' result='mottle'/%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' seed='3' stitchTiles='stitch' result='b'/%3E%3CfeColorMatrix in='b' values='0 0 0 0 0.3 0 0 0 0 0.26 0 0 0 0 0.22 9 0 0 0 -6.4' result='pores'/%3E%3CfeMerge%3E%3CfeMergeNode in='mottle'/%3E%3CfeMergeNode in='pores'/%3E%3C/feMerge%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
   --cement-opacity: 0.18;
+  /* Retreats sky photo: light bone wash over it (keeps text at AA contrast). */
+  --sky-wash: rgb(236 227 212 / 0.42);
   --ink: #27231f;
   --ink-soft: #4a433c; /* 7.3:1 on paper */
   --clay: #a46b52; /* decorative only on paper (3.5:1): never small text */

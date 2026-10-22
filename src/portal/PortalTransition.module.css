@@ -6,9 +6,10 @@
   visibility: hidden;
   opacity: 0;
   background-color: var(--paper);
-  background-image: var(--vignette-image), var(--cement-image), var(--atmosphere-still);
-  background-size: auto, 640px 640px, auto;
-  background-blend-mode: normal, multiply, normal;
+  /* Arrives on the same sky photo the retreats page uses (wash, then photo). */
+  background-image: var(--vignette-image), linear-gradient(var(--sky-wash), var(--sky-wash)), var(--sky-photo);
+  background-size: auto, auto, cover;
+  background-position: center, center, center 40%;
   pointer-events: none;
   will-change: clip-path, opacity;
 }

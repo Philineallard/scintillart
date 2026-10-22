@@ -5,6 +5,8 @@
  */
 
 .page {
+  /* On the sky photo, secondary text is set darker so small type stays at AA contrast. */
+  --ink-soft: #2f2924;
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 3svh, 2rem);

@@ -12,6 +12,9 @@ import styles from './Atmosphere.module.css'
  *   4. Film grain        fine grain that flickers gently, like film (CSS)
  *   5. Vignette          a faint darkening toward the edges (CSS)
  *
+ * Retreats page: layer 2 is replaced by a photograph (a sky of glowing mammatus clouds),
+ * under a light bone wash, the film grain and the vignette.
+ *
  * The pointer has no effect on the background. Without WebGL, a static CSS version
  * shows instead; with reduced motion, the field and grain hold still.
  */
@@ -89,8 +92,17 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null
 }
 
-export function Atmosphere() {
+const base = import.meta.env.BASE_URL
+
+export function Atmosphere({ sky = false }: { sky?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  // The sky photo is also used by the portal transition layer, so expose it globally.
+  useEffect(() => {
+    const root = document.documentElement.style
+    root.setProperty('--sky-photo', `url("${base}backgrounds/retreat-sky.webp")`)
+    root.setProperty('--sky-photo-sm', `url("${base}backgrounds/retreat-sky-sm.webp")`)
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -182,8 +194,9 @@ export function Atmosphere() {
   }, [])
 
   return (
-    <div className={styles.atmosphere} aria-hidden="true">
+    <div className={styles.atmosphere} aria-hidden="true" data-sky={sky ? '' : undefined}>
       <canvas ref={canvasRef} className={styles.field} />
+      <div className={styles.sky} />
       <div className={styles.cement} />
       <div className={styles.grain} />
       <div className={styles.vignette} />

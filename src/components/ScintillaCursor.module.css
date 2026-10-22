@@ -65,3 +65,101 @@
   width: 26px;
   height: 26px;
 }
+
+/* ---------- Gem cursor (retreats page) ---------- */
+.gem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  transform-origin: 0 0;
+  will-change: transform;
+  /* soft light around the crystal (outside the mask, so it isn't clipped) */
+  filter: drop-shadow(0 0 5px rgb(255 244 226 / 0.65)) drop-shadow(0 3px 4px rgb(39 35 31 / 0.18));
+}
+
+.layer[data-variant='gem'] .gem[data-visible] {
+  opacity: 1;
+}
+
+.layer[data-variant='gem'] .dot,
+.layer[data-variant='gem'] .ring {
+  display: none;
+}
+
+/* The tip of the teardrop sits on the pointer; the body hangs below it. */
+.gemFace {
+  position: absolute;
+  left: -11px;
+  top: -2px;
+  display: block;
+  width: 22px;
+  height: 46px;
+  /* clip the shine to the gem's own silhouette */
+  -webkit-mask: var(--gem-image) center / contain no-repeat;
+  mask: var(--gem-image) center / contain no-repeat;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.gemFace img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: gem-iridescence 5s ease-in-out infinite;
+}
+
+/* A band of light that sweeps across the facets every few seconds. */
+.shine {
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0) 35%,
+    rgb(255 252 240 / 0.85) 48%,
+    rgb(255 255 255 / 0.95) 50%,
+    rgb(255 252 240 / 0.85) 52%,
+    rgb(255 255 255 / 0) 65%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(-120%) rotate(18deg);
+  animation: gem-shine 3.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.ring[data-hover] ~ .gem .gemFace {
+  transform: scale(1.15);
+}
+
+@keyframes gem-shine {
+  0%,
+  62% {
+    transform: translateX(-120%) rotate(18deg);
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  86%,
+  100% {
+    transform: translateX(120%) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+/* Slight colour play, as an AB-coated crystal shifts with the angle of light. */
+@keyframes gem-iridescence {
+  0%,
+  100% {
+    filter: hue-rotate(0deg) saturate(1.05);
+  }
+  50% {
+    filter: hue-rotate(-24deg) saturate(1.2) brightness(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine,
+  .gemFace img {
+    animation: none;
+  }
+}

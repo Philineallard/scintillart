@@ -32,8 +32,19 @@ type Spark = { x: number; y: number; vx: number; vy: number; size: number; born:
 type Ripple = { x: number; y: number; born: number; radius: number; colour: string }
 
 
-export function ScintillaCursor() {
+type Variant = 'ring' | 'gem'
+const base = import.meta.env.BASE_URL
+
+/**
+ * `ring`: ink point + trailing ring (homepage).
+ * `gem`:  Philine's faceted teardrop crystal hangs from the pointer tip like a pendant,
+ *         sways with movement, catches a sweep of light and shifts its iridescence
+ *         (retreats page). The sparks and ripples run with both.
+ */
+export function ScintillaCursor({ variant = 'ring' }: { variant?: Variant }) {
   const layerRef = useRef<HTMLDivElement>(null)
+  const gemRef = useRef<HTMLDivElement>(null)
+  const shineRef = useRef<HTMLSpanElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
@@ -112,6 +123,12 @@ export function ScintillaCursor() {
       ringPos.y += (pos.y - ringPos.y) * TUNING.ringLerp
       dot.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`
       ring.style.transform = `translate3d(${ringPos.x}px, ${ringPos.y}px, 0)`
+      // The gem hangs from the pointer tip and swings back against the movement.
+      const gem = gemRef.current
+      if (gem) {
+        const swing = Math.max(-26, Math.min(26, (ringPos.x - pos.x) * 0.9))
+        gem.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) rotate(${swing}deg)`
+      }
 
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
@@ -167,8 +184,19 @@ export function ScintillaCursor() {
       if (!frame) frame = requestAnimationFrame(draw)
     }
 
+    let lastShine = 0
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return
+      // A quick movement makes the gem catch the light at once.
+      const shine = shineRef.current
+      const jump = Math.hypot(e.clientX - pos.x, e.clientY - pos.y)
+      if (shine && jump > 28 && e.timeStamp - lastShine > 900 && shine.animate) {
+        lastShine = e.timeStamp
+        shine.animate(
+          [{ transform: 'translateX(-120%) rotate(18deg)', opacity: 0 }, { opacity: 1, offset: 0.3 }, { transform: 'translateX(120%) rotate(18deg)', opacity: 0 }],
+          { duration: 700, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+        )
+      }
       pos.x = e.clientX
       pos.y = e.clientY
       if (!visible) {
@@ -177,6 +205,7 @@ export function ScintillaCursor() {
         ringPos.y = pos.y
         dot.dataset.visible = ''
         ring.dataset.visible = ''
+        if (gemRef.current) gemRef.current.dataset.visible = ''
       }
       if (last) {
         const d = Math.hypot(pos.x - last.x, pos.y - last.y)
@@ -215,6 +244,7 @@ export function ScintillaCursor() {
       last = null
       delete dot.dataset.visible
       delete ring.dataset.visible
+      if (gemRef.current) delete gemRef.current.dataset.visible
     }
 
     window.addEventListener('pointermove', onMove, { passive: true })
@@ -237,10 +267,22 @@ export function ScintillaCursor() {
   }, [])
 
   return (
-    <div ref={layerRef} className={styles.layer} aria-hidden="true">
+    <div
+      ref={layerRef}
+      className={styles.layer}
+      data-variant={variant}
+      aria-hidden="true"
+      style={{ ['--gem-image' as string]: `url("${base}cursor/gem@2x.webp")` }}
+    >
       <canvas ref={canvasRef} className={styles.canvas} />
       <div ref={ringRef} className={styles.ring} />
       <div ref={dotRef} className={styles.dot} />
+      <div ref={gemRef} className={styles.gem}>
+        <span className={styles.gemFace}>
+          <img src={`${base}cursor/gem@2x.webp`} alt="" width={68} height={144} draggable={false} />
+          <span ref={shineRef} className={styles.shine} />
+        </span>
+      </div>
     </div>
   )
 }

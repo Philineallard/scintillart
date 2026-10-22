@@ -96,6 +96,9 @@ Tuning: change values in `src/portal/timing.ts` (durations, tilt, breathing, lif
 
 ## Cursor
 
+Retreats page: the cursor is Philine's faceted teardrop crystal (`public/cursor/gem@2x.webp`, cut out and polished from `art-source/cursor/gem-photo-original.jpg`). It hangs from the pointer tip, swings with movement, catches a sweep of light every few seconds and on quick moves, and shifts its colour slightly. Background there is the cloud photograph `public/backgrounds/retreat-sky.webp` under a light bone wash, film grain and vignette.
+
+
 `src/components/ScintillaCursor.tsx` (all pages): an ink point with a trailing ring that opens over links, scattering small four-point sparks and soft ripples as it moves; a click sends a larger ripple. Colours are sampled from the prismatic foil around the collage's doorway (rose-clay, peach, blush champagne, pale gold, mint and sage glints). Mouse only, off for reduced motion; tuning values at the top of the file.
 
 ## Retreats page

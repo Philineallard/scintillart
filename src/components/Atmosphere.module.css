@@ -24,6 +24,42 @@
   opacity: 0;
 }
 
+/*
+ * Retreats page: the sky photograph, covering the viewport, with a light bone wash
+ * that ties it to the palette and keeps text readable. Crossfades with the route.
+ */
+.sky {
+  position: absolute;
+  inset: 0;
+  background-color: var(--paper);
+  background-image: var(--sky-photo);
+  background-size: cover;
+  background-position: center 40%;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.sky::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sky-wash);
+}
+
+@media (max-width: 899px) {
+  .sky {
+    background-image: var(--sky-photo-sm);
+  }
+}
+
+.atmosphere[data-sky] .sky {
+  opacity: 1;
+}
+
+.atmosphere[data-sky] .cement {
+  opacity: 0;
+}
+
 /* Cement texture: a static tile of soft mottling plus a scatter of tiny pores. */
 .cement {
   position: absolute;
@@ -32,6 +68,7 @@
   background-size: 640px 640px;
   mix-blend-mode: multiply;
   opacity: var(--cement-opacity);
+  transition: opacity 0.9s ease;
 }
 
 /*
