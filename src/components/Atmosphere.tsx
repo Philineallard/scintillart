@@ -100,8 +100,11 @@ export function Atmosphere({ sky = false }: { sky?: boolean }) {
   // The sky photo is also used by the portal transition layer, so expose it globally.
   useEffect(() => {
     const root = document.documentElement.style
-    root.setProperty('--sky-photo', `url("${base}backgrounds/retreat-sky.webp")`)
-    root.setProperty('--sky-photo-sm', `url("${base}backgrounds/retreat-sky-sm.webp")`)
+    // Absolute URLs: a relative url() inside a CSS variable would resolve against the
+    // stylesheet's folder, not the page, and the image would silently fail to load.
+    const abs = (path: string) => new URL(`${base}${path}`, document.baseURI).href
+    root.setProperty('--sky-photo', `url("${abs('backgrounds/retreat-sky.webp')}")`)
+    root.setProperty('--sky-photo-sm', `url("${abs('backgrounds/retreat-sky-sm.webp')}")`)
   }, [])
 
   useEffect(() => {

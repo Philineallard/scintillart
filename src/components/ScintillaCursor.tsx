@@ -272,7 +272,7 @@ export function ScintillaCursor({ variant = 'ring' }: { variant?: Variant }) {
       className={styles.layer}
       data-variant={variant}
       aria-hidden="true"
-      style={{ ['--gem-image' as string]: `url("${base}cursor/gem@2x.webp")` }}
+      style={{ ['--gem-image' as string]: `url("${new URL(`${base}cursor/gem@2x.webp`, document.baseURI).href}")` }}
     >
       <canvas ref={canvasRef} className={styles.canvas} />
       <div ref={ringRef} className={styles.ring} />
