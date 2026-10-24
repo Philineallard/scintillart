@@ -12,13 +12,42 @@ const base = import.meta.env.BASE_URL
 
 /**
  * Practices as a typographic list. Hovering (mouse), focusing (keyboard) or tapping
- * (touch) a practice raises its photo from the bottom of the page, with the artist's
- * name. One photo at a time; it slips back down when the pointer leaves.
+ * (touch) a practice brings up its photo as a floating print in the lower part of the
+ * page, with the artist's name. One photo at a time; it sinks away when the pointer leaves.
  */
 export function PracticeList({ practices, embedded = false }: Props) {
   const [active, setActive] = useState<number | null>(null)
   const [shown, setShown] = useState<number | null>(null) // last photo, kept while it slides away
   const listRef = useRef<HTMLUListElement>(null)
+  const printRef = useRef<HTMLElement>(null)
+
+  // The print leans gently toward the pointer (damped), like a card held in the air.
+  useEffect(() => {
+    if (embedded) return
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!fine || reduced) return
+    const target = { x: 0, y: 0 }
+    const cur = { x: 0, y: 0 }
+    let raf = 0
+    const tick = () => {
+      cur.x += (target.x - cur.x) * 0.06
+      cur.y += (target.y - cur.y) * 0.06
+      printRef.current?.style.setProperty('--lean-x', cur.x.toFixed(3))
+      printRef.current?.style.setProperty('--lean-y', cur.y.toFixed(3))
+      raf = Math.abs(target.x - cur.x) + Math.abs(target.y - cur.y) > 0.001 ? requestAnimationFrame(tick) : 0
+    }
+    const onMove = (e: PointerEvent) => {
+      target.x = (e.clientX / window.innerWidth - 0.5) * 2
+      target.y = (e.clientY / window.innerHeight - 0.5) * 2
+      if (!raf) raf = requestAnimationFrame(tick)
+    }
+    window.addEventListener('pointermove', onMove, { passive: true })
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('pointermove', onMove)
+    }
+  }, [embedded])
 
   useEffect(() => {
     if (active !== null) setShown(active)
@@ -83,20 +112,25 @@ export function PracticeList({ practices, embedded = false }: Props) {
         ))}
       </ul>
 
+      {!embedded && <div className={styles.veil} data-open={active !== null ? '' : undefined} aria-hidden="true" />}
       {!embedded && current?.image && (
-        <figure className={styles.reveal} data-open={active !== null ? '' : undefined} aria-hidden="true">
-          <img
-            key={current.image.slug}
-            src={`${base}practices/${current.image.slug}.webp`}
-            width={current.image.w}
-            height={current.image.h}
-            alt=""
-            decoding="async"
-          />
-          <figcaption>
-            <span className={styles.capName}>{current.name}</span>
-            {current.by && <span className={styles.capBy}>with {current.by}</span>}
-          </figcaption>
+        <figure ref={printRef} className={styles.reveal} data-open={active !== null ? '' : undefined} aria-hidden="true">
+          <div className={styles.float}>
+            <div className={styles.print}>
+              <img
+                key={current.image.slug}
+                src={`${base}practices/${current.image.slug}.webp`}
+                width={current.image.w}
+                height={current.image.h}
+                alt=""
+                decoding="async"
+              />
+            </div>
+            <figcaption>
+              <span className={styles.capName}>{current.name}</span>
+              {current.by && <span className={styles.capBy}>with {current.by}</span>}
+            </figcaption>
+          </div>
         </figure>
       )}
     </>

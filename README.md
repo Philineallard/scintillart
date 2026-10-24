@@ -99,7 +99,7 @@ Homepage: cinematic white. The light field turns near-white with only broad, sof
 
 ## Practices
 
-`retreat.ts` → `practices`: each has a name, the artist who guides it (`by`) and a photo in `public/practices/` (max 720px WebP; originals' crops in `art-source/practices/`). Hovering, focusing or tapping a practice raises its photo from the bottom of the page with the artist's name (`PracticeList.tsx`). The Morning Routine photo is cropped from `Qi Gong Philine.png`; the Arkana Within photo is `Downloads/arkana within.png` (three tarot cards) with its caption text removed.
+`retreat.ts` → `practices`: each has a name, the artist who guides it (`by`) and a photo in `public/practices/` (max 720px WebP; originals' crops in `art-source/practices/`). Hovering, focusing or tapping a practice brings up its photo as a floating print in the lower part of the page (ivory border, layered shadow, slow drift, slight lean toward the pointer), with the artist's name underneath (`PracticeList.tsx`). On small screens a soft veil sits behind it. The Morning Routine photo is cropped from `Qi Gong Philine.png`; the Arkana Within photo is `Downloads/arkana within.png` (three tarot cards) with its caption text removed.
 
 ## Cursor
 
