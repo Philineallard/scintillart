@@ -118,7 +118,7 @@
 }
 
 .atmosphere[data-white] .grain {
-  /* neutral, fine grain that sits on white without greying it: dark + light specks */
+  /* neutral, fine grain (dark + light specks) over the film */
   background-image: var(--grain-white-image);
   mix-blend-mode: normal;
   opacity: var(--grain-opacity-white);
@@ -130,4 +130,79 @@
 
 .atmosphere[data-white] .vignette {
   background: var(--vignette-white);
+}
+
+/*
+ * Homepage film. The clip is a square sized a little larger than the collage, so the
+ * mandala's petals radiate around the portal; its edges are feathered into a ground of
+ * the film's own paper tone (same filter, so the colours match exactly) that flickers
+ * like a projector.
+ * The grain and vignette layers above unify everything into one cinematic surface.
+ */
+.filmLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  pointer-events: none;
+}
+
+.atmosphere[data-white] .filmLayer {
+  opacity: 1;
+}
+
+.filmFill {
+  position: absolute;
+  inset: 0;
+  background: var(--film-ground);
+  filter: var(--film-filter);
+}
+
+/* Projector flicker over the whole frame (not just the clip). */
+.filmLayer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  animation: projector-flicker 1.7s steps(1) infinite;
+}
+
+@keyframes projector-flicker {
+  0% { opacity: 0.02; }
+  18% { opacity: 0; }
+  31% { opacity: 0.035; }
+  47% { opacity: 0.01; }
+  63% { opacity: 0.04; }
+  78% { opacity: 0; }
+  90% { opacity: 0.025; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filmLayer::after {
+    animation: none;
+  }
+}
+
+.film {
+  position: absolute;
+  object-fit: cover;
+  filter: var(--film-filter);
+  left: 50%;
+  top: 52%;
+  width: var(--film-size);
+  height: var(--film-size);
+  translate: -50% -50%;
+  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+}
+
+/* Portrait / narrow screens: centre the mandala on the collage, clear of the text below. */
+@media (max-width: 899px), (max-aspect-ratio: 5/4) {
+  .film {
+    top: 37%;
+    width: min(122vw, 62svh);
+    height: min(122vw, 62svh);
+  }
 }

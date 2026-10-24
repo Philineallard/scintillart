@@ -103,6 +103,26 @@ const base = import.meta.env.BASE_URL
 export function Atmosphere({ sky = false, white = false }: { sky?: boolean; white?: boolean }) {
   const whiteRef = useRef(white)
   whiteRef.current = white
+  const filmRef = useRef<HTMLVideoElement>(null)
+
+  // Play the film only on the homepage, while visible, and never for reduced motion.
+  useEffect(() => {
+    const v = filmRef.current
+    if (!v) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const sync = () => {
+      if (white && !reduced && document.visibilityState === 'visible') {
+        v.play().catch(() => undefined)
+      } else {
+        v.pause()
+      }
+    }
+    sync()
+    document.addEventListener('visibilitychange', sync)
+    return () => {
+      document.removeEventListener('visibilitychange', sync)
+    }
+  }, [white])
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // The sky photo is also used by the portal transition layer, so expose it globally.
@@ -215,6 +235,25 @@ export function Atmosphere({ sky = false, white = false }: { sky?: boolean; whit
     <div className={styles.atmosphere} aria-hidden="true" data-sky={sky ? '' : undefined} data-white={white ? '' : undefined}>
       <canvas ref={canvasRef} className={styles.field} />
       <div className={styles.sky} />
+      {/* Homepage: the looping old-film clip (mandala, dust and scratches), centred behind
+          the collage with feathered edges, over a ground of the film's own tone that flickers
+          with it, so the whole screen reads as one strip of film. */}
+      <div className={styles.filmLayer}>
+        <div className={styles.filmFill} />
+        <video
+          ref={filmRef}
+          className={styles.film}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={`${base}backgrounds/landing-film-poster.webp`}
+          tabIndex={-1}
+        >
+          <source src={`${base}backgrounds/landing-film.webm`} type="video/webm" />
+          <source src={`${base}backgrounds/landing-film.mp4`} type="video/mp4" />
+        </video>
+      </div>
       <div className={styles.cement} />
       <div className={styles.grain} />
       <div className={styles.vignette} />
