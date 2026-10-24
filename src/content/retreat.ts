@@ -21,7 +21,7 @@ export const retreat = {
   title: 'An artist-led retreat near Aljezur, Algarve',
   line: 'Where a spark becomes art.',
   facts: [
-    { term: 'When', detail: 'End of January to early February 2027', note: 'Exact dates to be announced.' },
+    { term: 'When', detail: '1–7 February 2027' },
     { term: 'Rhythm', detail: 'Monday afternoon to Sunday morning' },
     { term: 'Group', detail: '8–16 participants' },
     { term: 'Where', detail: 'Near Aljezur, Algarve, Portugal', note: 'Guest house being confirmed.' },

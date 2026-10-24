@@ -146,7 +146,7 @@ For reference, the unseen.co site uses **Saol Display** (Schick Toikka) and **Ne
 
 ## Content rules
 
-`src/content/retreat.ts` holds only confirmed information. Price, exact dates and the guest house are marked as being confirmed. Don't add prices, dates, accommodation details, testimonials, availability or outcome promises until they're real. `retreat/scintillart-retreat-description.md` didn't exist when this was built; if it's added, reconcile `retreat.ts` with it.
+`src/content/retreat.ts` holds only confirmed information. Dates are confirmed (1–7 February 2027); price and the guest house are marked as being confirmed. Don't add prices, dates, accommodation details, testimonials, availability or outcome promises until they're real. `retreat/scintillart-retreat-description.md` didn't exist when this was built; if it's added, reconcile `retreat.ts` with it.
 
 "Register your interest" opens the visitor's email app (`mailto:`) with a prefilled subject. There is no form backend; nothing is submitted on the site. Confirm the address in `retreat.ts` (`interest.email`) or replace it with a form endpoint.
 
