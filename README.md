@@ -99,7 +99,7 @@ Homepage: cinematic white. The light field turns near-white with only broad, sof
 
 ## Practices
 
-`retreat.ts` → `practices`: each has a name, the artist who guides it (`by`) and a photo in `public/practices/` (max 720px WebP; originals' crops in `art-source/practices/`). Hovering, focusing or tapping a practice raises its photo from the bottom of the page with the artist's name (`PracticeList.tsx`). The Morning Routine photo is a still from Philine's morning routine video.
+`retreat.ts` → `practices`: each has a name, the artist who guides it (`by`) and a photo in `public/practices/` (max 720px WebP; originals' crops in `art-source/practices/`). Hovering, focusing or tapping a practice raises its photo from the bottom of the page with the artist's name (`PracticeList.tsx`). The Morning Routine photo is cropped from `Qi Gong Philine.png`; the Arkana Within photo is Manu's portrait from her Instagram, cropped to leave out the text.
 
 ## Cursor
 

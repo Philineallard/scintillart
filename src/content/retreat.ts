@@ -58,7 +58,8 @@ export const retreat = {
     { name: 'Ceramics', by: 'André', image: { slug: 'ceramics', w: 479, h: 720, alt: 'André shaping clay at a ceramics workshop' } },
     { name: 'Performance', by: 'Willpower', image: { slug: 'performance', w: 540, h: 720, alt: 'A performance by Willpower, lit in pink and violet' } },
     { name: 'Life drawing', by: 'Bruno', image: { slug: 'life-drawing', w: 405, h: 720, alt: 'A life drawing on an easel in Bruno’s workshop' } },
-    { name: 'Morning Routine', by: 'Philine', image: { slug: 'morning-routine', w: 553, h: 720, alt: 'Philine, smiling, during her morning routine' } },
+    { name: 'Arkana Within', by: 'Manu', image: { slug: 'arkana-within', w: 720, h: 612, alt: 'Manu of Arkana Within, smiling' } },
+    { name: 'Morning Routine', by: 'Philine', image: { slug: 'morning-routine', w: 556, h: 557, alt: 'Philine leading a Qi Gong session in an open wooden pavilion' } },
   ] as Practice[],
   interest: {
     label: 'Register your interest',
