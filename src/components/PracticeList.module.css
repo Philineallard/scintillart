@@ -20,3 +20,100 @@
   vertical-align: 0.2em;
   color: var(--clay);
 }
+
+.practice,
+.plain {
+  font: inherit;
+  color: var(--ink);
+}
+
+.practice {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline dotted rgb(39 35 31 / 0.4);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: color 0.3s var(--ease-out), text-decoration-color 0.3s var(--ease-out);
+}
+
+.practice:hover,
+.practice[aria-pressed='true'] {
+  color: var(--clay);
+  text-decoration-color: transparent;
+}
+
+/*
+ * The photo rises from the bottom edge of the page, centred, like a print slid up
+ * into view. It never takes pointer events, so the list stays usable underneath.
+ */
+.reveal {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 60;
+  margin: 0;
+  width: clamp(14rem, 22vw, 19rem);
+  translate: -50% 104%;
+  transition: translate 0.55s cubic-bezier(0.6, 0, 0.8, 0.2);
+  pointer-events: none;
+}
+
+.reveal[data-open] {
+  translate: -50% 0;
+  transition: translate 0.7s var(--ease-out);
+}
+
+.reveal img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 52svh;
+  object-fit: cover;
+  box-shadow: 0 -0.6rem 2rem rgb(39 35 31 / 0.22);
+  animation: develop 0.9s var(--ease-out) both;
+}
+
+/* Each new photo "develops" in: from slightly bright and soft to sharp. */
+@keyframes develop {
+  from {
+    filter: brightness(1.35) contrast(0.8) blur(3px);
+  }
+  to {
+    filter: none;
+  }
+}
+
+.reveal figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem calc(0.6rem + var(--safe-bottom));
+  background: var(--paper);
+}
+
+.capName {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+.capBy {
+  font-size: var(--text-xs);
+  font-weight: var(--font-strong-weight);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal[data-open] {
+    transition: none;
+  }
+  .reveal img {
+    animation: none;
+  }
+}

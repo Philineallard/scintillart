@@ -97,6 +97,10 @@ Homepage: cinematic white. The light field turns near-white with only broad, sof
 
 `src/components/Atmosphere.tsx` (every page), in layers: light stone base colour; a light and shadow field (a small WebGL shader of domain-warped noise, drawn at about a fifth of screen resolution so it is soft by nature, drifting very slowly at 24 fps) with cement mottling, in stone tones from the collage (kraft, rose-clay, a faint sage); a static cement tile (`--cement-image`, strength `--cement-opacity`); film grain that flickers gently (`--grain-image`, `--grain-opacity`); a faint vignette. The pointer does not affect the background. It pauses when the tab is hidden, holds still for reduced motion, and falls back to a static CSS version without WebGL.
 
+## Practices
+
+`retreat.ts` → `practices`: each has a name, the artist who guides it (`by`) and a photo in `public/practices/` (max 720px WebP; originals' crops in `art-source/practices/`). Hovering, focusing or tapping a practice raises its photo from the bottom of the page with the artist's name (`PracticeList.tsx`). The Morning Routine photo is a still from Philine's morning routine video.
+
 ## Cursor
 
 Retreats page background there is the cloud photograph `public/backgrounds/retreat-sky.webp` under a light bone wash, film grain and vignette.

@@ -9,7 +9,12 @@
  * reconcile this file against it.
  */
 export type RetreatFact = { term: string; detail: string; note?: string }
-export type Practice = { name: string }
+export type Practice = {
+  name: string
+  /** The artist who guides it, shown with the photo. */
+  by?: string
+  image?: { slug: string; w: number; h: number; alt: string }
+}
 
 export const retreat = {
   eyebrow: 'Our retreats',
@@ -42,7 +47,19 @@ export const retreat = {
       'Rich memories to take home',
     ],
   },
-  practices: [{ name: 'Art' }, { name: 'Photography' }, { name: 'Collage' }, { name: 'Ceramics' }, { name: 'Performance' }, { name: 'Life drawing' }, { name: 'Qi Gong' }, { name: 'Breathwork' }, { name: 'Meditation' }, { name: 'Tea ceremony' }] as Practice[],
+  /**
+   * Practices, each with the artist who guides it and a photo (public/practices, max 720px).
+   * The photo rises from the bottom of the page when the practice is hovered, focused or tapped.
+   */
+  practices: [
+    { name: 'Photography', by: 'Igor', image: { slug: 'photography', w: 542, h: 720, alt: 'Igor photographing the hills at sunset' } },
+    { name: 'Natural Creations', by: 'Erika', image: { slug: 'natural-creations', w: 542, h: 720, alt: 'Erika’s sculptures of dried leaves hanging against a curtain' } },
+    { name: 'Tea Ceremony', image: { slug: 'tea-ceremony', w: 720, h: 720, alt: 'A bowl of tea with unfurled leaves, resting on dry leaves' } },
+    { name: 'Ceramics', by: 'André', image: { slug: 'ceramics', w: 479, h: 720, alt: 'André shaping clay at a ceramics workshop' } },
+    { name: 'Performance', by: 'Willpower', image: { slug: 'performance', w: 540, h: 720, alt: 'A performance by Willpower, lit in pink and violet' } },
+    { name: 'Life drawing', by: 'Bruno', image: { slug: 'life-drawing', w: 405, h: 720, alt: 'A life drawing on an easel in Bruno’s workshop' } },
+    { name: 'Morning Routine', by: 'Philine', image: { slug: 'morning-routine', w: 553, h: 720, alt: 'Philine, smiling, during her morning routine' } },
+  ] as Practice[],
   interest: {
     label: 'Register your interest',
     /**
