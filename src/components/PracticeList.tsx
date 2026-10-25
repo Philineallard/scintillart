@@ -93,7 +93,7 @@ export function PracticeList({ practices, embedded = false }: Props) {
                 type="button"
                 className={styles.practice}
                 aria-pressed={active === i}
-                aria-label={p.by ? `${p.name} with ${p.by}: show photo` : `${p.name}: show photo`}
+                aria-label={`${p.name}${p.by ? ` with ${p.by}` : ''}: show photo and description`}
                 onPointerEnter={(e) => e.pointerType === 'mouse' && setActive(i)}
                 onPointerLeave={(e) => e.pointerType === 'mouse' && setActive((a) => (a === i ? null : a))}
                 onClick={(e) => {
@@ -125,11 +125,15 @@ export function PracticeList({ practices, embedded = false }: Props) {
                 alt=""
                 decoding="async"
               />
-            </div>
-            <figcaption>
-              <span className={styles.capName}>{current.name}</span>
-              {current.by && <span className={styles.capBy}>with {current.by}</span>}
+            <figcaption className={styles.label}>
+              <span className={styles.eyebrow}>
+                {current.name}
+                {current.by && <span className={styles.by}>with {current.by}</span>}
+              </span>
+              <span className={styles.title}>{current.title ?? current.name}</span>
+              {current.description && <span className={styles.desc}>{current.description}</span>}
             </figcaption>
+            </div>
           </div>
         </figure>
       )}

@@ -11,8 +11,12 @@
 export type RetreatFact = { term: string; detail: string; note?: string }
 export type Practice = {
   name: string
-  /** The artist who guides it, shown with the photo. */
+  /** Shown as the card's heading when it differs from the practice name. */
+  title?: string
+  /** The artist who guides it. */
   by?: string
+  /** One or two short sentences, shown under the photo. */
+  description?: string
   image?: { slug: string; w: number; h: number; alt: string }
 }
 
@@ -52,14 +56,67 @@ export const retreat = {
    * The photo rises from the bottom of the page when the practice is hovered, focused or tapped.
    */
   practices: [
-    { name: 'Photography', by: 'Igor', image: { slug: 'photography', w: 542, h: 720, alt: 'Igor photographing the hills at sunset' } },
-    { name: 'Natural Creations', by: 'Erika', image: { slug: 'natural-creations', w: 542, h: 720, alt: 'Erika’s sculptures of dried leaves hanging against a curtain' } },
-    { name: 'Tea Ceremony', image: { slug: 'tea-ceremony', w: 720, h: 720, alt: 'A bowl of tea with unfurled leaves, resting on dry leaves' } },
-    { name: 'Ceramics', by: 'André', image: { slug: 'ceramics', w: 479, h: 720, alt: 'André shaping clay at a ceramics workshop' } },
-    { name: 'Performance', by: 'Willpower', image: { slug: 'performance', w: 540, h: 720, alt: 'A performance by Willpower, lit in pink and violet' } },
-    { name: 'Life drawing', by: 'Bruno', image: { slug: 'life-drawing', w: 405, h: 720, alt: 'A life drawing on an easel in Bruno’s workshop' } },
-    { name: 'Arkana Within', by: 'Manu', image: { slug: 'arkana-within', w: 571, h: 720, alt: 'Three tarot cards, the Ace of Cups, the Star and the King of Wands, upright on a cream cloth' } },
-    { name: 'Morning Routine', by: 'Philine', image: { slug: 'morning-routine', w: 556, h: 557, alt: 'Philine leading a Qi Gong session in an open wooden pavilion' } },
+    {
+      name: 'Photography',
+      title: 'In search of beauty',
+      by: 'Igor',
+      description:
+        'Slow down and learn to see again. Wander the hills and the changing light around the venue, and capture the quiet moments that move you.',
+      image: { slug: 'photography', w: 542, h: 720, alt: 'Igor photographing the hills at sunset' },
+    },
+    {
+      name: 'Natural Creations',
+      by: 'Erika',
+      description:
+        'Connect with the nature surrounding the venue, gather its materials, and shape them into something with meaning.',
+      image: { slug: 'natural-creations', w: 542, h: 720, alt: 'Erika’s sculptures of dried leaves hanging against a curtain' },
+    },
+    {
+      name: 'Tea Ceremony',
+      by: 'Philine',
+      description: 'Open your senses and experience something different: an unhurried, in-depth ritual of tea.',
+      image: { slug: 'tea-ceremony', w: 720, h: 720, alt: 'A bowl of tea with unfurled leaves, resting on dry leaves' },
+    },
+    {
+      name: 'Ceramics',
+      by: 'André',
+      description:
+        'Connect with the earth and work with your hands. Move from head to body and arrive in the present moment, with a creation of your own.',
+      image: { slug: 'ceramics', w: 479, h: 720, alt: 'André shaping clay at a ceramics workshop' },
+    },
+    {
+      name: 'Performance',
+      by: 'Willpower',
+      description:
+        'Be surprised by what we humans are able to create, and how, once it becomes tangible, it shows us how extraordinary we are.',
+      image: { slug: 'performance', w: 540, h: 720, alt: 'A performance by Willpower, lit in pink and violet' },
+    },
+    {
+      name: 'Life drawing',
+      by: 'Bruno',
+      description:
+        'The art of seeing and observing. Train the conversation between eye and hand, and step into a slower, more attentive way of looking at the living figure.',
+      image: { slug: 'life-drawing', w: 405, h: 720, alt: 'A life drawing on an easel in Bruno’s workshop' },
+    },
+    {
+      name: 'Arkana Within',
+      by: 'Manu',
+      description:
+        'Learn about the archetypes and how they show up in your life, and invite the one that most wants to show up, in a balanced way.',
+      image: { slug: 'arkana-within', w: 571, h: 720, alt: 'Three tarot cards, the Ace of Cups, the Star and the King of Wands, upright on a cream cloth' },
+    },
+    {
+      name: 'Archetype Photoshoot',
+      description: 'Step into your archetype: an embodied, empowering and fabulous experience in front of the camera.',
+      image: { slug: 'archetype-photoshoot', w: 542, h: 720, alt: 'A costumed portrait shoot in warm red light, a photographer at work' },
+    },
+    {
+      name: 'Morning Routine',
+      by: 'Philine',
+      description:
+        'Breathwork, meditation and energy work to empower yourself, start the day in your full potential and invite your life force to awaken.',
+      image: { slug: 'morning-routine', w: 556, h: 557, alt: 'Philine leading a Qi Gong session in an open wooden pavilion' },
+    },
   ] as Practice[],
   interest: {
     label: 'Register your interest',
