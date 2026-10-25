@@ -29,7 +29,7 @@ export const retreat = {
     { term: 'Rhythm', detail: 'Monday afternoon to Sunday morning' },
     { term: 'Group', detail: '8–16 participants' },
     { term: 'Where', detail: 'Near Aljezur, Algarve, Portugal', note: 'Guest house being confirmed.' },
-    { term: 'Price', detail: 'Being confirmed' },
+    { term: 'Price', detail: '€1,900 – €2,200' },
   ] satisfies RetreatFact[],
   /** Words from previous participants, shown one at a time on the page. */
   takeaways: {
