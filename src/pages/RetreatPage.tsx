@@ -7,7 +7,6 @@ import { Takeaways } from '../components/Takeaways'
 import { brand } from '../content/brand'
 import { interestHref, retreat } from '../content/retreat'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
-import { PORTAL_BASE } from '../portal/manifest'
 import styles from './RetreatPage.module.css'
 
 type Props = {
@@ -16,9 +15,8 @@ type Props = {
 }
 
 /**
- * The retreat, on one screen: title and the rotating "What people take home" on the
- * left, the collage doorway in the middle, the practical facts and the call to action
- * on the right. On small screens it stacks; it scrolls only if the screen is too short.
+ * The retreat, on one screen: title, practices and the rotating "What people take home"
+ * on the left, the practical facts and the call to action on the right. On small screens it stacks; it scrolls only if the screen is too short.
  */
 export default function RetreatPage({ embedded = false }: Props) {
   useDocumentTitle(`${retreat.eyebrow} · ${brand.name}`, !embedded)
@@ -59,16 +57,6 @@ export default function RetreatPage({ embedded = false }: Props) {
             embedded={embedded}
           />
         </div>
-
-        <figure className={styles.figure}>
-          <img
-            src={`${PORTAL_BASE}/doorway.webp`}
-            width={174}
-            height={419}
-            alt="Detail of the collage: a vaulted cathedral corridor leading to a mirrored doorway."
-            decoding="async"
-          />
-        </figure>
 
         <div className={styles.details}>
           <dl className={styles.facts}>

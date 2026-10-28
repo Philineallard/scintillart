@@ -1,6 +1,6 @@
 /*
  * Retreat page: one screen. Same identity as the entry cover.
- * Wide screens: lead (title + takeaways) | doorway | facts + action.
+ * Wide screens: lead (title, practices, takeaways) | facts + action.
  * Narrow screens: stacked and compact; scrolls only when the screen is genuinely too short.
  */
 
@@ -72,11 +72,6 @@
   font-style: italic;
   font-size: clamp(1.05rem, 1.5vw, 1.3rem);
   color: var(--ink-soft);
-}
-
-.figure {
-  display: none;
-  margin: 0;
 }
 
 .details {
@@ -177,21 +172,9 @@
 
   .grid {
     min-height: 0;
-    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr);
-    column-gap: clamp(1.5rem, 3.5vw, 4rem);
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    column-gap: clamp(3rem, 9vw, 9rem);
     align-items: stretch;
-  }
-
-  .figure {
-    display: grid;
-    place-items: center;
-    min-height: 0;
-  }
-
-  .figure img {
-    height: min(100%, 62svh);
-    width: auto;
-    filter: drop-shadow(0 0.6rem 1.2rem rgb(39 35 31 / 0.16));
   }
 
   .facts {
