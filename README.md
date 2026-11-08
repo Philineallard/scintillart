@@ -29,6 +29,7 @@ Append `?portal-debug` to the URL to expose `window.__scintillart` (`gsap`, `con
 | ----------- | ------------------------------------------------------- |
 | `/`         | Entry: wordmark, collage portal, definition, CTA        |
 | `/retreats` | The retreat near Aljezur (direct visits work, see below) |
+| `/arrival-in-lisbon` | "An arrival in Lisbon": collaboration proposal for boutique hotels (content in `src/content/arrival.ts`, photos in `public/arrival/`) |
 | anything else | Not-found view                                        |
 
 ## Deployment (Cloudflare Pages)
@@ -40,7 +41,7 @@ Append `?portal-debug` to the URL to expose `window.__scintillart` (`gsap`, `con
 | Build output directory | `dist`          |
 | Node version           | 22 (`NODE_VERSION=22` env var if needed) |
 
-Routing: the build writes `dist/retreats.html` (a copy of `index.html`, see `vite.config.ts`), so Pages serves `/retreats` as a real file, with no rewrite rule and no trailing-slash redirect. Any other unknown path falls back to `index.html` (Pages' default single-page behaviour when there is no `404.html`) and the client router shows the not-found view. `public/_headers` sets long caching for hashed assets.
+Routing: the build writes `dist/retreats.html` and `dist/arrival-in-lisbon.html` (copies of `index.html`, see `vite.config.ts`), so Pages serves `/retreats` and `/arrival-in-lisbon` as real files, with no rewrite rule and no trailing-slash redirect. Any other unknown path falls back to `index.html` (Pages' default single-page behaviour when there is no `404.html`) and the client router shows the not-found view. `public/_headers` sets long caching for hashed assets.
 
 Nothing has been deployed and no DNS has been changed. Connecting the repo to a Pages project and pointing scintillart.com at it are still to do, by someone with access to the Cloudflare account.
 

@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Route, Routes, useLocation } from 'react-router'
 import { Atmosphere } from './components/Atmosphere'
 import { ScintillaCursor } from './components/ScintillaCursor'
+import ArrivalPage from './pages/ArrivalPage'
 import EntryPage from './pages/EntryPage'
 import NotFound from './pages/NotFound'
 import RetreatPage from './pages/RetreatPage'
@@ -41,6 +42,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/retreats" element={<RetreatPage />} />
+        <Route path="/arrival-in-lisbon" element={<ArrivalPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

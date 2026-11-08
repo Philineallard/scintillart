@@ -2,7 +2,8 @@
  * Self-hosted fonts (SIL Open Font License, see /licenses).
  * Only the Latin + Latin Extended subsets and the weights in use are bundled.
  *
- * Display: Playfair Display Italic 400 (wordmark, headings)
+ * Display: Playfair Display Italic 400 (wordmark, headings) and Upright 400
+ *          (headings on /arrival-in-lisbon)
  * Text:    Poppins 400 (reading copy) and 700 (labels, actions, definition leads)
  *
  * To swap a typeface, change the imports here and the --font-display /
@@ -10,6 +11,8 @@
  */
 import '@fontsource/playfair-display/latin-400-italic.css'
 import '@fontsource/playfair-display/latin-ext-400-italic.css'
+import '@fontsource/playfair-display/latin-400.css'
+import '@fontsource/playfair-display/latin-ext-400.css'
 import '@fontsource/poppins/latin-400.css'
 import '@fontsource/poppins/latin-ext-400.css'
 import '@fontsource/poppins/latin-700.css'

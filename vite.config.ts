@@ -4,8 +4,8 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 
 /**
- * Emits dist/retreats.html (a copy of index.html) so that a direct visit to
- * /retreats is served as a real file on any static host. On Cloudflare Pages,
+ * Emits dist/retreats.html and dist/arrival-in-lisbon.html (copies of index.html) so that
+ * a direct visit to /retreats or /arrival-in-lisbon is served as a real file on any static host. On Cloudflare Pages,
  * /retreats is then served from retreats.html without a trailing-slash redirect.
  * Unknown paths fall back to index.html (Pages' default SPA behaviour when no
  * 404.html exists), where the client router shows the not-found view.
@@ -27,7 +27,7 @@ function staticRouteHtml(routes: string[]): Plugin {
 }
 
 export default defineConfig(({ mode }) => ({
-  plugins: [react(), staticRouteHtml(['retreats'])],
+  plugins: [react(), staticRouteHtml(['retreats', 'arrival-in-lisbon'])],
   build: {
     // The shareable preview runs in a sandboxed frame that may refuse font files:
     // embed the woff2 fonts in the CSS there. The production build keeps separate, cacheable files.
