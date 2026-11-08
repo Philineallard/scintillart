@@ -1,5 +1,5 @@
-import { lazy, type MouseEvent, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useHref, useNavigate } from 'react-router'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
 import { BrandDefinition } from '../components/BrandDefinition'
 import { ScintillartWordmark } from '../components/ScintillartWordmark'
@@ -9,7 +9,6 @@ import { useScrollSteps } from '../hooks/useScrollSteps'
 import { canUseWebGL, detectQuality, hasFinePointer, prefersReducedMotion } from '../portal/capabilities'
 import { DEFAULT_GEOMETRY, loadManifest, type PortalManifest, STATIC_ART } from '../portal/manifest'
 import { PortalErrorBoundary } from '../portal/PortalErrorBoundary'
-import { PortalTransition } from '../portal/PortalTransition'
 import { type PortalMode, usePortalMachine } from '../portal/usePortalMachine'
 import { loadCriticalFonts } from '../styles/fonts'
 import styles from './EntryPage.module.css'
@@ -20,7 +19,6 @@ const PortalScene = lazy(() => import('../portal/PortalScene'))
 export default function EntryPage() {
   useDocumentTitle('Scintillart. Where a spark becomes art.')
   const navigate = useNavigate()
-  const retreatsHref = useHref('/retreats')
   const reducedMotion = useMemo(prefersReducedMotion, [])
   const quality = useMemo(detectQuality, [])
   const pointerParallax = useMemo(() => !reducedMotion && hasFinePointer(), [reducedMotion])
@@ -95,14 +93,6 @@ export default function EntryPage() {
   }, [artReady])
   const onSceneError = useCallback(() => setMode('static'), [])
 
-  const onCta = (e: MouseEvent<HTMLAnchorElement>) => {
-    // Let the browser handle new-tab / modified clicks normally.
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
-    e.preventDefault()
-    machine.enter()
-  }
-
-  const busy = machine.phase === 'entering' || machine.phase === 'entered'
   const showSkip = !reducedMotion && (machine.phase === 'revealing' || machine.phase === 'entering')
 
   return (
@@ -163,9 +153,11 @@ export default function EntryPage() {
             reducedMotion={reducedMotion}
           />
 
+          {/* Launch version: contact instead of the link to /retreats (the page still exists). */}
           <div ref={ctaRef} className={styles.ctaBlock}>
-            <ActionLink href={retreatsHref} onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
-              {brand.primaryAction}
+            <span className={styles.ctaLabel}>{brand.contact.label}</span>
+            <ActionLink href={`mailto:${brand.contact.email}`} className={styles.cta}>
+              {brand.contact.email}
             </ActionLink>
           </div>
         </div>
@@ -177,8 +169,6 @@ export default function EntryPage() {
         </button>
       )}
 
-      {/* The destination is mounted from the start, hidden and inert, so it's ready before the transition. */}
-      <PortalTransition ref={destinationRef} />
     </main>
   )
 }

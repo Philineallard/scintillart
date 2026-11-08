@@ -22,6 +22,8 @@ export const brand = {
     },
   ],
   primaryAction: 'Our retreats',
+  /** Shown on the landing page in place of the retreats link (launch version). */
+  contact: { label: 'Contact', email: 'hello@scintillart.com' },
   /** Accessible name for the portal artwork. Describes the actual handmade collage. */
   artworkAlt:
     'Handmade paper collage shaped like a small house: a silver-foil roof with a geometric star and a cut-out owl, a field of pink and apricot roses, a holographic panel framing a vaulted cathedral doorway, and an amethyst crystal resting on silver coils.',
