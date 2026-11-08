@@ -174,10 +174,6 @@ export default function ArrivalPage() {
           ))}
         </div>
         <div className={styles.sign}>
-          <p className={styles.mark}>
-            <Logotype />
-          </p>
-          <p className={styles.line}>{brand.line}</p>
           <img
             className={styles.signature}
             src={`${base}${a.closing.signature.src}`}
@@ -187,9 +183,16 @@ export default function ArrivalPage() {
             loading="lazy"
           />
           <p className={styles.label}>{a.closing.names}</p>
-          <ActionLink href={`mailto:${a.closing.email}`}>{a.closing.email}</ActionLink>
         </div>
       </section>
+
+      <footer className={styles.footer}>
+        <Link to="/" className={styles.mark} aria-label={`${brand.name}, home`}>
+          <Logotype />
+        </Link>
+        <p className={styles.line}>{brand.line}</p>
+        <ActionLink href={`mailto:${brand.contact.email}`}>{brand.contact.email}</ActionLink>
+      </footer>
     </main>
   )
 }

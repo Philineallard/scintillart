@@ -117,6 +117,5 @@ export const arrival = {
     ],
     names: 'Igor Swieczak & Philine Allard',
     signature: { src: 'arrival/igor-swieczak-signature.png', w: 500, h: 142, alt: 'Igor Swieczak photography' },
-    email: 'hello@scintillart.com',
   },
 }

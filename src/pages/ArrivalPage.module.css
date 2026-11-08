@@ -229,10 +229,21 @@ figure {
   text-align: center;
 }
 
+/* ---------- Footer ---------- */
+.footer {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding-top: clamp(3rem, 8vw, 5rem);
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+
 .mark {
-  margin: 0;
   font-size: clamp(3rem, 8vw, 5.5rem);
   line-height: 1;
+  text-decoration: none;
+  padding-block: 0.2rem;
 }
 
 .signature {
