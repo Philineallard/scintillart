@@ -155,7 +155,6 @@ export default function EntryPage() {
 
           {/* Launch version: contact instead of the link to /retreats (the page still exists). */}
           <div ref={ctaRef} className={styles.ctaBlock}>
-            <span className={styles.ctaLabel}>{brand.contact.label}</span>
             <ActionLink href={`mailto:${brand.contact.email}`} className={styles.cta}>
               {brand.contact.email}
             </ActionLink>
