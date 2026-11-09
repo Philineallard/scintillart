@@ -143,9 +143,10 @@ figure {
   gap: clamp(2rem, 5vw, 3.5rem);
 }
 
+/* The banner keeps the photograph's own proportions, so nothing of it is cropped. */
 .banner {
   margin-inline: calc(-1 * (var(--gutter) + var(--safe-left))) calc(-1 * (var(--gutter) + var(--safe-right)));
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1480 / 988;
   overflow: hidden;
 }
 
@@ -259,11 +260,6 @@ figure {
 
 /* ---------- Wide screens ---------- */
 @media (min-width: 900px) {
-  .banner {
-    aspect-ratio: auto;
-    height: min(78svh, 58vw);
-  }
-
   .heroText {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     column-gap: clamp(3rem, 8vw, 8rem);
