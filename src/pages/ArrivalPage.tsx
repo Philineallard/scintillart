@@ -1,10 +1,11 @@
-import { useId, type ReactNode } from 'react'
+import { useId, useRef, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
 import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
 import { arrival, type ArrivalImage, type ArrivalItem } from '../content/arrival'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useParallax } from '../hooks/useParallax'
 import { useSmoothScroll } from '../hooks/useSmoothScroll'
 import styles from './ArrivalPage.module.css'
 
@@ -98,6 +99,8 @@ export default function ArrivalPage() {
   const a = arrival
   useDocumentTitle(`${a.title} · ${brand.name}`)
   useSmoothScroll()
+  const banner = useRef<HTMLElement>(null)
+  useParallax(banner)
 
   return (
     <main className={styles.page}>
@@ -109,7 +112,7 @@ export default function ArrivalPage() {
       </header>
 
       <section className={styles.hero}>
-        <figure className={styles.banner}>
+        <figure className={styles.banner} ref={banner}>
           <Photo image={a.heroImage} eager />
         </figure>
         <div className={styles.heroText}>

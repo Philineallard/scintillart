@@ -9,7 +9,7 @@ import 'lenis/dist/lenis.css'
 export function useSmoothScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const lenis = new Lenis({ lerp: 0.085, smoothWheel: true, anchors: true })
+    const lenis = new Lenis({ lerp: 0.07, wheelMultiplier: 0.9, smoothWheel: true, anchors: true })
     let frame = 0
     const tick = (time: number) => {
       lenis.raf(time)

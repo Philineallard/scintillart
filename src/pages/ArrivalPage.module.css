@@ -150,6 +150,20 @@ figure {
   overflow: hidden;
 }
 
+/* Parallax (useParallax): the photo is drawn 14% taller than its frame and drifts
+   down as the page scrolls; only sky and treetops at the very top ever leave the frame. */
+.banner[data-parallax] {
+  position: relative;
+}
+
+.banner[data-parallax] .photo {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 114%;
+  object-position: 50% 100%;
+  will-change: transform;
+}
+
 .heroText {
   display: grid;
   gap: 1.5rem;
