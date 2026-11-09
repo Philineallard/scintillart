@@ -137,26 +137,31 @@ figure {
   margin: 0;
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero: full-width banner, then the title ---------- */
 .hero {
   display: grid;
-  gap: clamp(1.75rem, 4vw, 3rem);
+  gap: clamp(2rem, 5vw, 3.5rem);
 }
 
-.heroImage {
-  aspect-ratio: 4 / 5;
-  max-height: 82svh;
+.banner {
+  margin-inline: calc(-1 * (var(--gutter) + var(--safe-left))) calc(-1 * (var(--gutter) + var(--safe-right)));
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
 .heroText {
   display: grid;
+  gap: 1.5rem;
+}
+
+.heroTitle,
+.heroIntro {
+  display: grid;
   gap: 1.1rem;
-  align-content: center;
   justify-items: start;
 }
 
-.heroText .intro {
+.heroIntro .intro {
   max-width: 26rem;
 }
 
@@ -254,16 +259,15 @@ figure {
 
 /* ---------- Wide screens ---------- */
 @media (min-width: 900px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: clamp(3rem, 7vw, 7rem);
-    align-items: center;
-    min-height: 82svh;
+  .banner {
+    aspect-ratio: auto;
+    height: min(78svh, 58vw);
   }
 
-  .heroImage {
-    height: 82svh;
-    aspect-ratio: auto;
+  .heroText {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: clamp(3rem, 8vw, 8rem);
+    align-items: end;
   }
 
   .chapter {
@@ -297,9 +301,15 @@ figure {
   }
 }
 
-/* Phones: the hero repeats the eyebrow, so the header keeps only the wordmark. */
+/* Phones: the eyebrow may wrap onto two lines beside the wordmark. */
 @media (max-width: 899px) {
+  .top {
+    align-items: center;
+  }
+
   .eyebrow {
-    display: none;
+    max-width: 11rem;
+    text-align: right;
+    line-height: 1.5;
   }
 }

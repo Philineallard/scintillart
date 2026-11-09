@@ -22,7 +22,7 @@ export const arrival = {
   line: 'Where a spark becomes art.',
   intro: 'A cinematic story for boutique hotels, told through photography and film.',
   disciplines: 'Photography / Film / Editorial storytelling',
-  heroImage: img('car', 1480, 988, 'A woman sitting on the bonnet of a classic car on a tree-lined avenue', '72% 50%'),
+  heroImage: img('car', 1480, 988, 'A woman sitting on the bonnet of a classic car on a tree-lined avenue', '60% 35%'),
 
   about: {
     label: 'About',

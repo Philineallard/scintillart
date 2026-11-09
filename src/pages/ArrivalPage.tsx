@@ -5,6 +5,7 @@ import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
 import { arrival, type ArrivalImage, type ArrivalItem } from '../content/arrival'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useSmoothScroll } from '../hooks/useSmoothScroll'
 import styles from './ArrivalPage.module.css'
 
 const base = import.meta.env.BASE_URL
@@ -96,6 +97,7 @@ function Wide({ image }: { image: ArrivalImage }) {
 export default function ArrivalPage() {
   const a = arrival
   useDocumentTitle(`${a.title} · ${brand.name}`)
+  useSmoothScroll()
 
   return (
     <main className={styles.page}>
@@ -107,17 +109,20 @@ export default function ArrivalPage() {
       </header>
 
       <section className={styles.hero}>
-        <figure className={styles.heroImage}>
+        <figure className={styles.banner}>
           <Photo image={a.heroImage} eager />
         </figure>
         <div className={styles.heroText}>
-          <p className={styles.label}>{a.eyebrow}</p>
-          <h1 className={styles.title} tabIndex={-1} data-route-heading="">
-            {a.title}
-          </h1>
-          <p className={styles.line}>{a.line}</p>
-          <p className={styles.intro}>{a.intro}</p>
-          <p className={styles.label}>{a.disciplines}</p>
+          <div className={styles.heroTitle}>
+            <h1 className={styles.title} tabIndex={-1} data-route-heading="">
+              {a.title}
+            </h1>
+          </div>
+          <div className={styles.heroIntro}>
+            <p className={styles.line}>{a.line}</p>
+            <p className={styles.intro}>{a.intro}</p>
+            <p className={styles.label}>{a.disciplines}</p>
+          </div>
         </div>
       </section>
 
