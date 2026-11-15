@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Indexable pages only. Keep in step with ROUTES in vite.config.ts. /arrival-in-lisbon is deliberately left out. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://scintillart.com/</loc>
+  </url>
+  <url>
+    <loc>https://scintillart.com/retreats</loc>
+  </url>
+</urlset>

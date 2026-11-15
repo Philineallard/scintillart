@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# /arrival-in-lisbon is kept out of search results with a noindex tag and header,
+# not a Disallow rule here: a blocked page can't be crawled, so its noindex would never be seen.
+
+Sitemap: https://scintillart.com/sitemap.xml
