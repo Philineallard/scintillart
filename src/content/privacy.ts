@@ -1,19 +1,19 @@
 /**
  * Privacy policy for scintillart.com: the single source for /privacy.
  *
- * Adapted (November 2026) from the Natural Healing Hearts policy
- * (naturalhealinghearts.com/privacy, last updated 5 November 2026), same data controller,
- * rewritten for what scintillart.com actually does (checked in the code):
- * - The only personal data it collects is the "Register your interest" form on /thespark,
- *   sent through a Cloudflare Pages Function and emailed with Resend.
- * - No cookies, no analytics, no advertising; fonts are self-hosted.
- * - The theme choice is kept in the visitor's own browser (localStorage "scintillart-theme").
- * Keep this file in step with the site: a new form, analytics tool or embed means an update here.
+ * Plain, short and deliberately general (Igor, November 2026): providers by role, not by
+ * name; retention by purpose, not by date. Structure follows common practice in retreat
+ * booking sites (e.g. bookretreats.com: question-style headings, a consent section, a
+ * security section, a note on minors), kept to what scintillart.com actually does:
+ * - the "Register your interest" form on /thespark (Cloudflare Pages Function → Resend →
+ *   the Zoho Mail inbox hello@scintillart.com);
+ * - no cookies, no analytics, no advertising; self-hosted fonts;
+ * - the light/dark choice stays in the visitor's browser (localStorage).
+ * Keep it true: a new form, analytics tool or embed means an update here.
  *
- * Not legal advice: have it reviewed before relying on it.
+ * Never show the operator's address or tax number (CLAUDE.md). Not legal advice.
  * Plain data only (also read by vite.config.ts).
  */
-import { TBA } from './thespark.ts'
 
 export type PrivacySection = {
   id: string
@@ -26,101 +26,87 @@ export const privacy = {
   path: '/privacy',
   meta: {
     title: 'Privacy policy | Scintillart',
-    description: 'How Scintillart handles personal data on scintillart.com, including the Register your interest form for The Spark.',
+    description: 'How Scintillart handles your personal data on scintillart.com.',
   },
   title: 'Privacy policy',
   updated: 'Last updated 19 November 2026',
-  intro:
-    'This policy explains what personal data scintillart.com collects, why, who helps us process it, how long we keep it, and the rights you have. We collect as little as we can.',
+  intro: 'We collect as little personal data as we can, use it only to stay in touch with you, and never sell it.',
   contactEmail: 'hello@scintillart.com',
 
   sections: [
     {
-      id: 'controller',
-      heading: 'Who is responsible',
+      id: 'who',
+      heading: 'Who we are',
       paragraphs: [
-        // Igor's decision: name and email only. No address or tax number on the site.
-        'Scintillart is operated by Philine Allard, a sole trader in Portugal, who is the data controller for scintillart.com.',
-        'For anything about your personal data, email hello@scintillart.com.',
+        'Scintillart is operated by Philine Allard, a sole trader in Portugal, who is responsible for your data. Questions about it: hello@scintillart.com.',
       ],
     },
     {
       id: 'collect',
-      heading: 'What we collect and why',
-      items: [
-        {
-          term: 'Register your interest (The Spark)',
-          text: 'Your name and email address, and, if you choose to give them, your room preference, whether you are travelling alone or with someone, and your message. We use them only to contact you about The Spark: dates, rooms, booking and any questions you asked. Legal basis: your consent, given with the checkbox on the form. You can withdraw it at any time by emailing us; this does not affect anything we did before.',
-        },
-        {
-          term: 'Emails you send us',
-          text: 'The content of your email and your address, used to reply to you. Legal basis: steps you ask us to take, and our legitimate interest in answering enquiries.',
-        },
-        {
-          term: 'Technical data',
-          text: 'When you visit, our hosting provider processes your IP address and basic request data (such as browser type and the page requested) to deliver the site and protect it against abuse. We do not use this to identify you. Legal basis: our legitimate interest in a secure, working website.',
-        },
-        {
-          term: 'Spam protection',
-          text: 'The form contains a hidden field that people do not see. Submissions that fill it in are treated as spam and discarded without being stored or sent.',
-        },
+      heading: 'What we collect',
+      paragraphs: [
+        'When you register your interest in a retreat: your name and email address, and anything else you choose to tell us, such as a room preference or a message.',
+        'When you email us: your message and email address.',
+        'When you visit the site: basic technical data, such as your IP address, which our hosting provider needs to show you the site and keep it secure.',
       ],
-      paragraphs: ['We do not sell your data, share it for advertising, or use it for profiling or automated decision-making.'],
     },
     {
-      id: 'processors',
-      heading: 'Who processes it for us',
-      paragraphs: ['We use a small number of service providers, under their data processing terms and only for the purposes below.'],
-      items: [
-        { term: 'Cloudflare', text: 'Hosting, security and the server code that receives the form.' },
-        { term: 'Resend', text: 'Delivers the form to our inbox as an email.' },
-        { term: 'Email inbox provider', text: TBA },
+      id: 'use',
+      heading: 'How we use it',
+      paragraphs: [
+        'To answer you, to keep you informed about the retreat you asked about, and to keep the site running safely. We do not sell your data, use it for advertising or share it with other businesses for their own use.',
+      ],
+    },
+    {
+      id: 'consent',
+      heading: 'Your consent',
+      paragraphs: [
+        'By ticking the box on the registration form, you agree that we may contact you about that retreat. You can change your mind at any time by emailing hello@scintillart.com, and we will stop.',
+      ],
+    },
+    {
+      id: 'sharing',
+      heading: 'Who we share it with',
+      paragraphs: [
+        'Only the trusted service providers that run the site and our email (hosting, email delivery and our inbox), and only so they can provide those services. Some of them may process data outside the EU; when they do, it is protected by the safeguards the law requires.',
+      ],
+    },
+    {
+      id: 'cookies',
+      heading: 'Cookies',
+      paragraphs: [
+        'We use no cookies and no tracking or advertising tools. If you choose the light or dark look of the site, that choice is saved in your own browser and never sent to us.',
       ],
     },
     {
       id: 'retention',
       heading: 'How long we keep it',
-      items: [
-        {
-          term: 'Registrations and emails',
-          text: 'As long as needed to answer you and keep you informed about The Spark, and no longer than two years after our last contact. Sooner if you ask us to delete them.',
-        },
-        { term: 'Technical data', text: 'Kept by Cloudflare for a short period under its own policy, for security and operations.' },
+      paragraphs: [
+        'Only as long as we need it to stay in touch with you about our retreats. You can ask us to delete it at any time.',
       ],
     },
     {
-      id: 'transfers',
-      heading: 'International transfers',
-      paragraphs: [
-        'Cloudflare and Resend are based in the United States or use servers there. Transfers rely on the EU–US Data Privacy Framework or the European Commission’s standard contractual clauses.',
-      ],
+      id: 'security',
+      heading: 'Security',
+      paragraphs: ['The site uses encrypted connections, we work with established providers, and only we can read what you send us.'],
     },
     {
-      id: 'cookies',
-      heading: 'Cookies and your device',
-      paragraphs: [
-        'scintillart.com sets no cookies and uses no analytics, tracking or advertising tools. Our fonts are served from our own site.',
-        'If you choose the light or dark theme, your choice is stored in your browser’s local storage (“scintillart-theme”) so the site remembers it. It stays on your device and is never sent to us. You can clear it at any time in your browser settings.',
-      ],
+      id: 'minors',
+      heading: 'Under 18',
+      paragraphs: ['Our retreats are for adults. We do not knowingly collect data from anyone under 18.'],
     },
     {
       id: 'rights',
       heading: 'Your rights',
       paragraphs: [
-        'You can ask for access to your data, correction, deletion, restriction of processing and a copy in a portable format; you can object to processing based on legitimate interest; and you can withdraw consent at any time. Email hello@scintillart.com. We reply within one month.',
-      ],
-    },
-    {
-      id: 'complaints',
-      heading: 'Complaints',
-      paragraphs: [
-        'If you are unhappy with how we handle your data, please tell us first. You also have the right to complain to the Portuguese supervisory authority, the Comissão Nacional de Proteção de Dados (CNPD, www.cnpd.pt), or to the authority in the country where you live.',
+        'You can ask to see, correct or delete your data, or object to how we use it. Email hello@scintillart.com and we will reply within a month.',
+        'If you are not happy with our answer, you can complain to the Portuguese data protection authority (CNPD, www.cnpd.pt) or to the one where you live.',
       ],
     },
     {
       id: 'changes',
-      heading: 'Changes to this policy',
-      paragraphs: ['If we make material changes, we will update this page and the date at the top.'],
+      heading: 'Changes',
+      paragraphs: ['If this policy changes, we will update this page and the date above.'],
     },
-  ] satisfies PrivacySection[],
+  ] as PrivacySection[],
 }

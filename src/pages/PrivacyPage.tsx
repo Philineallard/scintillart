@@ -47,7 +47,7 @@ export default function PrivacyPage() {
             <h2 id={`${s.id}-title`} className={styles.h2}>
               {s.heading}
             </h2>
-            {'items' in s && s.items && (
+            {s.items && (
               <dl className={styles.items}>
                 {s.items.map((item) => (
                   <div key={item.term} className={styles.item}>
