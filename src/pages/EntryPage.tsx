@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, type MouseEvent, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
 import { BrandDefinition } from '../components/BrandDefinition'
@@ -9,6 +9,7 @@ import { useScrollSteps } from '../hooks/useScrollSteps'
 import { canUseWebGL, detectQuality, hasFinePointer, prefersReducedMotion } from '../portal/capabilities'
 import { DEFAULT_GEOMETRY, loadManifest, type PortalManifest, STATIC_ART } from '../portal/manifest'
 import { PortalErrorBoundary } from '../portal/PortalErrorBoundary'
+import { PortalTransition } from '../portal/PortalTransition'
 import { type PortalMode, usePortalMachine } from '../portal/usePortalMachine'
 import { loadCriticalFonts } from '../styles/fonts'
 import styles from './EntryPage.module.css'
@@ -48,7 +49,7 @@ export default function EntryPage() {
     mode,
     reducedMotion,
     geometry: manifest ?? DEFAULT_GEOMETRY,
-    onEntered: () => navigate('/retreats', { state: { viaPortal: true } }),
+    onEntered: () => navigate('/thespark', { state: { viaPortal: true } }),
   })
   const { fontsReady, artReady, artFailed, showStaticArtNow } = machine
 
@@ -92,6 +93,15 @@ export default function EntryPage() {
     artReady()
   }, [artReady])
   const onSceneError = useCallback(() => setMode('static'), [])
+
+  // "Our retreats": a real link to /thespark (works without JavaScript and in new tabs);
+  // a plain click plays the portal transition into the page instead.
+  const onCta = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    e.preventDefault()
+    machine.enter()
+  }
+  const busy = machine.phase === 'entering' || machine.phase === 'entered'
 
   const showSkip = !reducedMotion && (machine.phase === 'revealing' || machine.phase === 'entering')
 
@@ -153,11 +163,13 @@ export default function EntryPage() {
             reducedMotion={reducedMotion}
           />
 
-          {/* Launch version: contact instead of the link to /retreats (the page still exists). */}
           <div ref={ctaRef} className={styles.ctaBlock}>
-            <ActionLink href={`mailto:${brand.contact.email}`} className={styles.cta}>
-              {brand.contact.email}
+            <ActionLink href="/thespark" onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
+              {brand.primaryAction}
             </ActionLink>
+            <a href={`mailto:${brand.contact.email}`} className={styles.contact}>
+              {brand.contact.email}
+            </a>
           </div>
         </div>
       </div>
@@ -168,6 +180,8 @@ export default function EntryPage() {
         </button>
       )}
 
+      {/* The destination is mounted from the start, hidden and inert, so it's ready before the transition. */}
+      <PortalTransition ref={destinationRef} />
     </main>
   )
 }

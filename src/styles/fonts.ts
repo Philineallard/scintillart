@@ -4,7 +4,8 @@
  *
  * Display: Playfair Display Italic 400 (wordmark, headings) and Upright 400
  *          (headings on /arrival-in-lisbon)
- * Text:    Poppins 400 (reading copy) and 700 (labels, actions, definition leads)
+ * Text:    Poppins 400 (reading copy) and 700 (labels, actions, definition leads);
+ *          500 and 600 for Brand Guidelines v2.0 pages (/thespark), which never use 700
  *
  * To swap a typeface, change the imports here and the --font-display /
  * --font-text tokens in tokens.css.
@@ -15,6 +16,10 @@ import '@fontsource/playfair-display/latin-400.css'
 import '@fontsource/playfair-display/latin-ext-400.css'
 import '@fontsource/poppins/latin-400.css'
 import '@fontsource/poppins/latin-ext-400.css'
+import '@fontsource/poppins/latin-500.css'
+import '@fontsource/poppins/latin-ext-500.css'
+import '@fontsource/poppins/latin-600.css'
+import '@fontsource/poppins/latin-ext-600.css'
 import '@fontsource/poppins/latin-700.css'
 import '@fontsource/poppins/latin-ext-700.css'
 

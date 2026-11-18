@@ -1,8 +1,9 @@
 /**
  * Retreat content: the single source of truth for /retreats.
  *
- * Only confirmed information belongs here. Price, exact dates and the guest house
- * are still being confirmed: keep them marked as such until they are final.
+ * Only confirmed information belongs here. Price and exact dates are still being
+ * confirmed: keep them marked as such until they are final. The venue (Quinta
+ * Javali) is confirmed; full venue detail lives in content/venue.ts and /venue.
  * Do not add testimonials, availability claims or outcome promises.
  *
  * If retreat/scintillart-retreat-description.md is added to the repository,
@@ -28,7 +29,7 @@ export const retreat = {
     { term: 'When', detail: '1–7 February 2027' },
     { term: 'Rhythm', detail: 'Monday afternoon to Sunday morning' },
     { term: 'Group', detail: '8–16 participants' },
-    { term: 'Where', detail: 'A premium wellbeing location on the south-west coast of Portugal', note: 'Exact location being confirmed.' },
+    { term: 'Where', detail: 'Quinta Javali, near Aljezur, on the south-west coast of Portugal' },
     { term: 'Price', detail: '€1,900 – €2,200' },
   ] satisfies RetreatFact[],
   /** Words from previous participants, shown one at a time on the page. */

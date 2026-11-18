@@ -1,0 +1,382 @@
+/*
+ * /thespark: Brand Guidelines v2.0 (tokens in src/styles/brand.css).
+ * Square corners, flat colour, 1px hairlines, no shadows. Playfair Display regular for
+ * headlines (sentence case), Poppins for everything else (400 / 500 / 600, never Light).
+ */
+
+.page {
+  position: relative;
+  min-height: 100svh;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: var(--space-2);
+  z-index: 20;
+  padding: var(--space-3) var(--space-6);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 500;
+  font-size: 14px;
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+/* ---------- Header: wordmark, chapters, theme, call to action ---------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: clamp(var(--space-6), 3vw, var(--space-12));
+  padding: env(safe-area-inset-top, 0px) calc(var(--gutter) + var(--safe-right)) 0 calc(var(--gutter) + var(--safe-left));
+  min-height: 72px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Eight chapter names need the full width: below very wide screens they take a second row. */
+@media (max-width: 1680px) {
+  .header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .home,
+  .tools {
+    padding-block: var(--space-3);
+  }
+  .header > nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    margin-inline: calc(-1 * (var(--gutter) + var(--safe-left))) calc(-1 * (var(--gutter) + var(--safe-right)));
+    padding-inline: calc(var(--gutter) + var(--safe-left)) calc(var(--gutter) + var(--safe-right));
+    border-top: 1px solid var(--hairline);
+  }
+}
+
+@media (max-width: 640px) {
+  .home {
+    font-size: 1.35rem;
+  }
+  /* The hero and the closing section carry the action on phones; the header keeps the theme. */
+  .tools .headerButton {
+    display: none;
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-6);
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid var(--accent-edge);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.button:hover {
+  background: transparent;
+  color: var(--text);
+}
+
+/* ---------- Hero ---------- */
+
+.main {
+  display: block;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-6);
+  align-content: end;
+  min-height: calc(88svh - var(--header-h, 72px));
+  padding: var(--section-pad) var(--gutter) var(--section-pad);
+}
+
+.hero > * {
+  grid-column: 1 / -1;
+}
+
+.kicker {
+  margin: 0 0 var(--space-6);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-editorial);
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(3rem, 1.4rem + 7vw, 5.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.005em;
+}
+
+.h1:focus {
+  outline: none;
+}
+
+.descriptor {
+  display: block;
+  margin-top: var(--space-4);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.heroLead {
+  grid-column: 1 / span 7;
+  max-width: 38rem;
+  margin: var(--space-8) 0 var(--space-8);
+  font-size: 18px;
+  line-height: 29px;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-8);
+}
+
+.heroNote {
+  margin: var(--space-6) 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--text-muted);
+}
+
+/* Secondary, in-page navigation: an underlined text link, never a second button. */
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
+}
+
+.textLink:hover {
+  text-decoration-color: transparent;
+}
+
+@media (max-width: 900px) {
+  .heroLead {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Chapters ---------- */
+
+.chapter {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-6);
+  row-gap: var(--space-8);
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+  border-top: 1px solid var(--hairline);
+  scroll-margin-top: var(--header-h, 72px);
+}
+
+/* The chapter's heading stays in view while its content scrolls past (wide screens). */
+.chapterHead {
+  grid-column: 1 / span 5;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--header-h, 72px) + var(--space-8));
+}
+
+.chapterBody {
+  grid-column: 7 / -1;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .chapterHead,
+  .chapterBody {
+    grid-column: 1 / -1;
+  }
+  .chapterHead {
+    position: static;
+  }
+}
+
+.chapterLabel {
+  display: flex;
+  gap: 0.75em;
+  margin: 0 0 var(--space-6);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-editorial);
+}
+
+.chapterNum {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.chapterEnd {
+  margin-top: var(--space-16);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--hairline);
+}
+
+/* Closing line: the occasional italic accent the brand allows for selected statements. */
+.closing {
+  margin: 0 0 var(--space-6);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 34px;
+}
+
+.nextLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75em;
+  min-height: 44px;
+  padding-block: var(--space-2);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
+}
+
+.nextLink:hover {
+  text-decoration-color: transparent;
+}
+
+.nextLabel {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.lead {
+  margin: var(--space-6) 0 0;
+  max-width: 34rem;
+  font-size: 18px;
+  line-height: 29px;
+}
+
+/* ---------- Register your interest ---------- */
+
+.interest > .kicker {
+  margin: 0;
+}
+
+.interestBody {
+  max-width: 38rem;
+  margin: 0;
+  font-size: 18px;
+  line-height: 29px;
+}
+
+.interest {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+  border-top: 1px solid var(--hairline);
+  scroll-margin-top: var(--header-h, 72px);
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-8);
+  margin-inline: var(--gutter);
+  padding-block: var(--space-12) calc(var(--space-12) + var(--safe-bottom));
+  border-top: 1px solid var(--hairline);
+}
+
+.footerMark {
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+  line-height: 1;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.slogan {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 34px;
+}

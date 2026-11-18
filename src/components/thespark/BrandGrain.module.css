@@ -1,0 +1,43 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Oversized by 20% and jumping between a few offsets every 0.8s: the film flicker. */
+.grain {
+  position: absolute;
+  inset: -20%;
+  background-image: var(--brand-grain);
+  background-size: 220px 220px;
+  mix-blend-mode: var(--brand-grain-blend);
+  opacity: var(--brand-grain-opacity, 1);
+  animation: film-grain 0.8s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes film-grain {
+  0% { transform: translate(0, 0); }
+  14% { transform: translate(-4%, 3%); }
+  28% { transform: translate(3%, -4%); }
+  42% { transform: translate(-6%, -2%); }
+  57% { transform: translate(5%, 4%); }
+  71% { transform: translate(-2%, -6%); }
+  85% { transform: translate(6%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Brand rule: the jitter is off under reduced motion; the grain stays, still. */
+@media (prefers-reduced-motion: reduce) {
+  .grain {
+    animation: none;
+  }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-vignette);
+}

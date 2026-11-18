@@ -1,0 +1,44 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+}
+
+.option {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.3s var(--ease-out);
+}
+
+/* The current theme: full-strength icon over a short 1px rule. */
+.option::after {
+  content: '';
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  bottom: 7px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.option:hover {
+  color: var(--text);
+}
+
+.option[aria-pressed='true'] {
+  color: var(--text);
+}
+
+.option[aria-pressed='true']::after {
+  transform: none;
+}

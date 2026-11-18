@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { faqJsonLd, thespark } from './src/content/thespark.ts'
 
 const SITE = 'https://scintillart.com'
 
@@ -11,7 +12,15 @@ const SITE = 'https://scintillart.com'
  * description and canonical URL. Keep in step with the useDocumentTitle() calls.
  * Pages listed as indexable here must also be in public/sitemap.xml.
  */
-type RouteHead = { file: string; path: string; title: string; description: string; index: boolean }
+type RouteHead = {
+  file: string
+  path: string
+  title: string
+  description: string
+  index: boolean
+  /** schema.org structured data (JSON), added as <script type="application/ld+json">. */
+  jsonLd?: string
+}
 
 const ROUTES: RouteHead[] = [
   {
@@ -23,12 +32,24 @@ const ROUTES: RouteHead[] = [
     index: true,
   },
   {
-    file: 'retreats.html',
-    path: '/retreats',
-    title: 'Our retreats · Scintillart',
-    description:
-      'An artist-led retreat on the south-west coast of Portugal, 1–7 February 2027: photography, ceramics, performance, life drawing, tea ceremony and more, for 8–16 participants.',
+    // Title and description live in the content file, next to the page copy.
+    // /retreats and /venue are 301 redirects to here (public/_redirects).
+    file: 'thespark.html',
+    path: thespark.path,
+    title: thespark.meta.title,
+    description: thespark.meta.description,
     index: true,
+    jsonLd: faqJsonLd(),
+  },
+  {
+    // The fuller venue presentation. Out of search for now: chapter 5 of /thespark
+    // carries the venue, and this page would duplicate it until it has content of its own.
+    file: 'thespark-venue.html',
+    path: '/thespark-venue',
+    title: 'The venue, Quinta Javali · Scintillart',
+    description:
+      'Quinta Javali, near Aljezur on the south-west coast of Portugal: two houses, eight bedrooms, a natural swimming pool and the hills of the Algarve.',
+    index: false,
   },
   {
     // A proposal sent directly to hotels: reachable by link, kept out of search engines.
@@ -55,6 +76,9 @@ function withHead(html: string, route: RouteHead): string {
   const url = SITE + route.path
   const tags = [
     route.index ? `<link rel="canonical" href="${url}" />` : '<meta name="robots" content="noindex, nofollow" />',
+    // A data block, not a script: the CSP (script-src 'self') does not apply to it.
+    // "<" is escaped so the JSON can never close the tag early.
+    ...(route.jsonLd ? [`<script type="application/ld+json">${route.jsonLd.replace(/</g, '\\u003c')}</script>`] : []),
   ].join('\n    ')
   const replaced = html
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeAttr(route.title)}</title>`)
@@ -71,10 +95,12 @@ function withHead(html: string, route: RouteHead): string {
 
 /**
  * Writes one HTML file per route (copies of the built index.html with that route's <head>),
- * so a direct visit to /retreats or /arrival-in-lisbon is served as a real file on any
- * static host. On Cloudflare Pages, /retreats is served from retreats.html without a
+ * so a direct visit to /thespark or /arrival-in-lisbon is served as a real file on any
+ * static host. On Cloudflare Pages, /thespark is served from thespark.html without a
  * trailing-slash redirect. Unknown paths get 404.html with a 404 status.
- * Skipped for the shareable preview build, which only ever loads index.html.
+ * scripts/prerender.mjs then fills selected files with the rendered page body.
+ * Skipped for the shareable preview build (it only ever loads index.html) and for the
+ * server bundle used by the prerender step.
  */
 function staticRouteHtml(routes: RouteHead[]): Plugin {
   let outDir = 'dist'
@@ -84,7 +110,7 @@ function staticRouteHtml(routes: RouteHead[]): Plugin {
     apply: 'build',
     configResolved(config) {
       outDir = resolve(config.root, config.build.outDir)
-      skip = config.mode === 'preview'
+      skip = config.mode === 'preview' || Boolean(config.build.ssr)
     },
     async closeBundle() {
       if (skip) return
@@ -96,9 +122,11 @@ function staticRouteHtml(routes: RouteHead[]): Plugin {
   }
 }
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode, isSsrBuild }) => ({
   plugins: [react(), staticRouteHtml(ROUTES)],
   build: {
+    // The server bundle (prerender step) needs no copy of public/.
+    copyPublicDir: !isSsrBuild,
     // The shareable preview runs in a sandboxed frame that may refuse font files:
     // embed the woff2 fonts in the CSS there. The production build keeps separate, cacheable files.
     assetsInlineLimit: mode === 'preview' ? (file: string) => (file.endsWith('.woff2') ? true : undefined) : 4096,

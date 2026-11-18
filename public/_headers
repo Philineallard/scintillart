@@ -23,3 +23,10 @@
 
 /arrival/*
   X-Robots-Tag: noindex
+
+# Fuller venue page: out of search until it carries content /thespark doesn't (avoids duplicate content).
+/thespark-venue
+  X-Robots-Tag: noindex
+
+/thespark-venue.html
+  X-Robots-Tag: noindex

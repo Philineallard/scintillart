@@ -6,7 +6,7 @@
   "description": "Scintillart website: immersive collage portal entry and retreats page.",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "build:preview": "tsc -b && vite build --mode preview --base ./ --outDir dist-preview",
     "typecheck": "tsc -b --pretty",

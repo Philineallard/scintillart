@@ -9,7 +9,7 @@
  * - revealing: the entrance timeline runs. "Skip animation" jumps to its end.
  * - idle:      artwork breathes; the CTA is live.
  * - entering:  the portal transition runs; repeat activation is ignored.
- * - entered:   the route changes to /retreats.
+ * - entered:   the route changes to /thespark.
  *
  * Every phase has a non-animated path: reduced motion goes straight to idle and
  * uses a short dissolve; a missing or failed portal never blocks the CTA.

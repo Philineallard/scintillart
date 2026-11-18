@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects (applied before static files). Keep in step with src/App.tsx.
+/retreats       /thespark        301
+/retreats.html  /thespark        301
+/venue          /thespark#venue  301
+/venue.html     /thespark#venue  301

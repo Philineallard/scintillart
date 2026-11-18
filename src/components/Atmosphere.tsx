@@ -212,7 +212,13 @@ export function Atmosphere({ sky = false, white = false }: { sky?: boolean; whit
   }, [])
 
   return (
-    <div className={styles.atmosphere} aria-hidden="true" data-sky={sky ? '' : undefined} data-white={white ? '' : undefined}>
+    <div
+      className={styles.atmosphere}
+      aria-hidden="true"
+      data-atmosphere=""
+      data-sky={sky ? '' : undefined}
+      data-white={white ? '' : undefined}
+    >
       <canvas ref={canvasRef} className={styles.field} />
       <div className={styles.sky} />
       <div className={styles.cement} />

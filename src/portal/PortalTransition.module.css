@@ -1,3 +1,8 @@
+/*
+ * The Spark, pre-rendered and revealed through the doorway arch. Its surface matches the
+ * real /thespark page: the homepage's cinematic white (grain and vignette) in the light
+ * theme, carbon in the dark theme (tokens from data-brand-embedded, see styles/brand.css).
+ */
 .destination {
   position: fixed;
   inset: 0;
@@ -5,25 +10,21 @@
   overflow: hidden;
   visibility: hidden;
   opacity: 0;
-  background-color: var(--paper);
-  /* Arrives on the same sky photo the retreats page uses (wash, then photo). */
-  background-image: var(--vignette-image), linear-gradient(var(--sky-wash), var(--sky-wash)), var(--sky-photo);
-  background-size: auto, auto, cover;
-  background-position: center, center, center 40%;
+  background-color: var(--bg);
+  background-image: var(--vignette-white);
+  color: var(--text);
   pointer-events: none;
   will-change: clip-path, opacity;
 }
 
-/* Same grain as the body, so the hand-off to the real /retreats page is seamless. */
 .destination::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: var(--grain-opacity);
-  mix-blend-mode: multiply;
-  background-image: var(--grain-image);
+  opacity: var(--grain-opacity-white);
+  background-image: var(--grain-white-image);
 }
 
 .destination > * {

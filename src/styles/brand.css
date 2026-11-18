@@ -1,0 +1,134 @@
+/*
+ * Brand Guidelines v2.0 (November 2026) tokens, from BRAND/scintillart-brand-pack/tokens.
+ *
+ * Confined to pages that opt in by rendering an element with [data-brand-root]
+ * (currently /thespark). The rest of the site keeps the provisional palette in tokens.css.
+ * Works without JavaScript (the scope is pure CSS); the theme toggle sets data-theme on <html>.
+ *
+ * Seven colours only. No tints, no gradients. Paint with the semantic tokens.
+ * Antique-brass is decorative (hairlines) and never a text colour.
+ *
+ * Exception (Igor's decision, November 2026): the light background is not gallery-ivory
+ * but the homepage's original, brighter "cinematic white" — the same live background
+ * (components/Atmosphere.tsx, white mode, with its own grain and vignette) runs behind
+ * /thespark in the light theme. --bg is its average tone, for the header and the page edge.
+ */
+html:has([data-brand-root]),
+[data-brand-embedded] {
+  --gallery-ivory: #f5f1e9;
+  --carbon: #24211f;
+  --parchment: #e5ddd0;
+  --aubergine: #4a2638;
+  --warm-grey: #6b625b;
+  --oxide: #9c4f35;
+  --antique-brass: #b59661;
+
+  /* Light theme (default) */
+  --bg: #f9f8f5; /* homepage cinematic white (Atmosphere white field, mid tone) */
+  --bg-alt: var(--parchment);
+  --text: var(--carbon);
+  --text-muted: var(--warm-grey);
+  --accent: var(--aubergine);
+  --on-accent: var(--gallery-ivory);
+  --accent-edge: var(--aubergine);
+  --accent-editorial: var(--oxide);
+  --hairline: var(--antique-brass);
+  --control-border: var(--warm-grey);
+  --focus-ring: var(--aubergine);
+  /* Light: the homepage Atmosphere supplies grain and vignette, so the brand layer is off. */
+  --brand-grain: none;
+  --brand-grain-blend: normal;
+  --brand-grain-opacity: 0;
+  --brand-vignette: none;
+  color-scheme: light;
+
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: Poppins, 'Helvetica Neue', Arial, sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --gutter: clamp(1.25rem, 3.2vw, 3.25rem);
+  --section-pad: clamp(var(--space-16), 9vw, var(--space-24));
+}
+
+/* Dark theme: chosen with the toggle, or the system preference when no choice is stored.
+   Also applies to the page pre-rendered inside the portal, so the hand-off matches. */
+html:has([data-brand-root])[data-theme='dark'],
+html[data-theme='dark'] [data-brand-embedded] {
+  --bg: var(--carbon);
+  --bg-alt: var(--aubergine);
+  --text: var(--gallery-ivory);
+  --text-muted: var(--parchment);
+  --accent-edge: var(--antique-brass);
+  --accent-editorial: var(--parchment);
+  --control-border: var(--parchment);
+  --focus-ring: var(--gallery-ivory);
+  --brand-grain: var(--grain-white-image);
+  --brand-grain-blend: normal;
+  /* Light speckle reads much stronger on carbon than dark speckle on ivory (texture README: reduce on large surfaces). */
+  --brand-grain-opacity: 0.4;
+  --brand-vignette: radial-gradient(130% 120% at 50% 45%, rgb(36 33 31 / 0) 55%, rgb(36 33 31 / 0.075) 100%);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:has([data-brand-root]):not([data-theme='light']),
+  html:not([data-theme='light']) [data-brand-embedded] {
+    --bg: var(--carbon);
+    --bg-alt: var(--aubergine);
+    --text: var(--gallery-ivory);
+    --text-muted: var(--parchment);
+    --accent-edge: var(--antique-brass);
+    --accent-editorial: var(--parchment);
+    --control-border: var(--parchment);
+    --focus-ring: var(--gallery-ivory);
+    --brand-grain: var(--grain-white-image);
+    --brand-grain-blend: normal;
+    --brand-grain-opacity: 0.4;
+    --brand-vignette: radial-gradient(130% 120% at 50% 45%, rgb(36 33 31 / 0) 55%, rgb(36 33 31 / 0.075) 100%);
+    color-scheme: dark;
+  }
+}
+
+/* Page surface: flat colour under the live background (light) or the brand grain (dark). */
+html:has([data-brand-root]) {
+  background: var(--bg);
+}
+
+/* Dark theme: carbon with the brand grain; the homepage's white atmosphere steps aside. */
+html:has([data-brand-root])[data-theme='dark'] [data-atmosphere] {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:has([data-brand-root]):not([data-theme='light']) [data-atmosphere] {
+    display: none;
+  }
+}
+
+html:has([data-brand-root]) body {
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+html:has([data-brand-root]) :focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Headings focused by script after navigation are not controls: no ring. */
+html:has([data-brand-root]) [tabindex='-1']:focus {
+  outline: none;
+}
+
+html:has([data-brand-root]) ::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}

@@ -5,7 +5,7 @@ import { Logotype } from '../components/Logotype'
 import { PracticeList } from '../components/PracticeList'
 import { Takeaways } from '../components/Takeaways'
 import { brand } from '../content/brand'
-import { interestHref, retreat } from '../content/retreat'
+import { interestHref, retreat, type RetreatFact } from '../content/retreat'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import styles from './RetreatPage.module.css'
 
@@ -60,16 +60,20 @@ export default function RetreatPage({ embedded = false }: Props) {
 
         <div className={styles.details}>
           <dl className={styles.facts}>
-            {retreat.facts.map((fact) => (
+            {retreat.facts.map((fact: RetreatFact) => (
               <div key={fact.term} className={styles.fact}>
                 <dt>{fact.term}</dt>
                 <dd>
                   {fact.detail}
-                  {'note' in fact && fact.note ? <span className={styles.note}>{fact.note}</span> : null}
+                  {fact.note ? <span className={styles.note}>{fact.note}</span> : null}
                 </dd>
               </div>
             ))}
           </dl>
+
+          <Link to="/venue" className={styles.venueLink} tabIndex={tab}>
+            See the venue, Quinta Javali
+          </Link>
 
 
           <div className={styles.interest}>

@@ -103,6 +103,22 @@
   font-size: 1.0625rem;
 }
 
+/* Contact address under the main link: quieter, still a 44px target. */
+.contact {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.contact:hover {
+  text-decoration-color: transparent;
+}
+
 .skip {
   position: fixed;
   left: 50%;
