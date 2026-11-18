@@ -373,6 +373,19 @@
   text-decoration: none;
 }
 
+.footerLink {
+  flex-basis: 100%;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.footerLink:hover {
+  color: var(--text);
+}
+
 .slogan {
   margin: 0;
   font-family: var(--font-serif);

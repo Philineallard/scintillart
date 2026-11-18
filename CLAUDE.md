@@ -45,7 +45,10 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 - Fields: name, email, room preference (preselected from the room clicked), travelling alone or with someone, short message, consent checkbox with privacy policy link, hidden honeypot field.
 - Sends to hello@scintillart.com via a Cloudflare Pages Function plus a mail service (e.g. Resend; needs API key and a sender verified on scintillart.com). Build and test locally with sending stubbed; do not enable real sending or deploy without approval.
 - Do not expose the address in page source if avoidable.
-- Privacy policy page: TBA.
+- Privacy policy: `/privacy`, text in `src/content/privacy.ts`, adapted from naturalhealinghearts.com/privacy. Controller: "Scintillart is operated by Philine Allard, a sole trader in Portugal"; contact hello@scintillart.com only. Never show her address or tax number (NIF/VAT) on the site. Inbox provider for hello@scintillart.com: TBA. Update it whenever the site starts collecting anything new (analytics, embeds, another form). Not yet reviewed by a lawyer.
+- Built (November 2026): `src/components/thespark/RegisterPanel.tsx` (native modal `<dialog>`), buttons in `register.tsx` (mailto fallback without JavaScript), shared validation `src/lib/register.ts`, Pages Function `functions/api/register.ts`. Local dev: Vite stub in `vite.config.ts` logs the payload; email `error@example.com` simulates a failure.
+- Sending is OFF: the Function answers 503 until `MAIL_ENABLED=true` with `RESEND_API_KEY` and `MAIL_FROM` set in Cloudflare (see the comment at the top of the Function). Enabling needs Igor's approval.
+- Panel intro, thank-you and error texts are Claude's drafts, marked DRAFT (TBA) in `thespark.ts`, awaiting approval.
 
 ## Confirmed facts (from Igor)
 - Venue: Quinta Javali, near Aljezur, Costa Vicentina, Portugal.

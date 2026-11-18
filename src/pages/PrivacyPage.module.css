@@ -1,0 +1,108 @@
+/* /privacy: a single reading column on the brand v2.0 page shell (TheSparkPage.module.css). */
+
+/* One row only: no chapter navigation here. */
+.header {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.45em;
+}
+
+.back:hover {
+  text-decoration-color: transparent;
+}
+
+.main {
+  display: block;
+  max-width: 46rem;
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+}
+
+@media (min-width: 1100px) {
+  .main {
+    margin-left: calc(var(--gutter) + (100% - 2 * var(--gutter)) / 12 * 3);
+  }
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 1.6rem + 4vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+}
+
+.h1:focus {
+  outline: none;
+}
+
+.updated {
+  margin: var(--space-4) 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.intro {
+  margin: var(--space-8) 0 0;
+  font-size: 18px;
+  line-height: 29px;
+}
+
+.section {
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--hairline);
+}
+
+.h2 {
+  margin: 0 0 var(--space-6);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.875rem);
+  line-height: 1.25;
+}
+
+.p {
+  margin: var(--space-4) 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.h2 + .p {
+  margin-top: 0;
+}
+
+.items {
+  margin: 0;
+}
+
+.item + .item {
+  margin-top: var(--space-6);
+}
+
+.term {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.text {
+  margin: var(--space-1) 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+}

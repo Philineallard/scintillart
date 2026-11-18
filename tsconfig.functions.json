@@ -1,0 +1,21 @@
+{
+  // Type-checks the Cloudflare Pages Functions (functions/) and the shared code they import.
+  // Cloudflare bundles them itself at deploy; nothing here is emitted.
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.functions.tsbuildinfo",
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": []
+  },
+  "include": ["functions", "src/lib", "src/content"]
+}

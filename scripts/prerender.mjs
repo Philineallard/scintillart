@@ -6,7 +6,10 @@ import { readFile, rm, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-const PAGES = [{ file: 'thespark.html', url: '/thespark' }]
+const PAGES = [
+  { file: 'thespark.html', url: '/thespark' },
+  { file: 'privacy.html', url: '/privacy' },
+]
 
 const dist = resolve('dist')
 const ssrDir = resolve('dist-ssr')

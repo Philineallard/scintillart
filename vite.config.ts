@@ -2,7 +2,9 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { privacy } from './src/content/privacy.ts'
 import { faqJsonLd, thespark } from './src/content/thespark.ts'
+import { isHoneypotHit, validateRegistration } from './src/lib/register.ts'
 
 const SITE = 'https://scintillart.com'
 
@@ -40,6 +42,13 @@ const ROUTES: RouteHead[] = [
     description: thespark.meta.description,
     index: true,
     jsonLd: faqJsonLd(),
+  },
+  {
+    file: 'privacy.html',
+    path: privacy.path,
+    title: privacy.meta.title,
+    description: privacy.meta.description,
+    index: true,
   },
   {
     // The fuller venue presentation. Out of search for now: chapter 5 of /thespark
@@ -122,8 +131,55 @@ function staticRouteHtml(routes: RouteHead[]): Plugin {
   }
 }
 
+/**
+ * Local stand-in for the Cloudflare Pages Function functions/api/register.ts, for
+ * `npm run dev` only. Validates with the same shared rules, logs the payload in the
+ * terminal and answers success after a short pause (so the sending state is visible).
+ * Nothing is emailed. To test the error state, register with the email error@example.com.
+ */
+function registerStub(): Plugin {
+  return {
+    name: 'scintillart-register-stub',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/register', (req, res) => {
+        const reply = (status: number, body: unknown) => {
+          res.statusCode = status
+          res.setHeader('content-type', 'application/json; charset=utf-8')
+          res.end(JSON.stringify(body))
+        }
+        if (req.method !== 'POST') return reply(405, { ok: false })
+        let raw = ''
+        req.on('data', (chunk) => (raw += chunk))
+        req.on('end', () => {
+          let body: unknown
+          try {
+            body = JSON.parse(raw)
+          } catch {
+            return reply(400, { ok: false })
+          }
+          setTimeout(() => {
+            if (isHoneypotHit(body)) {
+              server.config.logger.info('[register stub] honeypot filled: treated as spam, not sent')
+              return reply(200, { ok: true })
+            }
+            const result = validateRegistration(body)
+            if (!result.ok) return reply(400, { ok: false, errors: result.errors })
+            if (result.data.email.toLowerCase() === 'error@example.com') {
+              server.config.logger.info('[register stub] simulated failure (error@example.com)')
+              return reply(500, { ok: false })
+            }
+            server.config.logger.info(`[register stub] would email:\n${JSON.stringify(result.data, null, 2)}`)
+            reply(200, { ok: true })
+          }, 900)
+        })
+      })
+    },
+  }
+}
+
 export default defineConfig(({ mode, isSsrBuild }) => ({
-  plugins: [react(), staticRouteHtml(ROUTES)],
+  plugins: [react(), staticRouteHtml(ROUTES), registerStub()],
   build: {
     // The server bundle (prerender step) needs no copy of public/.
     copyPublicDir: !isSsrBuild,

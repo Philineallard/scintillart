@@ -1,4 +1,6 @@
-import type { Block, Fact } from '../../content/thespark'
+import { thespark, type Block, type Fact } from '../../content/thespark'
+import pageStyles from '../../pages/TheSparkPage.module.css'
+import { RegisterButton } from './register'
 import { Value } from './Tba'
 import styles from './ChapterBlocks.module.css'
 
@@ -137,6 +139,37 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
               </ul>
             </div>
           ))}
+        </div>
+      )
+    case 'rooms':
+      return (
+        <div className={styles.block}>
+          <H3>{block.heading}</H3>
+          {/* Step 2 adds photo galleries, amenity tags and "Show more". */}
+          <ul className={styles.rooms}>
+            {block.items.map((room) => (
+              <li key={room.id} className={styles.room}>
+                <h4 className={styles.roomName}>{room.name}</h4>
+                <p className={styles.roomTagline}>{room.tagline}</p>
+                <p className={styles.roomPrice}>
+                  <span className={styles.priceMain}>
+                    {room.price.regular} <span className={styles.priceBasis}>{room.price.basis}</span>
+                  </span>
+                  <span className={styles.priceEarly}>
+                    {thespark.interest.earlyBird} {room.price.earlyBird}
+                  </span>
+                </p>
+                <p className={styles.small}>{room.details}</p>
+                <p className={styles.roomBestFor}>
+                  <span className={styles.by}>{thespark.interest.bestFor}</span> {room.bestFor}
+                </p>
+                <RegisterButton room={room.id} className={pageStyles.button} tabIndex={tabIndex}>
+                  {thespark.interest.label}
+                  <span className="visually-hidden">: {room.name}</span>
+                </RegisterButton>
+              </li>
+            ))}
+          </ul>
         </div>
       )
     case 'faq':

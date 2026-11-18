@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router'
+import { parseRegisterHash, RegisterButton, RegisterContext, registerHash, type OpenRegister } from '../components/thespark/register'
+import { RegisterPanel } from '../components/thespark/RegisterPanel'
 import { BrandGrain } from '../components/thespark/BrandGrain'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
@@ -7,7 +9,7 @@ import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
-import { thespark, type Chapter } from '../content/thespark'
+import { thespark, type Chapter, type RoomId } from '../content/thespark'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { useBrandTheme } from '../hooks/useBrandTheme'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -65,7 +67,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
 export default function TheSparkPage({ embedded = false }: Props) {
   const live = !embedded
   useDocumentTitle(thespark.meta.title, live)
-  useSmoothScroll(live)
+  const lenis = useSmoothScroll(live)
   const { theme, setTheme } = useBrandTheme(live)
   const active = useActiveSection(CHAPTER_IDS, live)
   const tab = embedded ? -1 : undefined
@@ -97,7 +99,61 @@ export default function TheSparkPage({ embedded = false }: Props) {
     target?.scrollIntoView({ block: 'start' })
   }, [live, hash])
 
+  // ---------- "Register your interest" panel ----------
+  const [register, setRegister] = useState<{ open: boolean; room: RoomId | undefined }>({ open: false, room: undefined })
+  const openerRef = useRef<HTMLElement | null>(null)
+
+  // The URL mirrors the panel (#register or #register?room=<id>) without moving the page:
+  // history.replaceState, keeping the router's own state.
+  const setHash = (next: string) => {
+    const { pathname, search } = window.location
+    window.history.replaceState(window.history.state, '', `${pathname}${search}${next}`)
+  }
+
+  const openRegister = useCallback<OpenRegister>((room, opener) => {
+    openerRef.current = opener
+    setRegister({ open: true, room })
+    setHash(registerHash(room))
+  }, [])
+
+  const closeRegister = useCallback(() => {
+    setRegister((r) => ({ ...r, open: false }))
+    setHash('')
+  }, [])
+
+  // Arriving at /thespark#register (or the hash changing to it): open the panel.
+  useEffect(() => {
+    if (!live) return
+    const fromHash = () => {
+      const parsed = parseRegisterHash(window.location.hash)
+      if (parsed) {
+        openerRef.current = null
+        setRegister({ open: true, room: parsed.room })
+      }
+    }
+    fromHash()
+    window.addEventListener('hashchange', fromHash)
+    return () => window.removeEventListener('hashchange', fromHash)
+  }, [live])
+
+  // While open: the page behind doesn't scroll. On close: focus back to the button that opened it.
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (!live) return
+    const root = document.documentElement
+    if (register.open) {
+      lenis.current?.stop()
+      root.style.overflow = 'hidden'
+    } else if (wasOpen.current) {
+      lenis.current?.start()
+      root.style.overflow = ''
+      openerRef.current?.focus({ preventScroll: true })
+    }
+    wasOpen.current = register.open
+  }, [live, register.open, lenis])
+
   return (
+    <RegisterContext.Provider value={live ? openRegister : null}>
     <div className={styles.page} {...(live ? { 'data-brand-root': '' } : {})}>
       {live && <BrandGrain />}
       {live && (
@@ -120,9 +176,9 @@ export default function TheSparkPage({ embedded = false }: Props) {
             darkLabel={ui.dark}
             tabIndex={tab}
           />
-          <a href="#register" className={`${styles.button} ${styles.headerButton}`} tabIndex={tab}>
+          <RegisterButton className={`${styles.button} ${styles.headerButton}`} tabIndex={tab}>
             {thespark.interest.label}
-          </a>
+          </RegisterButton>
         </div>
       </header>
 
@@ -135,9 +191,9 @@ export default function TheSparkPage({ embedded = false }: Props) {
           </h1>
           <p className={styles.heroLead}>{hero.lead}</p>
           <div className={styles.heroActions}>
-            <a href="#register" className={styles.button} tabIndex={tab}>
+            <RegisterButton className={styles.button} tabIndex={tab}>
               {thespark.interest.label}
-            </a>
+            </RegisterButton>
             <a href={hero.explore.href} className={styles.textLink} tabIndex={tab}>
               {hero.explore.label}
             </a>
@@ -149,16 +205,16 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <ChapterSection key={chapter.id} chapter={chapter} index={i} next={thespark.chapters[i + 1]} tabIndex={tab} />
         ))}
 
-        {/* Step 3 replaces this with the "Register your interest" panel (deep link #register). */}
-        <section id="register" className={styles.interest} aria-labelledby="register-title">
+        {/* Closing call to action. (#register is reserved for the panel, so this section is #interest.) */}
+        <section id="interest" className={styles.interest} aria-labelledby="interest-title">
           <p className={styles.kicker}>{thespark.interest.kicker}</p>
-          <h2 id="register-title" className={styles.h2}>
+          <h2 id="interest-title" className={styles.h2}>
             {thespark.interest.title}
           </h2>
           <p className={styles.interestBody}>{thespark.interest.body}</p>
-          <a href="#register" className={styles.button} tabIndex={tab}>
+          <RegisterButton className={styles.button} tabIndex={tab}>
             {thespark.interest.label}
-          </a>
+          </RegisterButton>
         </section>
       </Main>
 
@@ -167,7 +223,13 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <Logotype />
         </Link>
         <p className={styles.slogan}>{brand.line}</p>
+        <Link to="/privacy" className={styles.footerLink} tabIndex={tab}>
+          {thespark.register.fields.privacy}
+        </Link>
       </footer>
+
+      {live && <RegisterPanel open={register.open} room={register.room} onClose={closeRegister} />}
     </div>
+    </RegisterContext.Provider>
   )
 }

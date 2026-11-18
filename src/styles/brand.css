@@ -40,6 +40,11 @@ html:has([data-brand-root]),
   --brand-grain-blend: normal;
   --brand-grain-opacity: 0;
   --brand-vignette: none;
+  /* Register panel: gallery-ivory with the dark-speckle grain (light); carbon (dark). */
+  --panel: var(--gallery-ivory);
+  --panel-grain: var(--grain-image);
+  --panel-grain-blend: multiply;
+  --panel-grain-opacity: 0.5;
   color-scheme: light;
 
   --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -75,6 +80,10 @@ html[data-theme='dark'] [data-brand-embedded] {
   /* Light speckle reads much stronger on carbon than dark speckle on ivory (texture README: reduce on large surfaces). */
   --brand-grain-opacity: 0.4;
   --brand-vignette: radial-gradient(130% 120% at 50% 45%, rgb(36 33 31 / 0) 55%, rgb(36 33 31 / 0.075) 100%);
+  --panel: var(--carbon);
+  --panel-grain: var(--grain-white-image);
+  --panel-grain-blend: normal;
+  --panel-grain-opacity: 0.35;
   color-scheme: dark;
 }
 
@@ -93,6 +102,10 @@ html[data-theme='dark'] [data-brand-embedded] {
     --brand-grain-blend: normal;
     --brand-grain-opacity: 0.4;
     --brand-vignette: radial-gradient(130% 120% at 50% 45%, rgb(36 33 31 / 0) 55%, rgb(36 33 31 / 0.075) 100%);
+    --panel: var(--carbon);
+    --panel-grain: var(--grain-white-image);
+    --panel-grain-blend: normal;
+    --panel-grain-opacity: 0.35;
     color-scheme: dark;
   }
 }

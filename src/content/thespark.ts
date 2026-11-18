@@ -28,6 +28,57 @@ export type Fact = {
   note?: string
 }
 
+export type RoomId = 'shared' | 'private' | 'deluxe' | 'deluxe-two'
+export type Room = {
+  /** Stable id: used in /thespark#register?room=<id> and sent with the form. */
+  id: RoomId
+  name: string
+  tagline: string
+  bestFor: string
+  details: string
+  /** Euro prices exactly as on the listing: regular, then early bird. */
+  price: { regular: string; earlyBird: string; basis: string }
+}
+
+/** The four room types and prices (CLAUDE.md, confirmed by Igor). Order = order on the page. */
+export const rooms: Room[] = [
+  {
+    id: 'shared',
+    name: 'Shared room',
+    tagline: 'A welcoming space to share.',
+    bestFor: 'Guests who enjoy connection and shared experience',
+    details:
+      'Twin room with two single beds (90 × 190 cm), private en-suite bathroom, air conditioning, Wi-Fi and terrace access, with countryside and mountain surroundings.',
+    price: { regular: '€2,800', earlyBird: '€2,600', basis: 'per person' },
+  },
+  {
+    id: 'private',
+    name: 'Private room',
+    tagline: 'Your own space to unwind.',
+    bestFor: 'Solo guests seeking privacy',
+    details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
+    price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
+  },
+  {
+    id: 'deluxe',
+    name: 'Private deluxe en-suite room',
+    tagline: 'A little more comfort and privacy.',
+    bestFor: 'Guests seeking additional comfort',
+    details:
+      'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room.',
+    price: { regular: '€3,500', earlyBird: '€3,300', basis: 'per person' },
+  },
+  {
+    id: 'deluxe-two',
+    name: 'Private deluxe en-suite room for couples / friends',
+    tagline: 'Share the experience, enjoy the comfort.',
+    bestFor: 'Couples, friends or travel companions',
+    details:
+      'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms.',
+    price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
+  },
+]
+
 export type Workshop = { practice: string; title?: string; by: string; text: string }
 export type Person = { name: string; role?: string; text: string }
 export type Faq = { q: string; a: string }
@@ -43,6 +94,7 @@ export type Block =
   | { type: 'facts'; heading?: string; facts: Fact[] }
   | { type: 'included'; included: { heading: string; items: string[] }; excluded: { heading: string; items: string[] } }
   | { type: 'faq'; items: Faq[] }
+  | { type: 'rooms'; heading: string; items: Room[] }
 
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
 
@@ -426,7 +478,8 @@ export const thespark = {
             'Choose a shared room if you enjoy the communal rhythm of retreat life, or a private room if you value solitude and quiet.',
           ],
         },
-        // Room cards with prices: step 2.
+        // Step 2 adds photo galleries, amenity tags and "Show more" to these cards.
+        { type: 'rooms', heading: 'Rooms designed for rest', items: rooms },
         {
           type: 'included',
           included: {
@@ -474,6 +527,65 @@ export const thespark = {
     kicker: 'Register your interest',
     title: 'One week. One spark. A new way of seeing.',
     body: 'Join a small group for an artist-led creative retreat in Portugal’s wild south-west. Still have a question? Write it in the message field when you register.',
+    /** Room cards: price line labels. */
+    earlyBird: 'Early bird',
+    bestFor: 'Best for',
+  },
+
+  /**
+   * The "Register your interest" panel. Lines marked DRAFT were written by Claude and
+   * await Igor's approval (TBA): replace or confirm, then remove the marker.
+   */
+  register: {
+    title: 'Register your interest',
+    /** DRAFT (TBA: awaiting approval). */
+    intro:
+      'Leave your details and we will contact you about dates, rooms and booking for The Spark. Registering does not commit you to anything.',
+    fields: {
+      name: 'Name',
+      email: 'Email',
+      room: 'Room preference',
+      roomNotSure: 'Not sure yet',
+      travelling: 'Travelling',
+      alone: 'Alone',
+      together: 'With a partner or friend',
+      message: 'Message',
+      optional: 'optional',
+      messageHint: 'Questions are welcome.',
+      consent: 'I agree to Scintillart contacting me about The Spark.',
+      privacy: 'Privacy policy',
+      /** Opens in a new tab, so nothing typed in the form is lost. */
+      privacyHref: '/privacy',
+      privacyNewTab: '(opens in a new tab)',
+      honeypot: 'Leave this field empty',
+    },
+    submit: 'Register your interest',
+    sending: 'Sending…',
+    close: 'Close',
+    errors: {
+      name: 'Please enter your name.',
+      email: 'Please enter your email address.',
+      emailFormat: 'Please check your email address. It should look like name@example.com.',
+      room: 'Please choose a room from the list.',
+      travelling: 'Please choose one of the options.',
+      consent: 'Please tick the box so we can contact you about The Spark.',
+      tooLong: 'This is a little long. Please shorten it.',
+      summaryOne: 'Please check the field marked below.',
+      summaryMany: 'Please check the {count} fields marked below.',
+    },
+    /** DRAFT (TBA: awaiting approval). */
+    success: {
+      title: 'Thank you',
+      body: 'We have received your details and will be in touch about The Spark.',
+    },
+    /** DRAFT (TBA: awaiting approval). */
+    failure: {
+      title: 'Your details could not be sent',
+      body: 'Please try again in a moment, or email us directly:',
+    },
+    /** Without JavaScript, and when sending fails: a plain email instead. */
+    fallbackEmail: 'hello@scintillart.com',
+    mailSubject: 'The Spark: registering my interest',
   },
 
   ui: {
@@ -485,6 +597,14 @@ export const thespark = {
     home: 'Scintillart, home',
     next: 'Next',
   },
+}
+
+/** mailto: fallback for "Register your interest" (no JavaScript, or sending failed). */
+export function registerMailto(roomId?: RoomId): string {
+  const { fallbackEmail, mailSubject } = thespark.register
+  const room = rooms.find((r) => r.id === roomId)
+  const subject = room ? `${mailSubject} (${room.name})` : mailSubject
+  return `mailto:${fallbackEmail}?subject=${encodeURIComponent(subject)}`
 }
 
 /** FAQ structured data (schema.org FAQPage), written into the page <head> at build. */
