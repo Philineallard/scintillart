@@ -460,7 +460,7 @@ export const thespark = {
       id: 'workshops',
       nav: 'Workshops & facilitators',
       // Philine, November 2026 (line breaks are kept on the page).
-      title: 'Be guided by artists.\nYou make the art.\nBring it home.',
+      title: 'Be guided by artists.\nYou make the art.\nMake it & bring it home.',
       lead: 'A different artist, practice and creative energy each day.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
       panel: {
