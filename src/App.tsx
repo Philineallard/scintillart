@@ -7,6 +7,7 @@ import ArtistsPage from './pages/ArtistsPage'
 import EntryPage from './pages/EntryPage'
 import NotFound from './pages/NotFound'
 import PrivacyPage from './pages/PrivacyPage'
+import { terms } from './content/terms'
 import TheSparkPage from './pages/TheSparkPage'
 import VenuePage from './pages/VenuePage'
 
@@ -14,7 +15,7 @@ import VenuePage from './pages/VenuePage'
  * Pages on Brand Guidelines v2.0: no custom cursor. In the light theme they share the
  * homepage's cinematic white background; in the dark theme brand.css hides it.
  */
-const BRAND_V2 = ['/thespark', '/thespark-artists', '/privacy']
+const BRAND_V2 = ['/thespark', '/thespark-artists', '/privacy', '/booking-terms']
 
 /**
  * After an in-app navigation: start at the top of the new page and move focus to
@@ -64,6 +65,7 @@ export default function App() {
         {/* The fuller venue presentation; kept out of search until it carries content of its own. */}
         <Route path="/thespark-venue" element={<VenuePage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/booking-terms" element={<PrivacyPage doc={terms} />} />
         <Route path="/arrival-in-lisbon" element={<ArrivalPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -45,7 +45,7 @@ export const privacy = {
       id: 'collect',
       heading: 'What we collect',
       paragraphs: [
-        'When you register your interest in a retreat: your name and email address, and anything else you choose to tell us, such as a room preference or a message.',
+        'When you register your interest in a retreat: your name, email address and phone number, and anything else you choose to tell us, such as a room preference or a message.',
         'When you email us: your message and email address.',
         'When you visit the site: basic technical data, such as your IP address, which our hosting provider needs to show you the site and keep it secure.',
       ],
@@ -54,14 +54,14 @@ export const privacy = {
       id: 'use',
       heading: 'How we use it',
       paragraphs: [
-        'To answer you, to keep you informed about the retreat you asked about, and to keep the site running safely. We do not sell your data, use it for advertising or share it with other businesses for their own use.',
+        'To answer you, to keep you informed about the retreat you asked about, to send you news about Scintillart if you asked for it, and to keep the site running safely. We do not sell your data, use it for advertising or share it with other businesses for their own use.',
       ],
     },
     {
       id: 'consent',
       heading: 'Your consent',
       paragraphs: [
-        'By ticking the box on the registration form, you agree that we may contact you about that retreat. You can change your mind at any time by emailing hello@scintillart.com, and we will stop.',
+        'By ticking the box on the registration form, you agree that we may contact you about that retreat, by email or phone. If you also tick the box for further information, we will occasionally send you news about Scintillart. Both are your choice: you can change your mind at any time by emailing hello@scintillart.com, and we will stop.',
       ],
     },
     {

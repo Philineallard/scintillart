@@ -1,9 +1,13 @@
 import { Link } from 'react-router'
-import { artistsPage, workshopArtists } from '../../content/artists'
+import { artists, artistsPage, workshopArtists } from '../../content/artists'
+import { ArtistHover } from './ArtistHover'
 import { thespark, type Block, type Fact } from '../../content/thespark'
 import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
 import { Value } from './Tba'
+import { Gallery } from './Gallery'
+import { terms } from '../../content/terms'
+import { Spread } from './Spread'
 import styles from './ChapterBlocks.module.css'
 
 function H3({ children }: { children: string }) {
@@ -36,9 +40,11 @@ function WorkshopBy({ workshopId, fallback, tabIndex }: { workshopId: string; fa
       {people.map((a, i) => (
         <span key={a.id}>
           {i > 0 && ' and '}
-          <Link to={`${artistsPage.path}#${a.id}`} className={styles.artistLink} tabIndex={tabIndex}>
-            {a.name}
-          </Link>
+          <ArtistHover artist={a}>
+            <Link to={`${artistsPage.path}#${a.id}`} className={styles.artistLink} tabIndex={tabIndex}>
+              {a.name}
+            </Link>
+          </ArtistHover>
         </span>
       ))}
     </p>
@@ -120,7 +126,9 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           <ul className={styles.people}>
             {block.items.map((person) => (
               <li key={person.name} className={styles.person}>
-                <p className={styles.personName}>{person.name}</p>
+                <p className={styles.personName}>
+                  <ArtistHover artist={artists.find((a) => a.name === person.name)}>{person.name}</ArtistHover>
+                </p>
                 {person.role && <p className={styles.by}>{person.role}</p>}
                 <p className={styles.small}>{person.text}</p>
               </li>
@@ -171,12 +179,15 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
       return (
         <div className={styles.block}>
           <H3>{block.heading}</H3>
-          {/* Step 2 adds photo galleries, amenity tags and "Show more". */}
+          {/* Still to add: amenity tags and "Show more". */}
           <ul className={styles.rooms}>
             {block.items.map((room) => (
               <li key={room.id} className={styles.room}>
                 <h4 className={styles.roomName}>{room.name}</h4>
                 <p className={styles.roomTagline}>{room.tagline}</p>
+                {room.photos && (
+                  <Gallery label={`${room.name}: photos`} items={room.photos} folder="rooms" perView={1} tabIndex={tabIndex} />
+                )}
                 <p className={styles.roomPrice}>
                   <span className={styles.priceMain}>
                     {room.price.regular} <span className={styles.priceBasis}>{room.price.basis}</span>
@@ -198,6 +209,33 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           </ul>
         </div>
       )
+    case 'terms':
+      return (
+        <aside className={styles.termsBox} aria-labelledby="terms-box-title">
+          <h3 id="terms-box-title" className={styles.termsTitle}>
+            {terms.summary.heading}
+          </h3>
+          <dl className={styles.termsList}>
+            {terms.summary.items.map((it) => (
+              <div key={it.term} className={styles.termsRow}>
+                <dt className={styles.term}>{it.term}</dt>
+                <dd className={styles.termsText}>{it.text}</dd>
+              </div>
+            ))}
+          </dl>
+          <Link to={terms.path} className={styles.termsLink} tabIndex={tabIndex}>
+            {terms.summary.link}
+          </Link>
+        </aside>
+      )
+    case 'figures':
+      return (
+        <div className={styles.figures}>
+          <Spread figures={block.items} />
+        </div>
+      )
+    case 'gallery':
+      return <Gallery label={block.label} items={block.items} folder={block.folder} drift={block.drift} zoom={block.zoom} tabIndex={tabIndex} />
     case 'faq':
       return (
         <div className={styles.block}>

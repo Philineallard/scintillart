@@ -1,0 +1,42 @@
+/*
+ * Chapter spread: three frames of the same size, 4:5, side by side with a narrow even
+ * gap. No rules, captions or framing: flat, square corners, and the photos cover the
+ * page grain (grain stays on background surfaces only).
+ */
+.spread {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3, 12px);
+}
+
+.figure {
+  margin: 0;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+
+.media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+video.media {
+  cursor: pointer;
+}
+
+video.media:focus-visible {
+  outline: 1px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Phones: one frame under the other. */
+@media (max-width: 720px) {
+  .spread {
+    grid-template-columns: 1fr;
+  }
+}

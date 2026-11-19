@@ -38,7 +38,25 @@ export type Room = {
   details: string
   /** Euro prices exactly as on the listing: regular, then early bird. */
   price: { regular: string; earlyBird: string; basis: string }
+  /** Photos in public/thespark/rooms/ (<name>.webp 900w, <name>-sm.webp 540w, 4:5), shown as a gallery in the card. */
+  photos?: { name: string; alt: string }[]
 }
+
+// Room photos chosen by Philine, November 2026 (Quinta Javali). Both deluxe rooms share the en-suite set;
+// the couples room starts on the 6th photo (Philine's choice of thumbnail).
+const ensuitePhotos = [
+  { name: 'ensuite-01', alt: 'An en-suite bedroom with a freestanding bath beyond the bed' },
+  { name: 'ensuite-02', alt: 'A freestanding bath and basin beside a green wooden door' },
+  { name: 'ensuite-03', alt: 'The bath and a wall niche in an en-suite room' },
+  { name: 'ensuite-04', alt: 'A double bed with linen bedding under a large artwork' },
+  { name: 'ensuite-05', alt: 'A double bed beside a bedside lamp and a green-tiled wall' },
+  { name: 'ensuite-06', alt: 'A freestanding bath under a framed drawing' },
+  { name: 'ensuite-07', alt: 'A double bed under a wooden ceiling fan' },
+  { name: 'ensuite-08', alt: 'A bedroom with a double bed, a wooden wardrobe and a ceiling fan' },
+  { name: 'ensuite-09', alt: 'A bright en-suite bedroom with a bath and doors to the garden' },
+  { name: 'ensuite-10', alt: 'A double bed with white linen under a colourful painting' },
+]
+const ensuitePhotosCouples = [...ensuitePhotos.slice(5), ...ensuitePhotos.slice(0, 5)]
 
 /** The four room types and prices (CLAUDE.md, confirmed by Igor). Order = order on the page. */
 export const rooms: Room[] = [
@@ -50,6 +68,13 @@ export const rooms: Room[] = [
     details:
       'Twin room with two single beds (90 × 190 cm), private en-suite bathroom, air conditioning, Wi-Fi and terrace access, with countryside and mountain surroundings.',
     price: { regular: '€2,800', earlyBird: '€2,600', basis: 'per person' },
+    photos: [
+      { name: 'shared-05', alt: 'Two beds in the shared room, with the bathroom door open beyond' },
+      { name: 'shared-01', alt: 'A round mirror above a stone basin in the shared room’s bathroom' },
+      { name: 'shared-02', alt: 'The shared room’s bathroom with a walk-in shower and a small window' },
+      { name: 'shared-03', alt: 'The shared room with a bed, a sofa and wooden shutters' },
+      { name: 'shared-04', alt: 'The shared room under a sloping white ceiling' },
+    ],
   },
   {
     id: 'private',
@@ -58,6 +83,12 @@ export const rooms: Room[] = [
     bestFor: 'Solo guests seeking privacy',
     details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
     price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
+    photos: [
+      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
+      { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
+      { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
+      { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
+    ],
   },
   {
     id: 'deluxe',
@@ -67,6 +98,7 @@ export const rooms: Room[] = [
     details:
       'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room.',
     price: { regular: '€3,500', earlyBird: '€3,300', basis: 'per person' },
+    photos: ensuitePhotos,
   },
   {
     id: 'deluxe-two',
@@ -76,6 +108,7 @@ export const rooms: Room[] = [
     details:
       'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms.',
     price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
+    photos: ensuitePhotosCouples,
   },
 ]
 
@@ -172,8 +205,43 @@ export type Block =
   | { type: 'included'; included: { heading: string; items: string[] }; excluded: { heading: string; items: string[] } }
   | { type: 'faq'; items: Faq[] }
   | { type: 'rooms'; heading: string; items: Room[] }
+  /** The short deposit and cancellation box, from src/content/terms.ts. */
+  | { type: 'terms' }
+  /** Three photos or silent videos side by side, the same size (see Figure). */
+  | { type: 'figures'; items: Figure[] }
+  /**
+   * A row of photos, three in view, that slides left and right (public/thespark/venue/:
+   * <name>.webp 900w and <name>-sm.webp 540w, 4:5). label names it for screen readers.
+   */
+  | { type: 'gallery'; label: string; folder: string; drift?: boolean; zoom?: boolean; items: { name: string; alt: string }[] }
 
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
+
+/**
+ * A photo or a silent video in a chapter's spread (files in public/thespark/), all shown
+ * at the same size, 4:5. Photos: <name>.webp (900w) and <name>-sm.webp (540w).
+ * Videos: <name>.mp4 and <name>-poster.webp, 600×750, no sound; they play while the
+ * cursor is on them (tap on phones).
+ */
+export type Figure = { kind: 'image' | 'video'; name: string; alt: string }
+
+/**
+ * A chapter photo in public/thespark/: <name>.webp (full size, `width` wide),
+ * <name>-md.webp (1100w), <name>-sm.webp (720w). focus: the point kept in view when cropped.
+ */
+export type ChapterPhoto = {
+  name: string
+  alt: string
+  width: number
+  height: number
+  focus: string
+  /**
+   * Wide screens only: zoom the photo from its left edge by this factor (e.g. 1.4), which
+   * moves its subject towards the right of a full-width band. For tall photos, whose
+   * subject can't otherwise move sideways in a wide band.
+   */
+  pushRight?: number
+}
 
 export type Chapter = {
   /** Anchor: /thespark#<id>. Keep stable, links depend on it. */
@@ -184,9 +252,33 @@ export type Chapter = {
   title: string
   /** Standfirst under the heading. */
   lead?: Maybe<string>
+  /** Three figures side by side under the heading, laid out like a newspaper page. */
+  spread?: Figure[]
+  /**
+   * A full-width photo band at the top of the chapter, with the heading on it. It scrolls
+   * away normally.
+   */
+  band?: ChapterPhoto & { plain?: boolean }
+  /** Show the heading on its own, plain, at the very top of the chapter (above the spread). */
+  headingAbove?: boolean
+  /**
+   * Repeat the heading, pinned on the side, beside later runs of text: true = beside every
+   * one; 'afterRows' = only beside text that follows a full-width row (gallery, rooms).
+   */
+  repeatHeading?: boolean | 'afterRows'
+  /** Text with no heading beside it sits in the left column instead of the right (wide screens). */
+  textLeft?: boolean
+  /**
+   * A photo panel beside the text, with the heading on it, pinned while the text scrolls
+   * (wide screens; a band above the text on phones). side: which half it takes.
+   * fromBlock: the block it starts beside (default 0); blocks before it use the usual layout.
+   */
+  panel?: ChapterPhoto & { side?: 'left' | 'right'; fromBlock?: number; textAt?: 'top' | 'bottom' }
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
+  /** Words after the closing line that open the Register your interest form. */
+  closingRegister?: string
 }
 
 const faq: Faq[] = [
@@ -249,7 +341,19 @@ export const thespark = {
     lead: 'Seven days to step away from routine, reconnect with your creativity and discover what wants to emerge.',
     /** In-page link to chapter 2 (navigation, not a second call to action). */
     explore: { label: 'Explore the experience', href: '#experience' },
-    note: 'No artistic experience needed. Just curiosity, openness and a willingness to begin.',
+    note: 'No artistic experience needed. Just curiosity, openness and a willingness to explore.',
+    /**
+     * Full-bleed photo behind the hero (Philine, November 2026: "star", sun through a fig tree).
+     * Files in public/thespark/: <name>-sm (720w), <name>-md (1100w), <name> (full size).
+     * focus: the point kept in view when the photo is cropped (the sun's spark).
+     */
+    image: {
+      name: 'hero-star',
+      width: 1367,
+      height: 2048,
+      focus: '61% 36%',
+      alt: 'Low sun shining through the branches of a fig tree over hills at dusk',
+    },
   },
 
   chapters: [
@@ -257,6 +361,35 @@ export const thespark = {
       id: 'overview',
       nav: 'Overview',
       title: 'More than a holiday. A return to your creative self.',
+      // Chosen by Philine, November 2026: the heading plain above the videos, then the pool and
+      // houses (drone photo) pinned on the left beside "Something shifts…".
+      headingAbove: true,
+      panel: {
+        side: 'left',
+        name: 'overview-pool',
+        alt: 'The natural swimming pool and wooden deck at Quinta Javali, with terraced gardens and the houses behind',
+        width: 2400,
+        height: 1350,
+        focus: '42% 50%',
+      },
+      // Chosen by Philine, November 2026: three silent videos of the same size, no lines, no captions.
+      spread: [
+        {
+          kind: 'video',
+          name: 'mural-wall',
+          alt: 'Artists painting a large mural on a white wall while others watch',
+        },
+        {
+          kind: 'video',
+          name: 'photoshoot',
+          alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
+        },
+        {
+          kind: 'video',
+          name: 'quinta-javali-walk',
+          alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
+        },
+      ],
       blocks: [
         {
           type: 'text',
@@ -271,20 +404,17 @@ export const thespark = {
           type: 'facts',
           heading: 'Key facts',
           facts: [
-            { term: 'Dates', detail: '1–7 February 2027', note: 'To be confirmed' },
+            { term: 'Dates', detail: 'Monday 1 to Sunday 7 February 2027' },
             { term: 'Duration', detail: '7 days, 6 nights, Monday afternoon to Sunday morning' },
             { term: 'Location', detail: 'Quinta Javali, near Aljezur, Costa Vicentina, Portugal' },
             { term: 'Group size', detail: '6–14 guests' },
-            { term: 'Hosts', detail: 'Philine Allard and Igor Świeczak' },
-            { term: 'Experience', detail: 'No artistic experience required' },
             { term: 'Includes', detail: 'Workshops, wellbeing practices, accommodation, meals, materials and the final exhibition' },
-            { term: 'Final evening', detail: 'An open-house exhibition created by the group' },
-            { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early-bird deadline: TBA' },
+            { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early bird until 6 December 2026' },
           ],
         },
         {
           type: 'list',
-          heading: 'A week designed to awaken curiosity',
+          heading: 'A week designed to awaken your creativity',
           items: [
             'Begin each day with breathwork, meditation and Qi Gong',
             'Explore a different creative practice with a new artist each day',
@@ -296,10 +426,13 @@ export const thespark = {
         },
         {
           type: 'text',
-          heading: 'For anyone ready to make space for creativity',
+          heading: 'Who is The Spark for?',
           paragraphs: [
             'The Spark is for thoughtful, open-minded people who may be capable and successful in many areas of life, yet feel that something essential has gone quiet: curiosity, play, self-expression or connection.',
             'You may be a business owner, a creative professional, a parent, or simply someone in a period of change. You do not need to identify as an artist. You only need to arrive curious, try something new and see what happens.',
+            'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
+            'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
+            'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
           ],
         },
         {
@@ -307,7 +440,7 @@ export const thespark = {
           heading: 'You arrive with curiosity. You leave with something made by you.',
           paragraphs: [
             'By the end of the week you will have made work with your own hands, tried new ways of seeing, and allowed yourself to make without needing to be perfect.',
-            'You leave with your artwork, new connections and fresh inspiration to take home.',
+            'You leave with your artwork, new connections, new insights about yourself and fresh inspiration to take home.',
           ],
         },
       ],
@@ -318,60 +451,51 @@ export const thespark = {
       nav: 'The experience',
       title: 'An immersive week of making, being and belonging',
       lead: 'Creative exploration, wellbeing, nature and human connection, held in a considered rhythm.',
+      // Chosen by Philine, November 2026: paints lined up along a sunlit wall (photo: Igor Świeczak).
+      panel: {
+        side: 'right',
+        name: 'experience-paints',
+        alt: 'Tubes and bottles of paint lined up along a sunlit white wall under the leaves of a fig tree',
+        width: 2048,
+        height: 1367,
+        focus: '55% 62%',
+        textAt: 'top',
+      },
       blocks: [
+        // Philine's text, November 2026.
         {
           type: 'text',
           heading: 'Step into the unknown. Discover what you can create.',
           paragraphs: [
-            'The Spark is not a course with a fixed outcome. It is an invitation to experiment, play and listen to what wants to come through you.',
-            'Each day brings a new artist, a new material and a new way of seeing. Some sessions ask you to be still and observant. Others invite movement, expression and a little healthy discomfort. Between them there is time to rest, walk, swim, reflect and let the experience settle.',
-          ],
-        },
-        {
-          type: 'pillars',
-          heading: 'Creativity. Nature. Connection.',
-          items: [
-            {
-              title: 'Creativity',
-              text: 'Artist-led workshops invite you to explore photography, drawing, ceramics, natural materials, performance and self-expression.',
-            },
-            {
-              title: 'Nature',
-              text: 'The landscape becomes part of the practice: light, texture, silence, wind, ocean air and space to wander.',
-            },
-            {
-              title: 'Connection',
-              text: 'Shared meals, conversations, creative experiments and a final exhibition turn a group of strangers into a temporary creative community.',
-            },
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'Not a result. A relationship with creativity.',
-          paragraphs: [
-            'You may discover that you enjoy making things with your hands. You may find a new way of looking through a camera. You may feel more comfortable being seen, expressing emotion or taking up space.',
-            'You may simply remember what it feels like to play.',
-            'There is no right way to take part. You are invited to engage fully, but never pressured. Solitude, rest and quiet integration are as much a part of the retreat as the workshops.',
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'Your week, made visible',
-          paragraphs: [
-            'On the final evening, the retreat becomes an exhibition.',
-            'You will create, prepare and share the work that emerged during the week, whether it is a photograph, a sculpture, a drawing, a performance or something less easy to name.',
-            'It is not about producing a masterpiece. It is about honouring what you discovered, expressed and allowed yourself to make.',
+            'A week-long retreat in a shared two-house villa in the Algarve, with 6–11 strangers.',
+            'We arrive as strangers and gather around the table from the very first night. Through shared meals, conversations, life stories, creative projects, dreams, and the unexpected topics that arise, we begin to see one another more deeply.',
+            'Each morning, we dive into powerful mind–body–soul practices. During the day, creative practices invite us to explore, experiment, and express ourselves, with delicious breaks in between to rest, connect, and let inspiration settle.',
+            'Slowly, step by step, strangers become friends. The creative energy opens a different way of being: one of creation, play, and free expression. We loosen the grip of limitations and move into lightness, joy, and moments of genuine connection.',
+            'By the end of the week, we become a team of artists, working toward a shared purpose: the final exhibition. We open our doors to the local community and celebrate what we have created, together.',
           ],
         },
       ],
-      closing: 'Give yourself permission to begin.',
+      closing: 'Experience something different.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
       id: 'workshops',
       nav: 'Workshops & facilitators',
-      title: 'Learn from artists. Create with your hands.',
+      // Philine, November 2026 (line breaks are kept on the page).
+      title: 'Be guided by artists.\nYou make the art.\nMake it & bring\u00a0it\u00a0home.',
       lead: 'A different artist, practice and creative energy each day.',
+      // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
+      // A full-width band (Philine, November 2026); the heading also sits beside the text below.
+      repeatHeading: true,
+      band: {
+        name: 'workshops-shells',
+        alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
+        width: 1367,
+        height: 2048,
+        focus: '45% 30%',
+        pushRight: 1.45,
+      },
       blocks: [
         {
           type: 'text',
@@ -387,28 +511,9 @@ export const thespark = {
           items: workshops,
           more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
-        {
-          type: 'people',
-          heading: 'The people holding the space',
-          items: [
-            {
-              name: 'Philine Allard',
-              role: 'Founder, host and facilitator',
-              text: 'Philine is a certified Mind-Body-Soul Mentor and Reiki Master. At The Spark she hosts the retreat, leads the morning practices and guides the inner Qi Gong journey. Her work invites people into presence, creativity and a deeper connection with themselves.',
-            },
-            {
-              name: 'Igor Świeczak',
-              role: 'Photographer, creative director and co-founder of Scintillart',
-              text: 'Igor leads In search of beauty, helping people feel confident and real in front of the camera while seeing themselves and their surroundings through a more beautiful lens.',
-            },
-            {
-              name: 'Guest artists',
-              text: 'Each edition brings together artists and practitioners chosen for it. Their workshops are invitations to explore, play and discover, not to achieve a particular result.',
-            },
-          ],
-        },
       ],
-      closing: 'Come curious. Leave with something made by you.',
+      closing: 'Become a creator.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
@@ -416,6 +521,15 @@ export const thespark = {
       nav: 'A day at The Spark',
       title: 'A rhythm that balances inspiration and rest',
       lead: 'Enough structure to feel held. Enough freedom to explore, integrate and simply be.',
+      // Chosen by Philine, November 2026: Igor Świeczak's exhibition, set up for an evening.
+      panel: {
+        side: 'right',
+        name: 'day-exhibition',
+        alt: 'An evening exhibition of photographs on a wall and a red curtain, with a table of prints and studio lights',
+        width: 1367,
+        height: 2048,
+        focus: '50% 50%',
+      },
       blocks: [
         {
           type: 'text',
@@ -452,8 +566,18 @@ export const thespark = {
           heading: 'The final evening',
           paragraphs: ['On the last evening the week becomes an open-house exhibition of the work that emerged during the retreat.'],
         },
+        // Chosen by Philine, November 2026: exhibitions from a previous edition.
+        {
+          type: 'figures',
+          items: [
+            { kind: 'image', name: 'final-exhibition-igor', alt: 'Photographs pinned to a red curtain under string lights, with prints and a photo book on a table' },
+            { kind: 'image', name: 'final-drawings', alt: 'Small framed ink drawings in a row above a charcoal figure drawing' },
+            { kind: 'image', name: 'final-house', alt: 'A house set up as an exhibition, with artworks on the walls and paper lanterns overhead' },
+          ],
+        },
       ],
-      closing: 'Come for the workshops. Stay for what unfolds.',
+      closing: 'Step out of routine.',
+      closingRegister: 'Ignite your creative spark.',
     },
 
     {
@@ -461,6 +585,24 @@ export const thespark = {
       nav: 'Venue & location',
       title: 'A private estate in the hills of Aljezur',
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
+      // Chosen by Philine, November 2026: the main house (levelled). A full-width band first;
+      // after the gallery the same photo becomes the pinned panel beside the text.
+      band: {
+        name: 'venue-house',
+        alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
+        width: 1600,
+        height: 2149,
+        focus: '50% 40%',
+      },
+      panel: {
+        side: 'left',
+        fromBlock: 2,
+        name: 'venue-house',
+        alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
+        width: 1600,
+        height: 2149,
+        focus: '50% 40%',
+      },
       blocks: [
         {
           type: 'text',
@@ -468,6 +610,24 @@ export const thespark = {
           paragraphs: [
             'The Spark takes place at Quinta Javali, a private estate near Aljezur on the Costa Vicentina. Set among rolling hills, gardens, cork oaks and walking trails, it offers privacy, comfort and a rare sense of space.',
             'With two houses, open-air spaces, a natural swimming pool and gardens, it suits groups who want to slow down and reconnect with something quieter.',
+          ],
+        },
+        // Chosen by Philine, November 2026: the estate, the houses and the kitchen.
+        {
+          type: 'gallery',
+          label: 'Photos of Quinta Javali',
+          folder: 'venue',
+          drift: true,
+          items: [
+            { name: 'pool-deck', alt: 'The natural swimming pool and wooden deck, with the houses and terraced gardens behind' },
+            { name: 'garden-doors', alt: 'Through glass doors, an outdoor dining table under a large tree and wooded hills' },
+            { name: 'kitchen-island', alt: 'A kitchen island under woven pendant lights, with glass doors open to the hills' },
+            { name: 'kitchen-shelves', alt: 'Wooden shelves with glasses and bowls above a plastered kitchen counter' },
+            { name: 'stairs-painting', alt: 'A white staircase beside a large painted portrait and a wooden dining table' },
+            { name: 'terrace-chairs', alt: 'Two woven armchairs on a shaded terrace looking out over green hills' },
+            { name: 'kitchen', alt: 'A long kitchen with plastered counters, open shelves and woven lamps' },
+            { name: 'living-room', alt: 'A bright living room with white sofas, a wood stove and a beamed ceiling' },
+            { name: 'pool-view', alt: 'The pool among wild planting, with the houses and a tall tree under a blue sky' },
           ],
         },
         {
@@ -488,7 +648,8 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'A place designed for presence.',
+      closing: 'Designed for presence, creativity, and connection.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
@@ -496,6 +657,18 @@ export const thespark = {
       nav: 'Food & wellbeing',
       title: 'Nourishment for body, mind and imagination',
       lead: 'Food, rest and wellbeing practices that support a week of creative exploration.',
+      // Chosen by Philine, November 2026: the title alone at the top; from "Meals that bring
+      // people together" the group at dinner around the candlelit table
+      // is pinned beside the text.
+      panel: {
+        side: 'left',
+        fromBlock: 2,
+        name: 'food-gathering',
+        alt: 'Guests around a candlelit dinner table with a painted tablecloth, in a warm living room',
+        width: 1320,
+        height: 1069,
+        focus: '45% 35%',
+      },
       blocks: [
         {
           type: 'text',
@@ -503,6 +676,20 @@ export const thespark = {
           paragraphs: [
             'At Scintillart, food is not an afterthought. It is part of the rhythm of the week: colourful, seasonal, homemade and made with care.',
             'Our chef prepares fresh vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included, with an emphasis on fresh ingredients, shared meals and time around the table.',
+          ],
+        },
+        // Chosen by Philine, November 2026: dishes from the retreat kitchen. Still, zooms on hover.
+        {
+          type: 'gallery',
+          label: 'Photos of the food',
+          folder: 'food',
+          zoom: true,
+          items: [
+            { name: 'food-01', alt: 'Golden fried tofu with carrots, broccoli and fresh coriander in a dark bowl' },
+            { name: 'food-02', alt: 'Roasted red pepper, aubergine and nuts over salad leaves' },
+            { name: 'food-03', alt: 'Pasta with mushrooms and crushed pistachios' },
+            { name: 'food-04', alt: 'Rice with broccoli and crispy tofu on a speckled plate' },
+            { name: 'food-05', alt: 'A folded flatbread with mushrooms, tomatoes and basil on a wooden board' },
           ],
         },
         {
@@ -529,7 +716,8 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Nourish the part of you that creates.',
+      closing: 'Nourish what wants to be created through you.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
@@ -537,6 +725,27 @@ export const thespark = {
       nav: 'Accommodation & pricing',
       title: 'Choose the space that feels right for you',
       lead: 'Comfortable rooms in a private natural setting, for rest, reflection and retreat.',
+      // Chosen by Philine, November 2026: an en-suite bathroom at Quinta Javali, as a photo band
+      // with the heading on it. After the rooms (full width), the same photo and heading are
+      // pinned on the left beside the rest of the chapter.
+      // "A home for the week" sits on the left (Philine, November 2026).
+      textLeft: true,
+      panel: {
+        side: 'left',
+        fromBlock: 2,
+        name: 'accommodation-bath',
+        alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
+        width: 2048,
+        height: 1536,
+        focus: '50% 50%',
+      },
+      band: {
+        name: 'accommodation-bath',
+        alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
+        width: 2048,
+        height: 1536,
+        focus: '50% 45%',
+      },
       blocks: [
         {
           type: 'text',
@@ -569,12 +778,30 @@ export const thespark = {
         },
         {
           type: 'facts',
-          heading: 'Booking and cancellation',
-          facts: [
-            { term: 'Early-bird deadline', detail: TBA },
-            { term: 'Deposit', detail: TBA },
-            { term: 'Balance', detail: TBA },
-            { term: 'Cancellation', detail: TBA },
+          heading: 'Booking',
+          facts: [{ term: 'Early-bird deadline', detail: '6 December 2026' }],
+        },
+        // Deposit and cancellation in short, linking to /booking-terms (Philine, November 2026).
+        { type: 'terms' },
+        // Moved here (Philine, November 2026): just above the FAQ.
+        {
+          type: 'people',
+          heading: 'The people holding the space',
+          items: [
+            {
+              name: 'Philine Allard',
+              role: 'Co-founder, host and facilitator of Scintillart',
+              text: 'Philine is a certified Mind-Body-Soul Mentor and Reiki Master. At The Spark she hosts the retreat, leads the morning practices and guides the inner Qi Gong journey. Her work invites people into presence, creativity and a deeper connection with themselves.',
+            },
+            {
+              name: 'Igor Świeczak',
+              role: 'Photographer, creative director and co-founder of Scintillart',
+              text: 'Igor leads In search of beauty, helping people feel confident and real in front of the camera while seeing themselves and their surroundings through a more beautiful lens.',
+            },
+            {
+              name: 'Guest artists',
+              text: 'Each edition brings together artists and practitioners chosen for it. Their workshops are invitations to explore, play and discover, not to achieve a particular result.',
+            },
           ],
         },
       ],
@@ -606,12 +833,15 @@ export const thespark = {
    */
   register: {
     title: 'Register your interest',
-    /** DRAFT (TBA: awaiting approval). */
+    /** Philine, November 2026. */
     intro:
-      'Leave your details and we will contact you about dates, rooms and booking for The Spark. Registering does not commit you to anything.',
+      'Leave your details and we will contact you about questions you might have, the next steps, and booking your spot for The Spark. Registering does not commit you to anything.',
     fields: {
       name: 'Name',
       email: 'Email',
+      phone: 'Phone',
+      phoneCode: 'Country code',
+      phoneNumber: 'Phone number',
       room: 'Room preference',
       roomNotSure: 'Not sure yet',
       travelling: 'Travelling',
@@ -621,6 +851,7 @@ export const thespark = {
       optional: 'optional',
       messageHint: 'Questions are welcome.',
       consent: 'I agree to Scintillart contacting me about The Spark.',
+      newsletter: 'I would love to receive further information about Scintillart.',
       privacy: 'Privacy policy',
       /** Opens in a new tab, so nothing typed in the form is lost. */
       privacyHref: '/privacy',
@@ -634,6 +865,10 @@ export const thespark = {
       name: 'Please enter your name.',
       email: 'Please enter your email address.',
       emailFormat: 'Please check your email address. It should look like name@example.com.',
+      phoneCode: 'Please enter your country code.',
+      phoneCodeFormat: 'Please check the country code. It should look like +351.',
+      phone: 'Please enter your phone number.',
+      phoneFormat: 'Please check your phone number. Use digits only, without the country code.',
       room: 'Please choose a room from the list.',
       travelling: 'Please choose one of the options.',
       consent: 'Please tick the box so we can contact you about The Spark.',
@@ -664,6 +899,8 @@ export const thespark = {
     dark: 'Dark',
     home: 'Scintillart, home',
     next: 'Next',
+    galleryPrev: 'Previous photos',
+    galleryNext: 'Next photos',
   },
 }
 

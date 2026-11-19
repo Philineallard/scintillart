@@ -139,6 +139,47 @@
   grid-column: 1 / -1;
 }
 
+/*
+ * Hero with a full-bleed photo behind the text (Philine, November 2026: the sun through a
+ * fig tree, "the spark"). The photo covers the page grain (grain stays on background
+ * surfaces only) and is dimmed as a photo, with no tint layer, so gallery-ivory text reads
+ * on it in both themes. The crop keeps the sun clear of the text (focus in thespark.ts).
+ */
+.heroPhoto {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: calc(100svh - var(--header-h, 72px));
+  --text: var(--gallery-ivory);
+  --text-muted: var(--gallery-ivory);
+  --accent-editorial: var(--gallery-ivory);
+  --focus-ring: var(--gallery-ivory);
+  color: var(--text);
+}
+
+/* Out of the grid, so it fills the whole section, padding included (edge to edge). */
+.heroPhoto > .heroImage {
+  grid-column: auto;
+  grid-row: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: brightness(0.62);
+}
+
+/* Phones: the photo is drawn a little taller and lifted, so the sun sits above the title. */
+@media (max-width: 899px) {
+  .heroPhoto > .heroImage {
+    top: -24%;
+    height: 124%;
+  }
+}
+
 .kicker {
   margin: 0 0 var(--space-6);
   font-size: 13px;
@@ -221,14 +262,37 @@
 /* ---------- Chapters ---------- */
 
 .chapter {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--space-6);
-  row-gap: var(--space-8);
   margin-inline: var(--gutter);
   padding-block: var(--section-pad);
   border-top: 1px solid var(--hairline);
   scroll-margin-top: var(--header-h, 72px);
+}
+
+/*
+ * A chapter is built in rows. A .zone is the 12-column grid: heading on the left, text on
+ * the right. The heading is pinned only within its own zone, so it never runs over the
+ * full-width rows (.wideRow: the spread and the galleries) that follow.
+ */
+.zone {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-6);
+  row-gap: var(--space-8);
+}
+
+/* A heading shown on its own above the chapter's first row (Overview, above the videos). */
+.headingAbove {
+  max-width: 40rem;
+}
+
+/* Space between photos and text: the same generous gap above and below every image row. */
+.wideRow {
+  min-width: 0;
+  margin-block: var(--space-16);
+}
+
+.wideRow:last-child {
+  margin-bottom: 0;
 }
 
 /* The chapter's heading stays in view while its content scrolls past (wide screens). */
@@ -242,6 +306,143 @@
 .chapterBody {
   grid-column: 7 / -1;
   min-width: 0;
+}
+
+.chapterBodyLeft {
+  grid-column: 1 / span 6;
+}
+
+
+/*
+ * Chapter photos. The photo covers the page grain (grain stays on background surfaces) and
+ * is dimmed as a photo, with no tint layer, so gallery-ivory text reads on it in both themes.
+ */
+.chapterFlush {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.photoFill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: brightness(0.62);
+}
+
+.band,
+.panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  --text: var(--gallery-ivory);
+  --text-muted: var(--gallery-ivory);
+  --accent-editorial: var(--gallery-ivory);
+  --focus-ring: var(--gallery-ivory);
+  color: var(--text);
+}
+
+.photoText {
+  max-width: 40rem;
+}
+
+/* A tall photo pushed towards the right of a wide band (see pushRight in thespark.ts). */
+@media (min-width: 901px) {
+  .photoFill[data-push] {
+    transform: scale(var(--push));
+    transform-origin: 0% 40%;
+  }
+}
+
+/* Band: full width, edge to edge, at the top of the chapter; scrolls away normally. */
+/* A band without text is shown at full brightness. */
+.band:not(:has(.photoText)) .photoFill {
+  filter: none;
+}
+
+.band {
+  height: calc(100svh - var(--header-h, 72px));
+  min-height: 32rem;
+  margin-inline: calc(-1 * var(--gutter));
+  margin-bottom: var(--section-pad);
+  padding: var(--section-pad) var(--gutter);
+}
+
+/* Panel: half the width, edge to edge on its side, pinned while the text beside it scrolls. */
+.panelTop {
+  justify-content: flex-start;
+}
+
+@media (min-width: 901px) {
+  .panel {
+    grid-row: 1;
+    align-self: start;
+    position: sticky;
+    top: var(--header-h, 72px);
+    height: calc(100svh - var(--header-h, 72px));
+  }
+
+  .panelBody {
+    grid-row: 1;
+    min-width: 0;
+    padding-block: var(--section-pad) var(--space-16);
+  }
+
+  /* One empty column between photo and text on either side, so both layouts mirror. */
+  .panelZoneLeft > .panel {
+    grid-column: 1 / span 6;
+    margin-left: calc(-1 * var(--gutter));
+    padding: var(--section-pad) var(--space-12) var(--section-pad) var(--gutter);
+  }
+
+  .panelZoneLeft > .panelBody {
+    grid-column: 8 / -1;
+  }
+
+  .panelZoneRight > .panel {
+    grid-column: 7 / -1;
+    margin-right: calc(-1 * var(--gutter));
+    padding: var(--section-pad) var(--gutter) var(--section-pad) var(--space-12);
+  }
+
+  .panelZoneRight > .panelBody {
+    grid-column: 1 / span 5;
+  }
+}
+
+/* Phones: the panel is a band above its text; a repeated heading is left off (photo only). */
+@media (max-width: 900px) {
+  .band {
+    height: 70svh;
+    min-height: 0;
+    margin-bottom: var(--space-16);
+  }
+
+  .panel {
+    grid-column: 1 / -1;
+    margin-inline: calc(-1 * var(--gutter));
+    min-height: 70svh;
+    padding: var(--section-pad) var(--gutter);
+  }
+
+  .panel:has(.headingCopy) {
+    min-height: 56svh;
+  }
+
+  .headingCopy {
+    display: none;
+  }
+
+  .panelBody {
+    grid-column: 1 / -1;
+    padding-top: var(--space-8);
+  }
 }
 
 @media (max-width: 900px) {
@@ -286,6 +487,25 @@
   line-height: 34px;
 }
 
+/* A closing line that opens the register form: same type, a 1px underline, no button styling. */
+.closingLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--hairline);
+  transition: text-decoration-color 0.3s var(--ease-out, ease-out);
+}
+
+.closingLink:hover {
+  text-decoration-color: currentColor;
+}
+
+.closingLink:focus-visible {
+  outline: 1px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
 .nextLink {
   display: inline-flex;
   align-items: baseline;
@@ -321,6 +541,7 @@
   line-height: 1.12;
   letter-spacing: -0.005em;
   text-wrap: balance;
+  white-space: pre-line;
 }
 
 .lead {
@@ -351,6 +572,14 @@
   padding-block: var(--section-pad);
   border-top: 1px solid var(--hairline);
   scroll-margin-top: var(--header-h, 72px);
+}
+
+/* The closing section with the hero photo: edge to edge, text at the bottom, no hairline. */
+.interestPhoto {
+  align-content: end;
+  margin-inline: 0;
+  padding-inline: var(--gutter);
+  border-top: 0;
 }
 
 /* ---------- Footer ---------- */

@@ -4,6 +4,7 @@ import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { artistsPage } from './src/content/artists.ts'
 import { privacy } from './src/content/privacy.ts'
+import { terms } from './src/content/terms.ts'
 import { faqJsonLd, thespark } from './src/content/thespark.ts'
 import { isHoneypotHit, validateRegistration } from './src/lib/register.ts'
 
@@ -56,6 +57,13 @@ const ROUTES: RouteHead[] = [
     path: privacy.path,
     title: privacy.meta.title,
     description: privacy.meta.description,
+    index: true,
+  },
+  {
+    file: 'booking-terms.html',
+    path: terms.path,
+    title: terms.meta.title,
+    description: terms.meta.description,
     index: true,
   },
   {

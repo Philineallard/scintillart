@@ -5,18 +5,21 @@ import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
 import { privacy } from '../content/privacy'
+import { terms } from '../content/terms'
 import { thespark } from '../content/thespark'
 import { useBrandTheme } from '../hooks/useBrandTheme'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import pageStyles from './TheSparkPage.module.css'
 import styles from './PrivacyPage.module.css'
 
+type Doc = typeof privacy | typeof terms
+
 /**
- * /privacy: the privacy policy, on Brand Guidelines v2.0 like /thespark (same header
- * pattern, light/dark). All text in src/content/privacy.ts.
+ * A text page on Brand Guidelines v2.0 like /thespark (same header pattern, light/dark):
+ * /privacy (src/content/privacy.ts) and /booking-terms (src/content/terms.ts).
  */
-export default function PrivacyPage() {
-  useDocumentTitle(privacy.meta.title)
+export default function PrivacyPage({ doc = privacy }: { doc?: Doc }) {
+  useDocumentTitle(doc.meta.title)
   const { theme, setTheme } = useBrandTheme()
   const { ui } = thespark
 
@@ -37,16 +40,21 @@ export default function PrivacyPage() {
 
       <main className={styles.main}>
         <h1 className={styles.h1} tabIndex={-1} data-route-heading="">
-          {privacy.title}
+          {doc.title}
         </h1>
-        <p className={styles.updated}>{privacy.updated}</p>
-        <p className={styles.intro}>{privacy.intro}</p>
+        <p className={styles.updated}>{doc.updated}</p>
+        <p className={styles.intro}>{doc.intro}</p>
 
-        {privacy.sections.map((s) => (
+        {doc.sections.map((s) => (
           <section key={s.id} id={s.id} className={styles.section} aria-labelledby={`${s.id}-title`}>
             <h2 id={`${s.id}-title`} className={styles.h2}>
               {s.heading}
             </h2>
+            {s.paragraphs?.map((p) => (
+              <p key={p} className={styles.p}>
+                {p}
+              </p>
+            ))}
             {s.items && (
               <dl className={styles.items}>
                 {s.items.map((item) => (
@@ -59,11 +67,6 @@ export default function PrivacyPage() {
                 ))}
               </dl>
             )}
-            {s.paragraphs?.map((p) => (
-              <p key={p} className={styles.p}>
-                {p}
-              </p>
-            ))}
           </section>
         ))}
       </main>

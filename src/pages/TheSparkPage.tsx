@@ -5,11 +5,12 @@ import { RegisterPanel } from '../components/thespark/RegisterPanel'
 import { BrandGrain } from '../components/thespark/BrandGrain'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
+import { Spread } from '../components/thespark/Spread'
 import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
-import { thespark, type Chapter, type RoomId } from '../content/thespark'
+import { thespark, type Block, type Chapter, type ChapterPhoto, type RoomId } from '../content/thespark'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { useBrandTheme } from '../hooks/useBrandTheme'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -17,44 +18,191 @@ import { useSmoothScroll } from '../hooks/useSmoothScroll'
 import styles from './TheSparkPage.module.css'
 
 const CHAPTER_IDS = thespark.chapters.map((c) => c.id)
+const base = import.meta.env.BASE_URL
 
 type Props = {
   /** Rendered inside the portal transition layer (hidden, inert) rather than as the route. */
   embedded?: boolean
 }
 
+type Segment = { wide: false; blocks: Block[] } | { wide: true; block: Block }
+
+/** Full-width blocks get a row of their own: the galleries and the room cards. */
+const isWide = (b: Block) => b.type === 'gallery' || b.type === 'rooms'
+
+/** Splits blocks into runs of text (beside the heading) and full-width rows. */
+function segmentsOf(blocks: readonly Block[]): Segment[] {
+  const out: Segment[] = []
+  for (const b of blocks) {
+    if (isWide(b)) out.push({ wide: true, block: b })
+    else {
+      const last = out[out.length - 1]
+      if (last && !last.wide) last.blocks.push(b)
+      else out.push({ wide: false, blocks: [b] })
+    }
+  }
+  return out
+}
+
+function PhotoImg({ photo, className, sizes }: { photo: ChapterPhoto; className: string; sizes: string }) {
+  return (
+    <img
+      className={className}
+      src={`${base}thespark/${photo.name}.webp`}
+      srcSet={`${base}thespark/${photo.name}-sm.webp 720w, ${base}thespark/${photo.name}-md.webp 1100w, ${base}thespark/${photo.name}.webp ${photo.width}w`}
+      sizes={sizes}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      style={{ objectPosition: photo.focus, ...(photo.pushRight ? { ['--push' as string]: photo.pushRight } : {}) }}
+      data-push={photo.pushRight ? '' : undefined}
+      loading="lazy"
+      decoding="async"
+    />
+  )
+}
+
+/**
+ * The chapter's number, title and standfirst. The first one on the page is the real
+ * heading; a later repeat (a pinned panel after a band) is a visual copy, hidden from
+ * assistive technology and from the document outline.
+ */
+function ChapterHeading({ chapter, index, headingId, copy = false }: { chapter: Chapter; index: number; headingId: string; copy?: boolean }) {
+  const Title = copy ? 'p' : 'h2'
+  return (
+    <div className={copy ? styles.headingCopy : undefined} aria-hidden={copy || undefined}>
+      <p className={styles.chapterLabel}>
+        <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
+        {chapter.nav}
+      </p>
+      <Title id={copy ? undefined : headingId} className={styles.h2}>
+        {chapter.title}
+      </Title>
+      {chapter.lead && (
+        <p className={styles.lead}>
+          <Value value={chapter.lead} />
+        </p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * One chapter, built in rows (editorial layout, CLAUDE.md):
+ * - band: a full-width photo with the heading on it, at the top;
+ * - spread: a full-width row of videos, before the text;
+ * - text rows (.zone): heading pinned on the left, text on the right;
+ * - wide rows: galleries and room cards, the full width;
+ * - panel: a photo with the heading on it, pinned on one side while the text scrolls.
+ * The heading is pinned only within its own row, so it never runs over a photo.
+ */
 function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; index: number; next?: Chapter; tabIndex?: number }) {
   const headingId = `${chapter.id}-title`
-  return (
-    <section id={chapter.id} className={styles.chapter} aria-labelledby={headingId}>
-      <div className={styles.chapterHead}>
-        <p className={styles.chapterLabel}>
-          <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
-          {chapter.nav}
+  const { band, panel, spread } = chapter
+  const from = panel ? (panel.fromBlock ?? 0) : chapter.blocks.length
+  const segments = segmentsOf(chapter.blocks.slice(0, from))
+  const panelBlocks = panel ? chapter.blocks.slice(from) : []
+  let placed = (Boolean(band) && !band?.plain) || Boolean(chapter.headingAbove)
+  const lastText = panel ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
+
+  const end = (chapter.closing || next) && (
+    <div className={styles.chapterEnd}>
+      {chapter.closing && (
+        <p className={styles.closing}>
+          {chapter.closing}
+          {chapter.closingRegister && (
+            <>
+              {' '}
+              <RegisterButton className={styles.closingLink} tabIndex={tabIndex}>
+                {chapter.closingRegister}
+              </RegisterButton>
+            </>
+          )}
         </p>
-        <h2 id={headingId} className={styles.h2}>
-          {chapter.title}
-        </h2>
-        {chapter.lead && (
-          <p className={styles.lead}>
-            <Value value={chapter.lead} />
-          </p>
-        )}
-      </div>
-      <div className={styles.chapterBody}>
-        <ChapterBlocks blocks={chapter.blocks} tabIndex={tabIndex} />
-        {(chapter.closing || next) && (
-          <div className={styles.chapterEnd}>
-            {chapter.closing && <p className={styles.closing}>{chapter.closing}</p>}
-            {next && (
-              <a href={`#${next.id}`} className={styles.nextLink} tabIndex={tabIndex}>
-                <span className={styles.nextLabel}>{thespark.ui.next}</span>
-                {next.nav}
-              </a>
+      )}
+      {next && (
+        <a href={`#${next.id}`} className={styles.nextLink} tabIndex={tabIndex}>
+          <span className={styles.nextLabel}>{thespark.ui.next}</span>
+          {next.nav}
+        </a>
+      )}
+    </div>
+  )
+
+  const flush = Boolean(band) || (panel && from === 0 && !chapter.headingAbove)
+  const side = panel?.side ?? 'left'
+
+  return (
+    <section id={chapter.id} className={flush ? `${styles.chapter} ${styles.chapterFlush}` : styles.chapter} aria-labelledby={headingId}>
+      {band && (
+        <div className={styles.band}>
+          <PhotoImg photo={band} className={styles.photoFill} sizes="100vw" />
+          {!band.plain && (
+            <div className={styles.photoText}>
+              <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+            </div>
+          )}
+        </div>
+      )}
+
+      {chapter.headingAbove && (
+        <div className={styles.headingAbove}>
+          <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+        </div>
+      )}
+
+      {spread && (
+        <div className={styles.wideRow}>
+          <Spread figures={spread} />
+        </div>
+      )}
+
+      {segments.map((seg, i) => {
+        if (seg.wide) {
+          return (
+            <div key={i} className={styles.wideRow}>
+              <ChapterBlocks blocks={[seg.block]} tabIndex={tabIndex} />
+            </div>
+          )
+        }
+        const withHead = !placed
+        const withCopy = placed && (chapter.repeatHeading === true || (chapter.repeatHeading === 'afterRows' && i > 0 && segments[i - 1].wide))
+        placed = true
+        return (
+          <div key={i} className={styles.zone}>
+            {(withHead || withCopy) && (
+              <div className={styles.chapterHead}>
+                <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={!withHead} />
+              </div>
             )}
+            <div className={chapter.textLeft && !withHead && !withCopy ? `${styles.chapterBody} ${styles.chapterBodyLeft}` : styles.chapterBody}>
+              <ChapterBlocks blocks={seg.blocks} tabIndex={tabIndex} />
+              {i === lastText && end}
+            </div>
           </div>
-        )}
-      </div>
+        )
+      })}
+
+      {panel && (
+        <div className={`${styles.zone} ${side === 'right' ? styles.panelZoneRight : styles.panelZoneLeft}`}>
+          <div className={`${styles.panel}${panel.textAt === 'top' ? ` ${styles.panelTop}` : ''}`}>
+            <PhotoImg photo={panel} className={styles.photoFill} sizes="(max-width: 900px) 100vw, 50vw" />
+            <div className={styles.photoText}>
+              <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={placed} />
+            </div>
+          </div>
+          <div className={styles.panelBody}>
+            <ChapterBlocks blocks={panelBlocks} tabIndex={tabIndex} />
+            {end}
+          </div>
+        </div>
+      )}
+
+      {!panel && lastText === -1 && end && (
+        <div className={styles.zone}>
+          <div className={styles.chapterBody}>{end}</div>
+        </div>
+      )}
     </section>
   )
 }
@@ -183,7 +331,19 @@ export default function TheSparkPage({ embedded = false }: Props) {
       </header>
 
       <Main id={embedded ? undefined : 'main'} className={styles.main}>
-        <section className={styles.hero} aria-labelledby="thespark-title">
+        <section className={`${styles.hero} ${styles.heroPhoto}`} aria-labelledby="thespark-title">
+          <img
+            className={styles.heroImage}
+            src={`${base}thespark/${hero.image.name}.webp`}
+            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1100w, ${base}thespark/${hero.image.name}.webp ${hero.image.width}w`}
+            sizes="100vw"
+            alt={hero.image.alt}
+            width={hero.image.width}
+            height={hero.image.height}
+            style={{ objectPosition: hero.image.focus }}
+            fetchPriority="high"
+            decoding="async"
+          />
           <p className={styles.kicker}>{hero.kicker}</p>
           <h1 id="thespark-title" className={styles.h1} tabIndex={-1} {...(live ? { 'data-route-heading': '' } : {})}>
             {hero.title}
@@ -206,7 +366,20 @@ export default function TheSparkPage({ embedded = false }: Props) {
         ))}
 
         {/* Closing call to action. (#register is reserved for the panel, so this section is #interest.) */}
-        <section id="interest" className={styles.interest} aria-labelledby="interest-title">
+        {/* The closing call to action carries the hero photo again (Philine, November 2026). */}
+        <section id="interest" className={`${styles.interest} ${styles.heroPhoto} ${styles.interestPhoto}`} aria-labelledby="interest-title">
+          <img
+            className={styles.heroImage}
+            src={`${base}thespark/${hero.image.name}.webp`}
+            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1100w, ${base}thespark/${hero.image.name}.webp ${hero.image.width}w`}
+            sizes="100vw"
+            alt=""
+            width={hero.image.width}
+            height={hero.image.height}
+            style={{ objectPosition: hero.image.focus }}
+            loading="lazy"
+            decoding="async"
+          />
           <p className={styles.kicker}>{thespark.interest.kicker}</p>
           <h2 id="interest-title" className={styles.h2}>
             {thespark.interest.title}

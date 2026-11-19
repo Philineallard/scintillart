@@ -337,3 +337,15 @@
   font-size: 16px;
   line-height: 1.62;
 }
+
+/* Phone: country code and number side by side. */
+.phoneRow {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: var(--space-3, 12px);
+}
+
+.phoneCode,
+.phoneNumber {
+  min-width: 0;
+}

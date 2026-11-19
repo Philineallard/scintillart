@@ -38,25 +38,25 @@ Then the register form. Old `/retreats` redirects to `/thespark`. A separate `/t
 - Done: `/retreats` → `/thespark` and `/venue` → `/thespark#venue` (301 in `public/_redirects`, `<Navigate>` in the app). The former `/venue` page lives at `/thespark-venue`, noindex and out of the sitemap, until it becomes the bigger venue gallery.
 - The homepage's "Our retreats" link (approved wording) goes to `/thespark` through the portal animation; the contact address stays beneath it. The animation itself is left as it is for now.
 - All copy and TBA values: `src/content/thespark.ts`.
-- `/thespark-artists` (built November 2026): `src/pages/ArtistsPage.tsx`, text in `src/content/artists.ts`, workshops shared with /thespark (`workshops` in thespark.ts). Layout and motion inspired by an editorial portfolio (Readymag "Simantic"): row of portraits revealed one by one, hover lift 1.4× with number and caption, photos fading in from a flat block. Portraits in `public/artists/` (3:4 WebP) for Philine, Igor, Erika Prib, Bruno Palma, from Natural Healing Hearts, confirmed. André, Willpower and Manu: portrait and bio TBA (placeholder cards).
+- `/thespark-artists` (built November 2026): `src/pages/ArtistsPage.tsx`, text in `src/content/artists.ts`, workshops shared with /thespark (`workshops` in thespark.ts). Layout and motion inspired by an editorial portfolio (Readymag "Simantic"): row of portraits revealed one by one, hover lift 1.4× with number and caption, photos fading in from a flat block. Portraits in `public/artists/` (3:4 WebP) for all seven, supplied by Philine (November 2026): Philine, Igor, Erika Prib and Bruno Palma confirmed; André, Willpower and Manu still to confirm they agree to publication. Their bios are TBA.
 Existing sketch at `/retreats` already follows the brand: keep its tone (practices list, participant quotes, key facts).
 
 ## Register your interest (popup form)
 - Opens as a full-height editorial panel (ivory, or carbon in dark theme); full-screen on mobile. Close with Escape and a close button; return focus to the opener; focus trap; reduced-motion safe. Deep link: `/thespark#register`.
-- Fields: name, email, room preference (preselected from the room clicked), travelling alone or with someone, short message, consent checkbox with privacy policy link, hidden honeypot field.
+- Fields: name, email, phone (country code + number, required; Philine, November 2026), room preference (preselected from the room clicked), travelling alone or with someone, short message, consent checkbox with privacy policy link, optional newsletter checkbox ("I would love to receive further information about Scintillart.", unticked by default), hidden honeypot field. The privacy policy covers phone and newsletter.
 - Sends to hello@scintillart.com via a Cloudflare Pages Function plus a mail service (e.g. Resend; needs API key and a sender verified on scintillart.com). Build and test locally with sending stubbed; do not enable real sending or deploy without approval.
 - Do not expose the address in page source if avoidable.
 - Privacy policy: `/privacy`, text in `src/content/privacy.ts`. Kept short and general on purpose (Igor): question-style sections, providers by role not by name, retention by purpose; structure modelled on common retreat-site practice (e.g. bookretreats.com), facts true to this site. Controller: "Scintillart is operated by Philine Allard, a sole trader in Portugal"; contact hello@scintillart.com only. Never show her address or tax number (NIF/VAT) on the site. Inbox: hello@scintillart.com is on Zoho Mail (EU) (MX mx.zoho.eu, SPF include:zohomail.eu); DNS is on Cloudflare. Never change the Zoho MX/SPF records; Resend's records go on send.scintillart.com and resend._domainkey. Update it whenever the site starts collecting anything new (analytics, embeds, another form). Not yet reviewed by a lawyer.
 - Built (November 2026): `src/components/thespark/RegisterPanel.tsx` (native modal `<dialog>`), buttons in `register.tsx` (mailto fallback without JavaScript), shared validation `src/lib/register.ts`, Pages Function `functions/api/register.ts`. Local dev: Vite stub in `vite.config.ts` logs the payload; email `error@example.com` simulates a failure.
 - Sending is OFF: the Function answers 503 until `MAIL_ENABLED=true` with `RESEND_API_KEY` and `MAIL_FROM` set in Cloudflare (see the comment at the top of the Function). Enabling needs Igor's approval.
-- Panel intro, thank-you and error texts are Claude's drafts, marked DRAFT (TBA) in `thespark.ts`, awaiting approval.
+- Panel intro: Philine's wording (November 2026). Thank-you and error texts are Claude's drafts, marked DRAFT (TBA) in `thespark.ts`, awaiting approval.
 
 ## Confirmed facts (from Igor)
 - Venue: Quinta Javali, near Aljezur, Costa Vicentina, Portugal.
-- Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates in the current sketch: 1–7 February 2027 (confirm).
+- Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates confirmed by Philine (November 2026): Monday 1 to Sunday 7 February 2027.
 - Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, Arkana Within, Archetype Photoshoot, Morning Routine.
 - Hosts: Philine Allard (host, morning practice, Qi Gong); Igor Świeczak (photography, co-founder).
-- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: TBA. Deposit: TBA. Cancellation terms: TBA (set our own).
+- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026). Booking and cancellation terms (Philine, November 2026): full text in `src/content/terms.ts`, shown at `/booking-terms` and summarised in a box in chapter 7. 50% deposit on booking (non-refundable); balance 30 days before; within 30 days of arrival full payment; cancellation 15–30 days: 50% of the total, 14 days or less: 100%; place transferable to a replacement; full refund if the organiser cancels.
   - Shared Room: €2,800 / €2,600 (twin room, two single beds 90 × 190 cm, private en-suite, countryside and mountain surroundings, A/C, Wi-Fi, terrace)
   - Private Room: €3,100 / €2,900 (single occupancy, double bed 180 × 200 cm, A/C, bathroom outside the bedroom)
   - Private Deluxe En-Suite Room: €3,500 / €3,300 (single occupancy, double bed, private en-suite, A/C, garden views or private terrace depending on room)
@@ -72,14 +72,14 @@ Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with
 - Food and extras: chef-made vegan and vegetarian meals (breakfast, lunch, dinner, snacks), opening dinner, cooking workshop, one open dinner (not included), optional treatments, integration call 7–14 days after, final open-house exhibition.
 - Sauna: mention in passing only, as an addition, never a headline point.
 - The copy's "Reserve your place", BookRetreats and US$ prices were NOT adopted: hard rules above stand.
-- Booking terms (deposit, balance, cancellation) are NOT confirmed: TBA.
+- Booking terms: confirmed by Philine (November 2026), see above.
 
 ## Still TBA / to confirm
 - Final dates, group size (sketch says 8–16; previous listing said 6–14, venue sleeps up to 16).
 - Which facilitators lead sessions in the February 2027 edition (previous listing named Erika, André, Willpower, Bruno, Manu; no bios).
 - Daily rhythm (previous listing: 08:00 morning practice, 09:00 breakfast, 10:30–13:30 workshop, 13:30 lunch, 14:30–18:30 free time or extra workshop, 18:30 dinner, 20:00 evening session) — confirm for 2027.
 - Food details, optional treatments, integration call, final-evening exhibition: not confirmed; show as TBA or leave out.
-- Pricing deadline, deposit, cancellation, privacy policy, social links.
+- Privacy policy (legal review), social links.
 - Retreat name "The Spark" is in use; slogan stays "Where a spark becomes art."
 
 ## Photography
