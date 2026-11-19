@@ -788,9 +788,9 @@ export const thespark = {
    */
   register: {
     title: 'Register your interest',
-    /** DRAFT (TBA: awaiting approval). */
+    /** Philine, November 2026. */
     intro:
-      'Leave your details and we will contact you about dates, rooms and booking for The Spark. Registering does not commit you to anything.',
+      'Leave your details and we will contact you about questions you might have, the next steps, and booking your spot for The Spark. Registering does not commit you to anything.',
     fields: {
       name: 'Name',
       email: 'Email',
