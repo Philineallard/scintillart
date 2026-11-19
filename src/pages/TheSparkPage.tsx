@@ -101,7 +101,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
   const from = panel ? (panel.fromBlock ?? 0) : chapter.blocks.length
   const segments = segmentsOf(chapter.blocks.slice(0, from))
   const panelBlocks = panel ? chapter.blocks.slice(from) : []
-  let placed = Boolean(band)
+  let placed = Boolean(band) && !band?.plain
   const lastText = panel ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
 
   const end = (chapter.closing || next) && (
@@ -124,9 +124,11 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
       {band && (
         <div className={styles.band}>
           <PhotoImg photo={band} className={styles.photoFill} sizes="100vw" />
-          <div className={styles.photoText}>
-            <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
-          </div>
+          {!band.plain && (
+            <div className={styles.photoText}>
+              <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+            </div>
+          )}
         </div>
       )}
 
@@ -145,12 +147,13 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
           )
         }
         const withHead = !placed
+        const withCopy = placed && chapter.repeatHeading
         placed = true
         return (
           <div key={i} className={styles.zone}>
-            {withHead && (
+            {(withHead || withCopy) && (
               <div className={styles.chapterHead}>
-                <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+                <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={!withHead} />
               </div>
             )}
             <div className={styles.chapterBody}>
