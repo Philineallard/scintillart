@@ -486,26 +486,6 @@ export const thespark = {
           items: workshops,
           more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
-        {
-          type: 'people',
-          heading: 'The people holding the space',
-          items: [
-            {
-              name: 'Philine Allard',
-              role: 'Co-founder, host and facilitator of Scintillart',
-              text: 'Philine is a certified Mind-Body-Soul Mentor and Reiki Master. At The Spark she hosts the retreat, leads the morning practices and guides the inner Qi Gong journey. Her work invites people into presence, creativity and a deeper connection with themselves.',
-            },
-            {
-              name: 'Igor Świeczak',
-              role: 'Photographer, creative director and co-founder of Scintillart',
-              text: 'Igor leads In search of beauty, helping people feel confident and real in front of the camera while seeing themselves and their surroundings through a more beautiful lens.',
-            },
-            {
-              name: 'Guest artists',
-              text: 'Each edition brings together artists and practitioners chosen for it. Their workshops are invitations to explore, play and discover, not to achieve a particular result.',
-            },
-          ],
-        },
       ],
       closing: 'Come curious. Leave with something made by you.',
     },
@@ -756,6 +736,27 @@ export const thespark = {
             { term: 'Deposit', detail: TBA },
             { term: 'Balance', detail: TBA },
             { term: 'Cancellation', detail: TBA },
+          ],
+        },
+        // Moved here (Philine, November 2026): just above the FAQ.
+        {
+          type: 'people',
+          heading: 'The people holding the space',
+          items: [
+            {
+              name: 'Philine Allard',
+              role: 'Co-founder, host and facilitator of Scintillart',
+              text: 'Philine is a certified Mind-Body-Soul Mentor and Reiki Master. At The Spark she hosts the retreat, leads the morning practices and guides the inner Qi Gong journey. Her work invites people into presence, creativity and a deeper connection with themselves.',
+            },
+            {
+              name: 'Igor Świeczak',
+              role: 'Photographer, creative director and co-founder of Scintillart',
+              text: 'Igor leads In search of beauty, helping people feel confident and real in front of the camera while seeing themselves and their surroundings through a more beautiful lens.',
+            },
+            {
+              name: 'Guest artists',
+              text: 'Each edition brings together artists and practitioners chosen for it. Their workshops are invitations to explore, play and discover, not to achieve a particular result.',
+            },
           ],
         },
       ],
