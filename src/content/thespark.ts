@@ -797,7 +797,6 @@ export const thespark = {
       phone: 'Phone',
       phoneCode: 'Country code',
       phoneNumber: 'Phone number',
-      phoneHint: 'With your country code, for example +351 for Portugal.',
       room: 'Room preference',
       roomNotSure: 'Not sure yet',
       travelling: 'Travelling',

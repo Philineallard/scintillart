@@ -278,11 +278,8 @@ export function RegisterPanel({ open, room, onClose }: Props) {
                 {errorText('email')}
               </div>
 
-              <fieldset className={styles.fieldset} aria-describedby={fid('phone-hint')}>
+              <fieldset className={styles.fieldset}>
                 <legend className={styles.label}>{t.fields.phone}</legend>
-                <p id={fid('phone-hint')} className={styles.hint}>
-                  {t.fields.phoneHint}
-                </p>
                 <div className={styles.phoneRow}>
                   <div className={styles.phoneCode}>
                     <label htmlFor={fid('phoneCode')} className="visually-hidden">
