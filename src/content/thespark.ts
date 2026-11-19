@@ -726,11 +726,19 @@ export const thespark = {
       title: 'Choose the space that feels right for you',
       lead: 'Comfortable rooms in a private natural setting, for rest, reflection and retreat.',
       // Chosen by Philine, November 2026: an en-suite bathroom at Quinta Javali, as a photo band
-      // with the heading on it; the heading is repeated beside the text after the rooms only.
-      // The rooms below have the full width.
-      repeatHeading: 'afterRows',
+      // with the heading on it. After the rooms (full width), the same photo and heading are
+      // pinned on the left beside the rest of the chapter.
       // "A home for the week" sits on the left (Philine, November 2026).
       textLeft: true,
+      panel: {
+        side: 'left',
+        fromBlock: 2,
+        name: 'accommodation-bath',
+        alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
+        width: 2048,
+        height: 1536,
+        focus: '50% 50%',
+      },
       band: {
         name: 'accommodation-bath',
         alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
