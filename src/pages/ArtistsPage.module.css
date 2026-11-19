@@ -1,0 +1,600 @@
+/*
+ * /thespark-artists, Brand Guidelines v2.0. Motion language taken from an editorial
+ * portfolio reference: portraits appear one by one in scattered order; a hovered portrait
+ * lifts to 1.4× over its neighbours with its number above and caption below; photographs
+ * arrive from a flat block as they scroll in. Labels in Poppins Medium capitals (the brand
+ * has no monospace). Square corners, flat colour, 1px hairlines, no shadows.
+ */
+
+.page {
+  --card-w: clamp(96px, 10.4vw, 172px);
+  --card-h: calc(var(--card-w) * 4 / 3);
+  --lift: 1.4;
+  --label: 500 12px/16px var(--font-sans);
+}
+
+/* ---------- Label bar (six columns on wide screens) ---------- */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding: env(safe-area-inset-top, 0px) calc(var(--gutter) + var(--safe-right)) 0 calc(var(--gutter) + var(--safe-left));
+  background: var(--bg);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* The four middle labels take columns 2–5. */
+.barNav {
+  grid-column: 2 / span 4;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.barLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font: var(--label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.barLink {
+  justify-self: start;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5em;
+  transition: text-decoration-color 0.3s var(--ease-out);
+}
+
+.barLink:hover,
+.barLink[aria-current] {
+  text-decoration-color: currentColor;
+}
+
+.barTools {
+  justify-self: end;
+}
+
+@media (max-width: 900px) {
+  .bar {
+    grid-template-columns: 1fr auto;
+    row-gap: 0;
+  }
+  .barNav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-6);
+    border-top: 1px solid var(--hairline);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+  .barTools {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* ---------- Cover: one screen, the row of portraits ---------- */
+
+.main {
+  display: block;
+}
+
+.cover {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: calc(100svh - var(--header-h, 64px));
+  padding: var(--space-8) var(--gutter) var(--space-12);
+}
+
+.coverText {
+  max-width: 34rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.lead {
+  margin: var(--space-4) 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.row {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  gap: clamp(var(--space-4), 2.4vw, var(--space-12));
+  margin: 0;
+  padding: calc(var(--card-h) * 0.25) 0;
+  list-style: none;
+}
+
+.cell {
+  flex: none;
+  width: var(--card-w);
+  /* "backwards": hidden until its turn, and no clip left behind afterwards (it would cut the hover lift). */
+  animation: card-in 0.8s var(--ease-out) backwards;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Appear one by one: the portrait opens from its lower edge. */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.card {
+  position: relative;
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--bg-alt);
+  transform-origin: 50% 50%;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-3);
+  background: var(--bg-alt);
+  text-align: center;
+}
+
+.placeholderText {
+  font: var(--label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* Number above and caption below: hidden at rest, they travel out with the lifted portrait. */
+.index,
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  font: var(--label);
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transition:
+    opacity 0.35s var(--ease-out),
+    transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+.index {
+  bottom: 100%;
+  padding-bottom: var(--space-2);
+}
+
+.caption {
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-2);
+  text-transform: uppercase;
+}
+
+.captionName {
+  color: var(--text);
+}
+
+.captionRole {
+  color: var(--text-muted);
+}
+
+/* Lift: 1.4× over the neighbours; labels move to the enlarged edges (0.2 of the height each way). */
+@media (hover: hover) {
+  .card:hover,
+  .card:focus-visible {
+    z-index: 3;
+  }
+  .card:hover .frame,
+  .card:focus-visible .frame {
+    transform: scale(var(--lift));
+  }
+  .card:hover .index,
+  .card:focus-visible .index {
+    opacity: 1;
+    transform: translate(calc(var(--card-w) * -0.2), calc(var(--card-h) * -0.2));
+  }
+  .card:hover .caption,
+  .card:focus-visible .caption {
+    opacity: 1;
+    transform: translate(calc(var(--card-w) * -0.2), calc(var(--card-h) * 0.2));
+  }
+}
+
+.cell:has(.card:hover),
+.cell:has(.card:focus-visible) {
+  position: relative;
+  z-index: 3;
+}
+
+.card:focus-visible {
+  outline: none;
+}
+
+.card:focus-visible .frame {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* The "+" at the end of the row: on to the workshops. */
+.plus {
+  position: absolute;
+  right: var(--gutter);
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--text);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.plus:hover {
+  transform: rotate(90deg);
+}
+
+/* Phones and narrow tablets: a sideways strip, captions always shown, no lift. */
+@media (max-width: 900px) {
+  .page {
+    --card-w: 42vw;
+  }
+  .row {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Snap to the page margin, not the screen edge. */
+    scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter));
+    padding: var(--space-8) var(--gutter) var(--space-16);
+    scrollbar-width: none;
+  }
+  .row::-webkit-scrollbar {
+    display: none;
+  }
+  .cell {
+    scroll-snap-align: start;
+  }
+  .index,
+  .caption {
+    opacity: 1;
+    position: static;
+  }
+  .index {
+    display: block;
+  }
+  .plus {
+    display: none;
+  }
+}
+
+/* ---------- One chapter per artist ---------- */
+
+.artist {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-6);
+  row-gap: var(--space-8);
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+  border-top: 1px solid var(--hairline);
+  scroll-margin-top: var(--header-h, 64px);
+}
+
+.artistPhoto {
+  grid-column: 1 / span 5;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--header-h, 64px) + var(--space-8));
+  margin: 0;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+
+.artistText {
+  grid-column: 7 / -1;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .artistPhoto,
+  .artistText {
+    grid-column: 1 / -1;
+  }
+  .artistPhoto {
+    position: static;
+    max-width: 30rem;
+  }
+}
+
+.artistIndex {
+  margin: 0 0 var(--space-4);
+  font: var(--label);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.artistName {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+}
+
+.artistRole {
+  margin: var(--space-3) 0 var(--space-8);
+  font: var(--label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-editorial);
+}
+
+.bio {
+  max-width: 36rem;
+  margin: 0 0 var(--space-4);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.quote {
+  max-width: 34rem;
+  margin: var(--space-8) 0;
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--hairline);
+}
+
+.quote p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 34px;
+}
+
+.workshops {
+  max-width: 36rem;
+  margin: var(--space-12) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.workshop {
+  padding-block: var(--space-6);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.workshopName {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.workshopTitle {
+  display: block;
+  font-style: italic;
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+}
+
+.workshopText {
+  margin: var(--space-2) 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.artistNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-8);
+  margin: var(--space-12) 0 0;
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font: var(--label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5em;
+}
+
+.textLink:hover {
+  text-decoration-color: transparent;
+}
+
+/* ---------- Workshop photographs (the "+") ---------- */
+
+.gallery {
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+  border-top: 1px solid var(--hairline);
+  scroll-margin-top: var(--header-h, 64px);
+}
+
+.galleryHead {
+  margin-bottom: var(--space-12);
+}
+
+.galleryTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1.1;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-12) var(--space-6);
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A slower rhythm: every second column sits lower, as in a printed contact sheet. */
+.galleryItem:nth-child(3n + 2) {
+  margin-top: var(--space-16);
+}
+
+@media (max-width: 900px) {
+  .galleryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .galleryItem:nth-child(3n + 2) {
+    margin-top: 0;
+  }
+  .galleryItem:nth-child(2n) {
+    margin-top: var(--space-12);
+  }
+}
+
+.galleryFigure {
+  margin: 0;
+}
+
+.galleryFrame {
+  display: block;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+
+.galleryCaption {
+  margin-top: var(--space-3);
+  font: var(--label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.galleryIndex {
+  color: var(--text-muted);
+}
+
+/* ---------- Photographs arriving: flat block, then the image ---------- */
+
+.page[data-reveal-ready] [data-reveal] .img {
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.4s var(--ease-out);
+}
+
+.page[data-reveal-ready] [data-reveal][data-shown] .img {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Closing ---------- */
+
+.closing {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-8);
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+  border-top: 1px solid var(--hairline);
+}
+
+.closingTitle {
+  max-width: 40rem;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.125rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1.12;
+}
+
+/* ---------- Reduced motion: everything in place, no movement ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    animation: none;
+  }
+  .frame,
+  .index,
+  .caption,
+  .plus {
+    transition: none;
+  }
+  .page[data-reveal-ready] [data-reveal] .img {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

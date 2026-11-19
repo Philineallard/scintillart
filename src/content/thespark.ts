@@ -79,7 +79,84 @@ export const rooms: Room[] = [
   },
 ]
 
-export type Workshop = { practice: string; title?: string; by: string; text: string }
+export type Workshop = {
+  id: string
+  practice: string
+  title?: string
+  by: string
+  text: string
+  /** A photo from a previous edition, in public/practices (people shown have agreed to its use). */
+  photo: { slug: string; w: number; h: number; alt: string }
+}
+
+/** The workshops of The Spark: shown in chapter 3 here and on /thespark-artists (src/content/artists.ts). */
+export const workshops: Workshop[] = [
+  {
+    id: 'photography',
+    practice: 'Photography',
+    title: 'In search of beauty',
+    by: 'Igor Świeczak',
+    text: 'See yourself and the world through a more attentive, generous lens.',
+    photo: { slug: 'photography', w: 542, h: 720, alt: 'Igor photographing the hills at sunset' },
+  },
+  {
+    id: 'natural-creations',
+    practice: 'Natural Creations',
+    by: 'Erika',
+    text: 'Work with the textures, forms and materials of the surrounding landscape.',
+    photo: { slug: 'natural-creations', w: 542, h: 720, alt: 'Erika’s sculptures of dried leaves hanging against a curtain' },
+  },
+  {
+    id: 'life-drawing',
+    practice: 'Life drawing',
+    by: 'Bruno',
+    text: 'Slow down, observe deeply, and discover the pleasure of drawing without needing to be “good at it”.',
+    photo: { slug: 'life-drawing', w: 405, h: 720, alt: 'A life drawing on an easel in Bruno’s workshop' },
+  },
+  {
+    id: 'ceramics',
+    practice: 'Ceramics',
+    by: 'André',
+    text: 'Shape, touch and create with clay in a grounded, hands-on practice.',
+    photo: { slug: 'ceramics', w: 479, h: 720, alt: 'André shaping clay at a ceramics workshop' },
+  },
+  {
+    id: 'performance',
+    practice: 'Performance',
+    by: 'Willpower',
+    text: 'Explore presence, expression and the freedom to take up space.',
+    photo: { slug: 'performance', w: 540, h: 720, alt: 'A performance by Willpower, lit in pink and violet' },
+  },
+  {
+    id: 'arkana-within',
+    practice: 'Arkana Within',
+    title: 'Archetypes',
+    by: 'Manu',
+    text: 'Explore the inner patterns and stories that shape how you see yourself.',
+    photo: { slug: 'arkana-within', w: 571, h: 720, alt: 'Three tarot cards, the Ace of Cups, the Star and the King of Wands, upright on a cream cloth' },
+  },
+  {
+    id: 'archetype-photoshoot',
+    practice: 'Archetype Photoshoot',
+    by: 'Igor and Manu',
+    text: 'Step into a new visual narrative and see yourself from a fresh perspective.',
+    photo: { slug: 'archetype-photoshoot', w: 542, h: 720, alt: 'A costumed portrait shoot in warm red light, a photographer at work' },
+  },
+  {
+    id: 'tea-ceremony',
+    practice: 'Tea Ceremony',
+    by: 'Philine',
+    text: 'Pause, arrive and share a ritual of presence and connection.',
+    photo: { slug: 'tea-ceremony', w: 720, h: 720, alt: 'A bowl of tea with unfurled leaves, resting on dry leaves' },
+  },
+  {
+    id: 'morning-practice',
+    practice: 'Morning practice',
+    by: 'Philine',
+    text: 'Breathwork, meditation and Qi Gong to begin each day.',
+    photo: { slug: 'morning-routine', w: 556, h: 557, alt: 'Philine leading a Qi Gong session in an open wooden pavilion' },
+  },
+]
 export type Person = { name: string; role?: string; text: string }
 export type Faq = { q: string; a: string }
 
@@ -88,7 +165,7 @@ export type Block =
   | { type: 'text'; heading?: string; paragraphs: string[] }
   | { type: 'list'; heading?: string; items: string[] }
   | { type: 'pillars'; heading: string; items: { title: string; text: string }[] }
-  | { type: 'workshops'; heading: string; items: Workshop[] }
+  | { type: 'workshops'; heading: string; items: Workshop[]; more?: { label: string; href: string } }
   | { type: 'people'; heading: string; items: Person[] }
   | { type: 'schedule'; heading: string; rows: { time: string; activity: string }[] }
   | { type: 'facts'; heading?: string; facts: Fact[] }
@@ -307,17 +384,8 @@ export const thespark = {
         {
           type: 'workshops',
           heading: 'Creative practices, guided by artists',
-          items: [
-            { practice: 'Photography', title: 'In search of beauty', by: 'Igor Świeczak', text: 'See yourself and the world through a more attentive, generous lens.' },
-            { practice: 'Natural Creations', by: 'Erika', text: 'Work with the textures, forms and materials of the surrounding landscape.' },
-            { practice: 'Life drawing', by: 'Bruno', text: 'Slow down, observe deeply, and discover the pleasure of drawing without needing to be “good at it”.' },
-            { practice: 'Ceramics', by: 'André', text: 'Shape, touch and create with clay in a grounded, hands-on practice.' },
-            { practice: 'Performance', by: 'Willpower', text: 'Explore presence, expression and the freedom to take up space.' },
-            { practice: 'Arkana Within', title: 'Archetypes', by: 'Manu', text: 'Explore the inner patterns and stories that shape how you see yourself.' },
-            { practice: 'Archetype Photoshoot', by: 'Igor and Manu', text: 'Step into a new visual narrative and see yourself from a fresh perspective.' },
-            { practice: 'Tea Ceremony', by: 'Philine', text: 'Pause, arrive and share a ritual of presence and connection.' },
-            { practice: 'Morning practice', by: 'Philine', text: 'Breathwork, meditation and Qi Gong to begin each day.' },
-          ],
+          items: workshops,
+          more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
         {
           type: 'people',

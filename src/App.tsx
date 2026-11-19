@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router'
 import { Atmosphere } from './components/Atmosphere'
 import { ScintillaCursor } from './components/ScintillaCursor'
 import ArrivalPage from './pages/ArrivalPage'
+import ArtistsPage from './pages/ArtistsPage'
 import EntryPage from './pages/EntryPage'
 import NotFound from './pages/NotFound'
 import PrivacyPage from './pages/PrivacyPage'
@@ -13,7 +14,7 @@ import VenuePage from './pages/VenuePage'
  * Pages on Brand Guidelines v2.0: no custom cursor. In the light theme they share the
  * homepage's cinematic white background; in the dark theme brand.css hides it.
  */
-const BRAND_V2 = ['/thespark', '/privacy']
+const BRAND_V2 = ['/thespark', '/thespark-artists', '/privacy']
 
 /**
  * After an in-app navigation: start at the top of the new page and move focus to
@@ -24,8 +25,12 @@ function RouteFocus() {
   const location = useLocation()
   const first = useRef(true)
 
+  // Start at the top, unless the new address points at an element on the new page
+  // (e.g. /thespark#venue). #register opens a panel and has no element, so the page starts at the top too.
   useLayoutEffect(() => {
-    if (!first.current && !location.hash) window.scrollTo(0, 0)
+    if (first.current) return
+    const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)))
+    if (!target) window.scrollTo(0, 0)
   }, [location.key, location.hash])
 
   useEffect(() => {
@@ -52,6 +57,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/thespark" element={<TheSparkPage />} />
+        <Route path="/thespark-artists" element={<ArtistsPage />} />
         {/* Old addresses. On Cloudflare Pages, public/_redirects answers these with a 301 first. */}
         <Route path="/retreats" element={<Navigate to="/thespark" replace />} />
         <Route path="/venue" element={<Navigate to="/thespark#venue" replace />} />
