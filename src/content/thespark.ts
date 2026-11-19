@@ -627,7 +627,8 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'A place designed for presence.',
+      closing: 'Designed for presence, creativity, and connection.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
