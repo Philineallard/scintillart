@@ -1,83 +1,34 @@
 /*
- * Chapter spread: three figures set like a newspaper page. A double hairline above,
- * 1px column rules between, the photos whole and the video tall in the middle. Square corners, flat colour,
- * no grain over the photos (they cover the page grain).
+ * Chapter spread: three frames of the same size, 4:5, side by side with a narrow even
+ * gap. No rules, captions or framing: flat, square corners, and the photos cover the
+ * page grain (grain stays on background surfaces only).
  */
 .spread {
   display: grid;
-  /* Wide photo, tall video, wide photo; the video column is the widest of the three. */
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);
-  column-gap: var(--space-6);
-  position: relative;
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
-  padding-top: 4px;
-}
-
-/* The second line of the double rule. */
-.spread::before {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 0;
-  right: 0;
-  border-top: 1px solid var(--hairline);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3, 12px);
+  margin-block: var(--space-8) var(--space-6);
 }
 
 .figure {
-  position: relative;
   margin: 0;
-  padding-block: var(--space-6);
   min-width: 0;
-  /* The photos sit in the middle of the row; the column rules still run its full height. */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Column rules sit in the middle of the gutter, so all three columns stay the same width. */
-.figure + .figure::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(-0.5 * var(--space-6));
-  border-left: 1px solid var(--hairline);
-}
-
-.frame {
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--bg-alt);
-}
-
-.videoFrame {
-  aspect-ratio: 4 / 5;
 }
 
 .media {
   display: block;
   width: 100%;
-  height: auto;
-  max-width: none;
-}
-
-.videoFrame .media {
   height: 100%;
+  max-width: none;
   object-fit: cover;
 }
 
-/* Phones: one column, the rules run between the figures instead. */
+/* Phones: one frame under the other. */
 @media (max-width: 720px) {
   .spread {
     grid-template-columns: 1fr;
-  }
-
-  .figure + .figure::before {
-    top: 0;
-    bottom: auto;
-    left: 0;
-    right: 0;
-    border-left: 0;
-    border-top: 1px solid var(--hairline);
   }
 }

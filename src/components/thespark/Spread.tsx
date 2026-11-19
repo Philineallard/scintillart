@@ -42,35 +42,33 @@ function LoopVideo({ figure }: { figure: Figure }) {
       preload="none"
       controls={reduced}
       aria-label={figure.alt}
-      width={figure.width}
-      height={figure.height}
+      width={600}
+      height={750}
     />
   )
 }
 
-/** Three figures side by side, set like a newspaper page: double rule and column rules. Photos are shown whole. */
+/** Three frames of the same size side by side: photos and silent videos, no lines, no captions. */
 export function Spread({ figures }: { figures: readonly Figure[] }) {
   return (
     <div className={styles.spread}>
       {figures.map((f) => (
         <figure key={f.name} className={styles.figure}>
-          <div className={f.kind === 'video' ? `${styles.frame} ${styles.videoFrame}` : styles.frame}>
-            {f.kind === 'video' ? (
-              <LoopVideo figure={f} />
-            ) : (
-              <img
-                className={styles.media}
-                src={`${base}thespark/${f.name}.webp`}
-                srcSet={`${base}thespark/${f.name}-sm.webp 640w, ${base}thespark/${f.name}.webp 1200w`}
-                sizes="(max-width: 720px) 92vw, 38vw"
-                alt={f.alt}
-                width={f.width}
-                height={f.height}
-                loading="lazy"
-                decoding="async"
-              />
-            )}
-          </div>
+          {f.kind === 'video' ? (
+            <LoopVideo figure={f} />
+          ) : (
+            <img
+              className={styles.media}
+              src={`${base}thespark/${f.name}.webp`}
+              srcSet={`${base}thespark/${f.name}-sm.webp 540w, ${base}thespark/${f.name}.webp 900w`}
+              sizes="(max-width: 720px) 92vw, 31vw"
+              alt={f.alt}
+              width={900}
+              height={1125}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
         </figure>
       ))}
     </div>
