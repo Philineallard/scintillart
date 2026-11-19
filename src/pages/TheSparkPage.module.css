@@ -345,8 +345,8 @@
 
 /* Band: full width, edge to edge, at the top of the chapter; scrolls away normally. */
 .band {
-  height: calc(88svh - var(--header-h, 72px));
-  min-height: 28rem;
+  height: calc(100svh - var(--header-h, 72px));
+  min-height: 32rem;
   margin-inline: calc(-1 * var(--gutter));
   margin-bottom: var(--section-pad);
   padding: var(--section-pad) var(--gutter);

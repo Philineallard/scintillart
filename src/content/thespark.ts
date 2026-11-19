@@ -589,7 +589,7 @@ export const thespark = {
         alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
         width: 1600,
         height: 2149,
-        focus: '50% 33%',
+        focus: '50% 40%',
       },
       panel: {
         side: 'left',
