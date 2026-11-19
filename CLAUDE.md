@@ -56,7 +56,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 - Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates confirmed by Philine (November 2026): Monday 1 to Sunday 7 February 2027.
 - Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, Arkana Within, Archetype Photoshoot, Morning Routine.
 - Hosts: Philine Allard (host, morning practice, Qi Gong); Igor Świeczak (photography, co-founder).
-- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026). Booking terms (Philine, November 2026): 50% deposit to confirm the booking; the other 50% two weeks before the start; free cancellation up to 60 days before the start (what applies after that: TBA).
+- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026). Booking and cancellation terms (Philine, November 2026): full text in `src/content/terms.ts`, shown at `/booking-terms` and summarised in a box in chapter 7. 50% deposit on booking (non-refundable); balance 30 days before; within 30 days of arrival full payment; cancellation 15–30 days: 50% of the total, 14 days or less: 100%; place transferable to a replacement; full refund if the organiser cancels.
   - Shared Room: €2,800 / €2,600 (twin room, two single beds 90 × 190 cm, private en-suite, countryside and mountain surroundings, A/C, Wi-Fi, terrace)
   - Private Room: €3,100 / €2,900 (single occupancy, double bed 180 × 200 cm, A/C, bathroom outside the bedroom)
   - Private Deluxe En-Suite Room: €3,500 / €3,300 (single occupancy, double bed, private en-suite, A/C, garden views or private terrace depending on room)
@@ -79,7 +79,7 @@ Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with
 - Which facilitators lead sessions in the February 2027 edition (previous listing named Erika, André, Willpower, Bruno, Manu; no bios).
 - Daily rhythm (previous listing: 08:00 morning practice, 09:00 breakfast, 10:30–13:30 workshop, 13:30 lunch, 14:30–18:30 free time or extra workshop, 18:30 dinner, 20:00 evening session) — confirm for 2027.
 - Food details, optional treatments, integration call, final-evening exhibition: not confirmed; show as TBA or leave out.
-- Privacy policy (legal review), social links. Cancellation terms after the 60-day point.
+- Privacy policy (legal review), social links.
 - Retreat name "The Spark" is in use; slogan stays "Where a spark becomes art."
 
 ## Photography

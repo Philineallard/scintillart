@@ -205,6 +205,8 @@ export type Block =
   | { type: 'included'; included: { heading: string; items: string[] }; excluded: { heading: string; items: string[] } }
   | { type: 'faq'; items: Faq[] }
   | { type: 'rooms'; heading: string; items: Room[] }
+  /** The short deposit and cancellation box, from src/content/terms.ts. */
+  | { type: 'terms' }
   /** Three photos or silent videos side by side, the same size (see Figure). */
   | { type: 'figures'; items: Figure[] }
   /**
@@ -762,15 +764,11 @@ export const thespark = {
         },
         {
           type: 'facts',
-          heading: 'Booking and cancellation',
-          facts: [
-            { term: 'Early-bird deadline', detail: '6 December 2026' },
-            // Philine, November 2026.
-            { term: 'Deposit', detail: '50% to confirm your booking' },
-            { term: 'Balance', detail: 'The remaining 50%, two weeks before the retreat starts' },
-            { term: 'Cancellation', detail: 'Free up to 60 days before the retreat starts' },
-          ],
+          heading: 'Booking',
+          facts: [{ term: 'Early-bird deadline', detail: '6 December 2026' }],
         },
+        // Deposit and cancellation in short, linking to /booking-terms (Philine, November 2026).
+        { type: 'terms' },
         // Moved here (Philine, November 2026): just above the FAQ.
         {
           type: 'people',

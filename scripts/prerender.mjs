@@ -10,6 +10,7 @@ const PAGES = [
   { file: 'thespark.html', url: '/thespark' },
   { file: 'thespark-artists.html', url: '/thespark-artists' },
   { file: 'privacy.html', url: '/privacy' },
+  { file: 'booking-terms.html', url: '/booking-terms' },
 ]
 
 const dist = resolve('dist')

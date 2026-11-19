@@ -6,6 +6,7 @@ import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
 import { Value } from './Tba'
 import { Gallery } from './Gallery'
+import { terms } from '../../content/terms'
 import { Spread } from './Spread'
 import styles from './ChapterBlocks.module.css'
 
@@ -207,6 +208,25 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
             ))}
           </ul>
         </div>
+      )
+    case 'terms':
+      return (
+        <aside className={styles.termsBox} aria-labelledby="terms-box-title">
+          <h3 id="terms-box-title" className={styles.termsTitle}>
+            {terms.summary.heading}
+          </h3>
+          <dl className={styles.termsList}>
+            {terms.summary.items.map((it) => (
+              <div key={it.term} className={styles.termsRow}>
+                <dt className={styles.term}>{it.term}</dt>
+                <dd className={styles.termsText}>{it.text}</dd>
+              </div>
+            ))}
+          </dl>
+          <Link to={terms.path} className={styles.termsLink} tabIndex={tabIndex}>
+            {terms.summary.link}
+          </Link>
+        </aside>
       )
     case 'figures':
       return (
