@@ -492,7 +492,7 @@ export const thespark = {
           items: [
             {
               name: 'Philine Allard',
-              role: 'Founder, host and facilitator',
+              role: 'Co-founder, host and facilitator of Scintillart',
               text: 'Philine is a certified Mind-Body-Soul Mentor and Reiki Master. At The Spark she hosts the retreat, leads the morning practices and guides the inner Qi Gong journey. Her work invites people into presence, creativity and a deeper connection with themselves.',
             },
             {

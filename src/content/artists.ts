@@ -31,7 +31,7 @@ export const artists: Artist[] = [
   {
     id: 'philine-allard',
     name: 'Philine Allard',
-    role: 'Host, Qi Gong teacher and maker of natural totems',
+    role: 'Co-founder, host and facilitator of Scintillart',
     bio: [
       'Philine hosts The Spark and leads its morning practice. She is an artist, energy guide and Qi Gong teacher, and a certified Mind-Body-Soul Mentor and Reiki Master.',
       'Since a road trip in 2022 she has gathered shells, feathers and driftwood, and turns them into handmade totems: pieces made with intention, each holding something of the person who made it. She lives in the Alentejo countryside in Portugal.',
