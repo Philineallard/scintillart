@@ -437,48 +437,16 @@ export const thespark = {
         textAt: 'top',
       },
       blocks: [
+        // Philine's text, November 2026.
         {
           type: 'text',
           heading: 'Step into the unknown. Discover what you can create.',
           paragraphs: [
-            'The Spark is not a course with a fixed outcome. It is an invitation to experiment, play and listen to what wants to come through you.',
-            'Each day brings a new artist, a new material and a new way of seeing. Some sessions ask you to be still and observant. Others invite movement, expression and a little healthy discomfort. Between them there is time to rest, walk, swim, reflect and let the experience settle.',
-          ],
-        },
-        {
-          type: 'pillars',
-          heading: 'Creativity. Nature. Connection.',
-          items: [
-            {
-              title: 'Creativity',
-              text: 'Artist-led workshops invite you to explore photography, drawing, ceramics, natural materials, performance and self-expression.',
-            },
-            {
-              title: 'Nature',
-              text: 'The landscape becomes part of the practice: light, texture, silence, wind, ocean air and space to wander.',
-            },
-            {
-              title: 'Connection',
-              text: 'Shared meals, conversations, creative experiments and a final exhibition turn a group of strangers into a temporary creative community.',
-            },
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'Not a result. A relationship with creativity.',
-          paragraphs: [
-            'You may discover that you enjoy making things with your hands. You may find a new way of looking through a camera. You may feel more comfortable being seen, expressing emotion or taking up space.',
-            'You may simply remember what it feels like to play.',
-            'There is no right way to take part. You are invited to engage fully, but never pressured. Solitude, rest and quiet integration are as much a part of the retreat as the workshops.',
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'Your week, made visible',
-          paragraphs: [
-            'On the final evening, the retreat becomes an exhibition.',
-            'You will create, prepare and share the work that emerged during the week, whether it is a photograph, a sculpture, a drawing, a performance or something less easy to name.',
-            'It is not about producing a masterpiece. It is about honouring what you discovered, expressed and allowed yourself to make.',
+            'A week-long retreat in a shared two-house villa in the Algarve, with 6–11 strangers.',
+            'We arrive as strangers and gather around the table from the very first night. Through shared meals, conversations, life stories, creative projects, dreams, and the unexpected topics that arise, we begin to see one another more deeply.',
+            'Each morning, we dive into powerful mind–body–soul practices. During the day, creative practices invite us to explore, experiment, and express ourselves, with delicious breaks in between to rest, connect, and let inspiration settle.',
+            'Slowly, step by step, strangers become friends. The creative energy opens a different way of being: one of creation, play, and free expression. We loosen the grip of limitations and move into lightness, joy, and moments of genuine connection.',
+            'By the end of the week, we become a team of artists, working toward a shared purpose: the final exhibition. We open our doors to the local community and celebrate what we have created, together.',
           ],
         },
       ],
