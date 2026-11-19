@@ -714,7 +714,8 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Nourish the part of you that creates.',
+      closing: 'Nourish what wants to be created through you.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
