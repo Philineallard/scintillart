@@ -8,6 +8,7 @@ import { pathToFileURL } from 'node:url'
 
 const PAGES = [
   { file: 'thespark.html', url: '/thespark' },
+  { file: 'thespark-artists.html', url: '/thespark-artists' },
   { file: 'privacy.html', url: '/privacy' },
 ]
 

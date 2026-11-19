@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+import { artistsPage, workshopArtists } from '../../content/artists'
 import { thespark, type Block, type Fact } from '../../content/thespark'
 import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
@@ -21,6 +23,25 @@ export function Facts({ facts }: { facts: readonly Fact[] }) {
         </div>
       ))}
     </dl>
+  )
+}
+
+/** "With Igor Świeczak and Manu": each name links to that artist on /thespark-artists. */
+function WorkshopBy({ workshopId, fallback, tabIndex }: { workshopId: string; fallback: string; tabIndex?: number }) {
+  const people = workshopArtists(workshopId)
+  if (people.length === 0) return <p className={styles.by}>With {fallback}</p>
+  return (
+    <p className={styles.by}>
+      With{' '}
+      {people.map((a, i) => (
+        <span key={a.id}>
+          {i > 0 && ' and '}
+          <Link to={`${artistsPage.path}#${a.id}`} className={styles.artistLink} tabIndex={tabIndex}>
+            {a.name}
+          </Link>
+        </span>
+      ))}
+    </p>
   )
 }
 
@@ -80,11 +101,16 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
                   {w.practice}
                   {w.title && <span className={styles.workshopTitle}>{w.title}</span>}
                 </p>
-                <p className={styles.by}>With {w.by}</p>
+                <WorkshopBy workshopId={w.id} fallback={w.by} tabIndex={tabIndex} />
                 <p className={styles.small}>{w.text}</p>
               </li>
             ))}
           </ul>
+          {block.more && (
+            <Link to={block.more.href} className={styles.more} tabIndex={tabIndex}>
+              {block.more.label}
+            </Link>
+          )}
         </div>
       )
     case 'people':

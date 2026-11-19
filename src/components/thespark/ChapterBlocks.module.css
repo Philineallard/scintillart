@@ -152,6 +152,19 @@
   color: var(--text-muted);
 }
 
+/* Artist names in a workshop's "With ..." line, linking to /thespark-artists#<id>. */
+.artistLink {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color 0.2s var(--ease-out);
+}
+
+.artistLink:hover {
+  text-decoration-color: transparent;
+}
+
 /* ---------- Schedule ---------- */
 
 .schedule {
@@ -194,6 +207,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: var(--space-12) var(--space-8);
+}
+
+/* Link on from a list (e.g. "Meet the artists"). */
+.more {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: var(--space-6);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5em;
+}
+
+.more:hover {
+  text-decoration-color: transparent;
 }
 
 /* ---------- Rooms ---------- */

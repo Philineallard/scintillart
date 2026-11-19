@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { artistsPage } from './src/content/artists.ts'
 import { privacy } from './src/content/privacy.ts'
 import { faqJsonLd, thespark } from './src/content/thespark.ts'
 import { isHoneypotHit, validateRegistration } from './src/lib/register.ts'
@@ -42,6 +43,13 @@ const ROUTES: RouteHead[] = [
     description: thespark.meta.description,
     index: true,
     jsonLd: faqJsonLd(),
+  },
+  {
+    file: 'thespark-artists.html',
+    path: artistsPage.path,
+    title: artistsPage.meta.title,
+    description: artistsPage.meta.description,
+    index: true,
   },
   {
     file: 'privacy.html',
