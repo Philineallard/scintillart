@@ -175,6 +175,13 @@ export type Block =
 
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
 
+/**
+ * A photo or a silent looping video in a chapter's spread (files in public/thespark/).
+ * Photos: <name>.webp (900w) and <name>-sm.webp (540w), 4:5. Videos: <name>.mp4 and
+ * <name>-poster.webp, 4:5, no sound.
+ */
+export type Figure = { kind: 'image' | 'video'; name: string; alt: string; caption: string }
+
 export type Chapter = {
   /** Anchor: /thespark#<id>. Keep stable, links depend on it. */
   id: ChapterId
@@ -184,6 +191,8 @@ export type Chapter = {
   title: string
   /** Standfirst under the heading. */
   lead?: Maybe<string>
+  /** Three figures side by side under the heading, laid out like a newspaper page. */
+  spread?: Figure[]
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
@@ -269,6 +278,27 @@ export const thespark = {
       id: 'overview',
       nav: 'Overview',
       title: 'More than a holiday. A return to your creative self.',
+      // Chosen by Philine, November 2026. Captions are her labels; change them here.
+      spread: [
+        {
+          kind: 'image',
+          name: 'painting-materials',
+          alt: 'A charcoal figure drawing on a paint-splashed table beside brushes, pens and paints',
+          caption: 'Painting materials',
+        },
+        {
+          kind: 'video',
+          name: 'quinta-javali-walk',
+          alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
+          caption: 'Quinta Javali',
+        },
+        {
+          kind: 'image',
+          name: 'group-explore',
+          alt: 'A hand-doodled poster inviting you to choose a colour and explore, on a painted tablecloth',
+          caption: 'Group',
+        },
+      ],
       blocks: [
         {
           type: 'text',

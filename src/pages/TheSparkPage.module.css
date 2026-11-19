@@ -285,6 +285,12 @@
   min-width: 0;
 }
 
+/* A chapter's spread runs the full width under its heading; the text follows below. */
+.chapterSpread {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
 @media (max-width: 900px) {
   .chapterHead,
   .chapterBody {

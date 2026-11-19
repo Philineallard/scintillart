@@ -5,6 +5,7 @@ import { RegisterPanel } from '../components/thespark/RegisterPanel'
 import { BrandGrain } from '../components/thespark/BrandGrain'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
+import { Spread } from '../components/thespark/Spread'
 import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
@@ -42,6 +43,11 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
           </p>
         )}
       </div>
+      {chapter.spread && (
+        <div className={styles.chapterSpread}>
+          <Spread figures={chapter.spread} />
+        </div>
+      )}
       <div className={styles.chapterBody}>
         <ChapterBlocks blocks={chapter.blocks} tabIndex={tabIndex} />
         {(chapter.closing || next) && (
