@@ -415,7 +415,7 @@ export const thespark = {
           heading: 'You arrive with curiosity. You leave with something made by you.',
           paragraphs: [
             'By the end of the week you will have made work with your own hands, tried new ways of seeing, and allowed yourself to make without needing to be perfect.',
-            'You leave with your artwork, new connections and fresh inspiration to take home.',
+            'You leave with your artwork, new connections, new insights about yourself and fresh inspiration to take home.',
           ],
         },
       ],
