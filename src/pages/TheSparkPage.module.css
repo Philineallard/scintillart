@@ -140,53 +140,43 @@
 }
 
 /*
- * Hero with a photo (Philine, November 2026: the sun through a fig tree, "the spark").
- * The photo is portrait, so it is never darkened or put under text: on wide screens it
- * fills the right-hand side of the hero edge to edge, on phones it sits above the title.
- * It covers the page grain (grain stays on background surfaces only).
+ * Hero with a full-bleed photo behind the text (Philine, November 2026: the sun through a
+ * fig tree, "the spark"). The photo covers the page grain (grain stays on background
+ * surfaces only) and is dimmed as a photo, with no tint layer, so gallery-ivory text reads
+ * on it in both themes. The crop keeps the sun clear of the text (focus in thespark.ts).
  */
 .heroPhoto {
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: calc(100svh - var(--header-h, 72px));
+  --text: var(--gallery-ivory);
+  --text-muted: var(--gallery-ivory);
+  --accent-editorial: var(--gallery-ivory);
+  --focus-ring: var(--gallery-ivory);
+  color: var(--text);
 }
 
+/* Out of the grid, so it fills the whole section, padding included (edge to edge). */
 .heroPhoto > .heroImage {
-  display: block;
+  grid-column: auto;
+  grid-row: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  max-width: none;
   object-fit: cover;
+  filter: brightness(0.62);
 }
 
-@media (min-width: 900px) {
-  .heroPhoto {
-    min-height: calc(100svh - var(--header-h, 72px));
-  }
-
-  .heroPhoto > :not(.heroImage) {
-    grid-column: 1 / span 6;
-  }
-
-  /* Out of the grid, so it reaches the top, bottom and right edges of the section. */
-  .heroPhoto > .heroImage {
-    grid-column: auto;
-    grid-row: auto;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 44%;
-    height: 100%;
-  }
-}
-
+/* Phones: the photo is drawn a little taller and lifted, so the sun sits above the title. */
 @media (max-width: 899px) {
-  .heroPhoto {
-    min-height: 0;
-    align-content: start;
-  }
-
   .heroPhoto > .heroImage {
-    width: calc(100% + 2 * var(--gutter));
-    max-width: none;
-    height: 58svh;
-    margin: calc(-1 * var(--section-pad)) calc(-1 * var(--gutter)) var(--space-10, 2.5rem);
+    top: -24%;
+    height: 124%;
   }
 }
 
