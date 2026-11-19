@@ -401,10 +401,13 @@ export const thespark = {
         },
         {
           type: 'text',
-          heading: 'For anyone ready to make space for creativity',
+          heading: 'Who is The Spark for?',
           paragraphs: [
             'The Spark is for thoughtful, open-minded people who may be capable and successful in many areas of life, yet feel that something essential has gone quiet: curiosity, play, self-expression or connection.',
             'You may be a business owner, a creative professional, a parent, or simply someone in a period of change. You do not need to identify as an artist. You only need to arrive curious, try something new and see what happens.',
+            'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
+            'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
+            'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
           ],
         },
         {
