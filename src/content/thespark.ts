@@ -196,10 +196,11 @@ export type Chapter = {
   spread?: Figure[]
   /**
    * A full-width photo behind the chapter's heading. Files in public/thespark/:
-   * <name>.webp (1600w), <name>-md.webp (1100w), <name>-sm.webp (720w).
-   * focus: the point kept in view when the photo is cropped.
+   * <name>.webp (full size, `width` wide), <name>-md.webp (1100w), <name>-sm.webp (720w).
+   * focus: the point kept in view when the photo is cropped. textAt: where the heading sits
+   * on the photo (default bottom), chosen to keep the photo's subject clear.
    */
-  cover?: { name: string; alt: string; width: number; height: number; focus: string }
+  cover?: { name: string; alt: string; width: number; height: number; focus: string; textAt?: 'top' | 'bottom' }
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
@@ -364,6 +365,15 @@ export const thespark = {
       nav: 'The experience',
       title: 'An immersive week of making, being and belonging',
       lead: 'Creative exploration, wellbeing, nature and human connection, held in a considered rhythm.',
+      // Chosen by Philine, November 2026: paints lined up along a sunlit wall (photo: Igor Świeczak).
+      cover: {
+        name: 'experience-paints',
+        alt: 'Tubes and bottles of paint lined up along a sunlit white wall under the leaves of a fig tree',
+        width: 2048,
+        height: 1367,
+        focus: '55% 62%',
+        textAt: 'top',
+      },
       blocks: [
         {
           type: 'text',

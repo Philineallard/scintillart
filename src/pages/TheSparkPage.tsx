@@ -33,7 +33,13 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
       className={chapter.cover ? `${styles.chapter} ${styles.chapterWithCover}` : styles.chapter}
       aria-labelledby={headingId}
     >
-      <div className={chapter.cover ? `${styles.chapterHead} ${styles.coverHead}` : styles.chapterHead}>
+      <div
+        className={
+          chapter.cover
+            ? `${styles.chapterHead} ${styles.coverHead}${chapter.cover.textAt === 'top' ? ` ${styles.coverHeadTop}` : ''}`
+            : styles.chapterHead
+        }
+      >
         {chapter.cover && (
           <img
             className={styles.coverImage}

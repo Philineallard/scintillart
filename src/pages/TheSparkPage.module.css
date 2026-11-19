@@ -319,6 +319,11 @@
   color: var(--text);
 }
 
+/* Heading at the top of the photo, when the subject sits low in the frame. */
+.coverHeadTop {
+  justify-content: flex-start;
+}
+
 /* Not sticky: the band scrolls away with its photo. */
 .chapterHead.coverHead {
   position: relative;
