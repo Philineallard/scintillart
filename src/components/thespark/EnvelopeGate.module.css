@@ -1,0 +1,178 @@
+/* The closing banner: Igor's envelope photograph, then the call to action below it.
+   The photo keeps its own colour (no filter, no grain over it). */
+
+.section {
+  scroll-margin-top: var(--header-h, 72px);
+  border-top: 1px solid var(--hairline);
+}
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  height: clamp(420px, 78svh, 860px);
+}
+
+.photo > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* keep in step with PHOTO.focusX / focusY in src/envelope/config.ts */
+  object-position: 46% 62%;
+  display: block;
+}
+
+.credit {
+  position: absolute;
+  right: var(--gutter);
+  bottom: var(--space-3);
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--gallery-ivory);
+}
+
+/* Clickable area over the real envelope pile (positioned from the photo's crop). */
+.hit {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  left: var(--ex, 50%);
+  top: var(--ey, 62%);
+  width: calc(var(--u, 0.6) * 560px);
+  height: calc(var(--u, 0.6) * 280px);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hit:focus-visible {
+  outline: 2px solid var(--gallery-ivory);
+  outline-offset: 4px;
+}
+
+/* A ring on the wax seal, breathing slowly: the photo itself is the button. */
+.ring {
+  position: absolute;
+  left: calc(50% + var(--u, 0.6) * 90px);
+  top: calc(50% - var(--u, 0.6) * 35px);
+  width: max(44px, calc(var(--u, 0.6) * 84px));
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid var(--gallery-ivory);
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.ring::after {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border: 1.5px solid var(--gallery-ivory);
+  border-radius: 50%;
+  animation: breathe 3.4s ease-out infinite;
+}
+
+@keyframes breathe {
+  0% { transform: scale(1); opacity: 0.85; }
+  70%, 100% { transform: scale(1.9); opacity: 0; }
+}
+
+.tag {
+  position: absolute;
+  left: calc(50% + var(--u, 0.6) * 90px);
+  top: calc(50% - var(--u, 0.6) * 35px - max(44px, calc(var(--u, 0.6) * 84px)) * 0.5 - 14px);
+  transform: translate(-50%, -100%) translateY(6px);
+  opacity: 0;
+  padding: 6px 12px;
+  background: var(--carbon);
+  color: var(--gallery-ivory);
+  border: 1px solid var(--antique-brass);
+  font: 500 13px/18px var(--font-sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.hot .ring { transform: translate(-50%, -50%) scale(1.18); }
+.hot .tag { opacity: 1; transform: translate(-50%, -100%); }
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6) var(--space-12);
+  padding: var(--section-pad) var(--gutter);
+}
+
+.text {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 40rem;
+}
+
+.text > p:first-child { margin: 0; }
+
+/* ---------- the sequence layer ---------- */
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background: #1d1a18; /* the 3D scene's background, so the hand-over is seamless */
+  opacity: 0;
+}
+
+.clone {
+  position: absolute;
+  overflow: hidden;
+  visibility: hidden;
+  will-change: transform, filter;
+}
+
+.clone img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 46% 62%;
+  display: block;
+}
+
+.gl {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.skip {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-6);
+  transform: translateX(-50%);
+  margin: 0;
+  opacity: 0;
+  color: var(--parchment);
+  font: 500 12px/18px var(--font-sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring::after { animation: none; opacity: 0; }
+  .ring, .tag { transition: none; }
+}
