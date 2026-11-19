@@ -348,6 +348,14 @@
   max-width: 40rem;
 }
 
+/* A tall photo pushed towards the right of a wide band (see pushRight in thespark.ts). */
+@media (min-width: 901px) {
+  .photoFill[data-push] {
+    transform: scale(var(--push));
+    transform-origin: 0% 40%;
+  }
+}
+
 /* Band: full width, edge to edge, at the top of the chapter; scrolls away normally. */
 /* A band without text is shown at full brightness. */
 .band:not(:has(.photoText)) .photoFill {

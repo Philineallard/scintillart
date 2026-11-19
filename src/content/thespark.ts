@@ -225,7 +225,19 @@ export type Figure = { kind: 'image' | 'video'; name: string; alt: string }
  * A chapter photo in public/thespark/: <name>.webp (full size, `width` wide),
  * <name>-md.webp (1100w), <name>-sm.webp (720w). focus: the point kept in view when cropped.
  */
-export type ChapterPhoto = { name: string; alt: string; width: number; height: number; focus: string }
+export type ChapterPhoto = {
+  name: string
+  alt: string
+  width: number
+  height: number
+  focus: string
+  /**
+   * Wide screens only: zoom the photo from its left edge by this factor (e.g. 1.4), which
+   * moves its subject towards the right of a full-width band. For tall photos, whose
+   * subject can't otherwise move sideways in a wide band.
+   */
+  pushRight?: number
+}
 
 export type Chapter = {
   /** Anchor: /thespark#<id>. Keep stable, links depend on it. */
@@ -473,6 +485,7 @@ export const thespark = {
         width: 1367,
         height: 2048,
         focus: '45% 30%',
+        pushRight: 1.45,
       },
       blocks: [
         {

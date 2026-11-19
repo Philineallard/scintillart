@@ -54,7 +54,8 @@ function PhotoImg({ photo, className, sizes }: { photo: ChapterPhoto; className:
       alt={photo.alt}
       width={photo.width}
       height={photo.height}
-      style={{ objectPosition: photo.focus }}
+      style={{ objectPosition: photo.focus, ...(photo.pushRight ? { ['--push' as string]: photo.pushRight } : {}) }}
+      data-push={photo.pushRight ? '' : undefined}
       loading="lazy"
       decoding="async"
     />
