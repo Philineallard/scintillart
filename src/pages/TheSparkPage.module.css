@@ -308,6 +308,10 @@
   min-width: 0;
 }
 
+.chapterBodyLeft {
+  grid-column: 1 / span 6;
+}
+
 
 /*
  * Chapter photos. The photo covers the page grain (grain stays on background surfaces) and

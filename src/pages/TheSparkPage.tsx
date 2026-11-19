@@ -175,7 +175,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
                 <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={!withHead} />
               </div>
             )}
-            <div className={styles.chapterBody}>
+            <div className={chapter.textLeft && !withHead && !withCopy ? `${styles.chapterBody} ${styles.chapterBodyLeft}` : styles.chapterBody}>
               <ChapterBlocks blocks={seg.blocks} tabIndex={tabIndex} />
               {i === lastText && end}
             </div>

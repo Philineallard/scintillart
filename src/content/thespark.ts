@@ -266,6 +266,8 @@ export type Chapter = {
    * one; 'afterRows' = only beside text that follows a full-width row (gallery, rooms).
    */
   repeatHeading?: boolean | 'afterRows'
+  /** Text with no heading beside it sits in the left column instead of the right (wide screens). */
+  textLeft?: boolean
   /**
    * A photo panel beside the text, with the heading on it, pinned while the text scrolls
    * (wide screens; a band above the text on phones). side: which half it takes.
@@ -727,6 +729,8 @@ export const thespark = {
       // with the heading on it; the heading is repeated beside the text after the rooms only.
       // The rooms below have the full width.
       repeatHeading: 'afterRows',
+      // "A home for the week" sits on the left (Philine, November 2026).
+      textLeft: true,
       band: {
         name: 'accommodation-bath',
         alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
