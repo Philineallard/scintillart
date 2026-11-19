@@ -16,15 +16,18 @@ type Props = {
 type FormState = {
   name: string
   email: string
+  phoneCode: string
+  phone: string
   room: RoomId | ''
   travelling: Travelling
   message: string
   consent: boolean
+  newsletter: boolean
   website: string
 }
 
-const EMPTY: FormState = { name: '', email: '', room: '', travelling: '', message: '', consent: false, website: '' }
-const FIELD_ORDER: Field[] = ['name', 'email', 'room', 'travelling', 'message', 'consent']
+const EMPTY: FormState = { name: '', email: '', phoneCode: '+', phone: '', room: '', travelling: '', message: '', consent: false, newsletter: false, website: '' }
+const FIELD_ORDER: Field[] = ['name', 'email', 'phoneCode', 'phone', 'room', 'travelling', 'message', 'consent']
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([tabindex="-1"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
@@ -116,7 +119,7 @@ export function RegisterPanel({ open, room, onClose }: Props) {
     e.preventDefault()
     if (status === 'sending') return
     setSubmitted(true)
-    const payload = normalise(form)
+    const payload = normalise({ ...form, phoneCode: form.phoneCode === '+' ? '' : form.phoneCode })
     const errs = validate(payload)
     setErrors(errs)
     if (Object.keys(errs).length) {
@@ -275,6 +278,56 @@ export function RegisterPanel({ open, room, onClose }: Props) {
                 {errorText('email')}
               </div>
 
+              <fieldset className={styles.fieldset} aria-describedby={fid('phone-hint')}>
+                <legend className={styles.label}>{t.fields.phone}</legend>
+                <p id={fid('phone-hint')} className={styles.hint}>
+                  {t.fields.phoneHint}
+                </p>
+                <div className={styles.phoneRow}>
+                  <div className={styles.phoneCode}>
+                    <label htmlFor={fid('phoneCode')} className="visually-hidden">
+                      {t.fields.phoneCode}
+                    </label>
+                    <input
+                      id={fid('phoneCode')}
+                      name="phoneCode"
+                      className={styles.input}
+                      type="text"
+                      inputMode="tel"
+                      autoComplete="tel-country-code"
+                      required
+                      maxLength={8}
+                      placeholder="+351"
+                      value={form.phoneCode}
+                      onChange={(e) => set('phoneCode', e.target.value)}
+                      aria-invalid={errors.phoneCode ? true : undefined}
+                      aria-describedby={describe('phoneCode')}
+                    />
+                  </div>
+                  <div className={styles.phoneNumber}>
+                    <label htmlFor={fid('phone')} className="visually-hidden">
+                      {t.fields.phoneNumber}
+                    </label>
+                    <input
+                      id={fid('phone')}
+                      name="phone"
+                      className={styles.input}
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel-national"
+                      required
+                      maxLength={24}
+                      value={form.phone}
+                      onChange={(e) => set('phone', e.target.value)}
+                      aria-invalid={errors.phone ? true : undefined}
+                      aria-describedby={describe('phone')}
+                    />
+                  </div>
+                </div>
+                {errorText('phoneCode')}
+                {errorText('phone')}
+              </fieldset>
+
               <div className={styles.field}>
                 <label htmlFor={fid('room')} className={styles.label}>
                   {t.fields.room}
@@ -384,6 +437,20 @@ export function RegisterPanel({ open, room, onClose }: Props) {
                   </span>
                 </label>
                 {errorText('consent')}
+              </div>
+
+              <div className={styles.field}>
+                <label className={styles.consent}>
+                  <input
+                    type="checkbox"
+                    name="newsletter"
+                    checked={form.newsletter}
+                    onChange={(e) => set('newsletter', e.target.checked)}
+                  />
+                  <span>
+                    {t.fields.newsletter} <span className={styles.optional}>({t.fields.optional})</span>
+                  </span>
+                </label>
               </div>
 
               <button type="submit" className={`${pageStyles.button} ${styles.button}`} disabled={status === 'sending'}>

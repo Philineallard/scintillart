@@ -13,20 +13,31 @@ export type RoomChoice = RoomId | ''
 export type RegisterPayload = {
   name: string
   email: string
+  /** Country calling code with a leading +, e.g. "+351". */
+  phoneCode: string
+  /** The phone number without the country code. */
+  phone: string
   room: RoomChoice
   travelling: Travelling
   message: string
   consent: boolean
+  /** Optional: would like to receive further information (newsletter). */
+  newsletter: boolean
   /** Honeypot: hidden from people, filled in by bots. Must be empty. */
   website: string
 }
 
-export type Field = 'name' | 'email' | 'room' | 'travelling' | 'message' | 'consent'
+export type Field = 'name' | 'email' | 'phoneCode' | 'phone' | 'room' | 'travelling' | 'message' | 'consent'
 export type FieldErrors = Partial<Record<Field, string>>
 
 export const LIMITS = { name: 120, email: 254, message: 2000 } as const
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+/** + then 1 to 4 digits (spaces or a dash allowed, as in "+1 268"). */
+const PHONE_CODE = /^\+\d{1,4}([ -]?\d{1,4})?$/
+/** Digits with optional spaces, dots, dashes or brackets; 4 to 15 digits in all. */
+const PHONE = /^[\d\s().-]+$/
+const digits = (s: string) => s.replace(/\D/g, '').length
 const ROOM_IDS = new Set<string>(rooms.map((r) => r.id))
 
 const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '')
@@ -43,10 +54,16 @@ export function normalise(input: unknown): RegisterPayload {
   return {
     name: str(o.name),
     email: str(o.email),
+    phoneCode: (() => {
+      const c = str(o.phoneCode)
+      return c && !c.startsWith('+') ? `+${c}` : c
+    })(),
+    phone: str(o.phone),
     room: str(o.room) as RoomChoice,
     travelling: (travelling === 'alone' || travelling === 'together' ? travelling : travelling ? 'invalid' : '') as Travelling,
     message: str(o.message),
     consent: o.consent === true,
+    newsletter: o.newsletter === true,
     website: str(o.website),
   }
 }
@@ -59,6 +76,11 @@ export function validate(p: RegisterPayload): FieldErrors {
 
   if (!p.email) errors.email = e.email
   else if (p.email.length > LIMITS.email || !EMAIL.test(p.email)) errors.email = e.emailFormat
+
+  if (!p.phoneCode) errors.phoneCode = e.phoneCode
+  else if (!PHONE_CODE.test(p.phoneCode)) errors.phoneCode = e.phoneCodeFormat
+  if (!p.phone) errors.phone = e.phone
+  else if (!PHONE.test(p.phone) || digits(p.phone) < 4 || digits(p.phone) > 15) errors.phone = e.phoneFormat
 
   if (p.room && !ROOM_IDS.has(p.room)) errors.room = e.room
   if (p.travelling && p.travelling !== 'alone' && p.travelling !== 'together') errors.travelling = e.travelling
@@ -83,9 +105,11 @@ export function formatRegistrationEmail(p: RegisterPayload): { subject: string; 
     text: [
       `${f.name}: ${p.name}`,
       `${f.email}: ${p.email}`,
+      `${f.phone}: ${p.phoneCode} ${p.phone}`,
       `${f.room}: ${room}`,
       `${f.travelling}: ${travelling}`,
       `Consent to be contacted: yes`,
+      `Newsletter: ${p.newsletter ? 'yes' : 'no'}`,
       '',
       `${f.message}:`,
       p.message || '—',
