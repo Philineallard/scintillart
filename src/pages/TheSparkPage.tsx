@@ -28,8 +28,26 @@ type Props = {
 function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; index: number; next?: Chapter; tabIndex?: number }) {
   const headingId = `${chapter.id}-title`
   return (
-    <section id={chapter.id} className={styles.chapter} aria-labelledby={headingId}>
-      <div className={styles.chapterHead}>
+    <section
+      id={chapter.id}
+      className={chapter.cover ? `${styles.chapter} ${styles.chapterWithCover}` : styles.chapter}
+      aria-labelledby={headingId}
+    >
+      <div className={chapter.cover ? `${styles.chapterHead} ${styles.coverHead}` : styles.chapterHead}>
+        {chapter.cover && (
+          <img
+            className={styles.coverImage}
+            src={`${base}thespark/${chapter.cover.name}.webp`}
+            srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp ${chapter.cover.width}w`}
+            sizes="100vw"
+            alt={chapter.cover.alt}
+            width={chapter.cover.width}
+            height={chapter.cover.height}
+            style={{ objectPosition: chapter.cover.focus }}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
         <p className={styles.chapterLabel}>
           <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
           {chapter.nav}
@@ -46,21 +64,6 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
       {chapter.spread && (
         <div className={styles.chapterSpread}>
           <Spread figures={chapter.spread} />
-        </div>
-      )}
-      {chapter.cover && (
-        <div className={styles.chapterSpread}>
-          <img
-            className={styles.chapterCover}
-            src={`${base}thespark/${chapter.cover.name}.webp`}
-            srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp 1800w`}
-            sizes="(max-width: 900px) 100vw, 92vw"
-            alt={chapter.cover.alt}
-            width={chapter.cover.width}
-            height={chapter.cover.height}
-            loading="lazy"
-            decoding="async"
-          />
         </div>
       )}
       <div className={styles.chapterBody}>

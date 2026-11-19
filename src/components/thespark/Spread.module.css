@@ -26,6 +26,15 @@
   object-fit: cover;
 }
 
+video.media {
+  cursor: pointer;
+}
+
+video.media:focus-visible {
+  outline: 1px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
 /* Phones: one frame under the other. */
 @media (max-width: 720px) {
   .spread {

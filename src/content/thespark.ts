@@ -176,9 +176,10 @@ export type Block =
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
 
 /**
- * A photo or a silent looping video in a chapter's spread (files in public/thespark/).
- * All shown at the same size, 4:5. Photos: <name>.webp (900w) and <name>-sm.webp (540w).
- * Videos: <name>.mp4 and <name>-poster.webp, 600×750, no sound.
+ * A photo or a silent video in a chapter's spread (files in public/thespark/), all shown
+ * at the same size, 4:5. Photos: <name>.webp (900w) and <name>-sm.webp (540w).
+ * Videos: <name>.mp4 and <name>-poster.webp, 600×750, no sound; they play while the
+ * cursor is on them (tap on phones).
  */
 export type Figure = { kind: 'image' | 'video'; name: string; alt: string }
 
@@ -194,10 +195,11 @@ export type Chapter = {
   /** Three figures side by side under the heading, laid out like a newspaper page. */
   spread?: Figure[]
   /**
-   * One wide photo across the chapter under the heading. Files in public/thespark/:
-   * <name>.webp (1800w), <name>-md.webp (1100w), <name>-sm.webp (720w).
+   * A full-width photo behind the chapter's heading. Files in public/thespark/:
+   * <name>.webp (1600w), <name>-md.webp (1100w), <name>-sm.webp (720w).
+   * focus: the point kept in view when the photo is cropped.
    */
-  cover?: { name: string; alt: string; width: number; height: number }
+  cover?: { name: string; alt: string; width: number; height: number; focus: string }
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
@@ -283,12 +285,12 @@ export const thespark = {
       id: 'overview',
       nav: 'Overview',
       title: 'More than a holiday. A return to your creative self.',
-      // Chosen by Philine, November 2026: three frames of the same size, no lines, no captions.
+      // Chosen by Philine, November 2026: three silent videos of the same size, no lines, no captions.
       spread: [
         {
-          kind: 'image',
-          name: 'workshop-floor',
-          alt: 'Tarot cards, tea lights, coloured pencils, watercolours and drawings spread over a striped cloth on a wooden floor',
+          kind: 'video',
+          name: 'mural-wall',
+          alt: 'Artists painting a large mural on a white wall while others watch',
         },
         {
           kind: 'video',
@@ -297,8 +299,8 @@ export const thespark = {
         },
         {
           kind: 'video',
-          name: 'workshop-print',
-          alt: 'An artist pressing a print onto stone during a workshop, then the finished pieces lit by fairy lights',
+          name: 'photoshoot',
+          alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
         },
       ],
       blocks: [
@@ -505,12 +507,13 @@ export const thespark = {
       nav: 'Venue & location',
       title: 'A private estate in the hills of Aljezur',
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
-      // Chosen by Philine, November 2026: the main house, cropped to the building.
+      // Chosen by Philine, November 2026: the main house behind the heading, levelled.
       cover: {
         name: 'venue-house',
         alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
-        width: 1800,
-        height: 1145,
+        width: 1600,
+        height: 2149,
+        focus: '50% 33%',
       },
       blocks: [
         {

@@ -5,30 +5,38 @@ import styles from './Spread.module.css'
 const base = import.meta.env.BASE_URL
 
 /**
- * Silent looping video. It only plays while on screen, and never on its own under
- * prefers-reduced-motion (then it shows its poster with controls, to play by choice).
- * Rendered without browser APIs so /thespark can be pre-rendered.
+ * Silent video that plays while the cursor is on it (or while it has keyboard focus) and
+ * pauses when the cursor leaves. On touch screens a tap starts and stops it. It never
+ * starts on its own, so it is reduced-motion safe. It starts loading once it is near the
+ * screen, so it can begin straight away. Rendered without browser APIs (pre-rendering).
  */
-function LoopVideo({ figure }: { figure: Figure }) {
+function HoverVideo({ figure }: { figure: Figure }) {
   const ref = useRef<HTMLVideoElement>(null)
-  const [reduced, setReduced] = useState(false)
+  const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
     const video = ref.current
     if (!video) return
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReduced(media.matches)
-    if (media.matches) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {})
-        else video.pause()
+        if (entry.isIntersecting) {
+          video.preload = 'auto'
+          observer.disconnect()
+        }
       },
-      { threshold: 0.25 },
+      { rootMargin: '400px 0px' },
     )
     observer.observe(video)
     return () => observer.disconnect()
   }, [])
+
+  const play = () => {
+    ref.current?.play().then(() => setPlaying(true)).catch(() => {})
+  }
+  const pause = () => {
+    ref.current?.pause()
+    setPlaying(false)
+  }
 
   return (
     <video
@@ -40,22 +48,27 @@ function LoopVideo({ figure }: { figure: Figure }) {
       loop
       playsInline
       preload="none"
-      controls={reduced}
+      tabIndex={0}
       aria-label={figure.alt}
       width={600}
       height={750}
+      onPointerEnter={(e) => e.pointerType === 'mouse' && play()}
+      onPointerLeave={(e) => e.pointerType === 'mouse' && pause()}
+      onClick={() => (playing ? pause() : play())}
+      onFocus={play}
+      onBlur={pause}
     />
   )
 }
 
-/** Three frames of the same size side by side: photos and silent videos, no lines, no captions. */
+/** Three frames of the same size side by side: photos and silent hover videos, no lines, no captions. */
 export function Spread({ figures }: { figures: readonly Figure[] }) {
   return (
     <div className={styles.spread}>
       {figures.map((f) => (
         <figure key={f.name} className={styles.figure}>
           {f.kind === 'video' ? (
-            <LoopVideo figure={f} />
+            <HoverVideo figure={f} />
           ) : (
             <img
               className={styles.media}

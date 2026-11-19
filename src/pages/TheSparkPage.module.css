@@ -291,12 +291,53 @@
   min-width: 0;
 }
 
-/* A chapter's wide photo: full width of the chapter, whole, square corners. */
-.chapterCover {
-  display: block;
+/*
+ * A chapter with a photo behind its heading (Venue & location): the heading block becomes
+ * a full-bleed band, edge to edge, with the photo dimmed as a photo (no tint layer) and
+ * gallery-ivory text, as in the page hero. The photo covers the page grain.
+ */
+.chapterWithCover {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.coverHead {
+  grid-column: 1 / -1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: calc(92svh - var(--header-h, 72px));
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--section-pad) var(--gutter);
+  --text: var(--gallery-ivory);
+  --text-muted: var(--gallery-ivory);
+  --accent-editorial: var(--gallery-ivory);
+  --focus-ring: var(--gallery-ivory);
+  color: var(--text);
+}
+
+/* Not sticky: the band scrolls away with its photo. */
+.chapterHead.coverHead {
+  position: relative;
+  top: auto;
+}
+
+.coverHead > :not(.coverImage) {
+  max-width: 40rem;
+}
+
+.coverImage {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   width: 100%;
-  height: auto;
+  height: 100%;
   max-width: none;
+  object-fit: cover;
+  filter: brightness(0.62);
 }
 
 @media (max-width: 900px) {
