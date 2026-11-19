@@ -254,6 +254,8 @@ export type Chapter = {
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
+  /** The closing line opens the Register your interest form. */
+  closingOpensRegister?: boolean
 }
 
 const faq: Faq[] = [
@@ -450,7 +452,8 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Give yourself permission to begin.',
+      closing: 'Experience something different. Join The Spark.',
+      closingOpensRegister: true,
     },
 
     {
