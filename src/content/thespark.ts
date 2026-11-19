@@ -765,9 +765,10 @@ export const thespark = {
           heading: 'Booking and cancellation',
           facts: [
             { term: 'Early-bird deadline', detail: '6 December 2026' },
-            { term: 'Deposit', detail: TBA },
-            { term: 'Balance', detail: TBA },
-            { term: 'Cancellation', detail: TBA },
+            // Philine, November 2026.
+            { term: 'Deposit', detail: '50% to confirm your booking' },
+            { term: 'Balance', detail: 'The remaining 50%, two weeks before the retreat starts' },
+            { term: 'Cancellation', detail: 'Free up to 60 days before the retreat starts' },
           ],
         },
         // Moved here (Philine, November 2026): just above the FAQ.
