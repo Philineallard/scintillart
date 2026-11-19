@@ -331,13 +331,13 @@ export const thespark = {
         },
         {
           kind: 'video',
-          name: 'quinta-javali-walk',
-          alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
+          name: 'photoshoot',
+          alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
         },
         {
           kind: 'video',
-          name: 'photoshoot',
-          alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
+          name: 'quinta-javali-walk',
+          alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
         },
       ],
       blocks: [
