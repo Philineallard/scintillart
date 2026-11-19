@@ -656,16 +656,16 @@ export const thespark = {
       title: 'Nourishment for body, mind and imagination',
       lead: 'Food, rest and wellbeing practices that support a week of creative exploration.',
       // Chosen by Philine, November 2026: the title alone at the top; from "Meals that bring
-      // people together" the candlelit table ("Table gather together", original colours)
+      // people together" the group at dinner around the candlelit table
       // is pinned beside the text.
       panel: {
         side: 'left',
         fromBlock: 2,
-        name: 'food-table',
-        alt: 'A candlelit table with glass lanterns, a carafe and wine glasses on a painted tablecloth',
-        width: 1400,
-        height: 1859,
-        focus: '50% 50%',
+        name: 'food-gathering',
+        alt: 'Guests around a candlelit dinner table with a painted tablecloth, in a warm living room',
+        width: 1320,
+        height: 1069,
+        focus: '45% 35%',
       },
       blocks: [
         {
