@@ -219,6 +219,12 @@ export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue
  */
 export type Figure = { kind: 'image' | 'video'; name: string; alt: string }
 
+/**
+ * A chapter photo in public/thespark/: <name>.webp (full size, `width` wide),
+ * <name>-md.webp (1100w), <name>-sm.webp (720w). focus: the point kept in view when cropped.
+ */
+export type ChapterPhoto = { name: string; alt: string; width: number; height: number; focus: string }
+
 export type Chapter = {
   /** Anchor: /thespark#<id>. Keep stable, links depend on it. */
   id: ChapterId
@@ -231,12 +237,16 @@ export type Chapter = {
   /** Three figures side by side under the heading, laid out like a newspaper page. */
   spread?: Figure[]
   /**
-   * A full-width photo behind the chapter's heading. Files in public/thespark/:
-   * <name>.webp (full size, `width` wide), <name>-md.webp (1100w), <name>-sm.webp (720w).
-   * focus: the point kept in view when the photo is cropped. textAt: where the heading sits
-   * on the photo (default bottom), chosen to keep the photo's subject clear.
+   * A full-width photo band at the top of the chapter, with the heading on it. It scrolls
+   * away normally.
    */
-  cover?: { name: string; alt: string; width: number; height: number; focus: string; textAt?: 'top' | 'bottom' }
+  band?: ChapterPhoto
+  /**
+   * A photo panel beside the text, with the heading on it, pinned while the text scrolls
+   * (wide screens; a band above the text on phones). side: which half it takes.
+   * fromBlock: the block it starts beside (default 0); blocks before it use the usual layout.
+   */
+  panel?: ChapterPhoto & { side?: 'left' | 'right'; fromBlock?: number; textAt?: 'top' | 'bottom' }
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
@@ -402,7 +412,8 @@ export const thespark = {
       title: 'An immersive week of making, being and belonging',
       lead: 'Creative exploration, wellbeing, nature and human connection, held in a considered rhythm.',
       // Chosen by Philine, November 2026: paints lined up along a sunlit wall (photo: Igor Świeczak).
-      cover: {
+      panel: {
+        side: 'left',
         name: 'experience-paints',
         alt: 'Tubes and bottles of paint lined up along a sunlit white wall under the leaves of a fig tree',
         width: 2048,
@@ -464,6 +475,15 @@ export const thespark = {
       nav: 'Workshops & facilitators',
       title: 'Learn from artists. Create with your hands.',
       lead: 'A different artist, practice and creative energy each day.',
+      // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
+      panel: {
+        side: 'right',
+        name: 'workshops-shells',
+        alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
+        width: 1367,
+        height: 2048,
+        focus: '45% 45%',
+      },
       blocks: [
         {
           type: 'text',
@@ -508,6 +528,15 @@ export const thespark = {
       nav: 'A day at The Spark',
       title: 'A rhythm that balances inspiration and rest',
       lead: 'Enough structure to feel held. Enough freedom to explore, integrate and simply be.',
+      // Chosen by Philine, November 2026: Igor Świeczak's exhibition, set up for an evening.
+      panel: {
+        side: 'left',
+        name: 'day-exhibition',
+        alt: 'An evening exhibition of photographs on a wall and a red curtain, with a table of prints and studio lights',
+        width: 1367,
+        height: 2048,
+        focus: '50% 50%',
+      },
       blocks: [
         {
           type: 'text',
@@ -553,13 +582,23 @@ export const thespark = {
       nav: 'Venue & location',
       title: 'A private estate in the hills of Aljezur',
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
-      // Chosen by Philine, November 2026: the main house behind the heading, levelled.
-      cover: {
+      // Chosen by Philine, November 2026: the main house (levelled). A full-width band first;
+      // after the gallery the same photo becomes the pinned panel beside the text.
+      band: {
         name: 'venue-house',
         alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
         width: 1600,
         height: 2149,
         focus: '50% 33%',
+      },
+      panel: {
+        side: 'left',
+        fromBlock: 2,
+        name: 'venue-house',
+        alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
+        width: 1600,
+        height: 2149,
+        focus: '50% 40%',
       },
       blocks: [
         {
@@ -614,6 +653,17 @@ export const thespark = {
       nav: 'Food & wellbeing',
       title: 'Nourishment for body, mind and imagination',
       lead: 'Food, rest and wellbeing practices that support a week of creative exploration.',
+      // Chosen by Philine, November 2026: the title alone at the top; from "Meals that bring
+      // people together" a dish from the retreat kitchen is pinned beside the text.
+      panel: {
+        side: 'left',
+        fromBlock: 2,
+        name: 'food-plate',
+        alt: 'Golden fried tofu with carrots, broccoli and fresh coriander in a dark bowl',
+        width: 1400,
+        height: 1859,
+        focus: '50% 50%',
+      },
       blocks: [
         {
           type: 'text',
@@ -669,8 +719,9 @@ export const thespark = {
       nav: 'Accommodation & pricing',
       title: 'Choose the space that feels right for you',
       lead: 'Comfortable rooms in a private natural setting, for rest, reflection and retreat.',
-      // Chosen by Philine, November 2026: an en-suite bathroom at Quinta Javali.
-      cover: {
+      // Chosen by Philine, November 2026: an en-suite bathroom at Quinta Javali. A band only,
+      // so the rooms below have the full width.
+      band: {
         name: 'accommodation-bath',
         alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
         width: 2048,

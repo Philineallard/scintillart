@@ -10,7 +10,7 @@ import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
-import { thespark, type Block, type Chapter, type RoomId } from '../content/thespark'
+import { thespark, type Block, type Chapter, type ChapterPhoto, type RoomId } from '../content/thespark'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { useBrandTheme } from '../hooks/useBrandTheme'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -27,11 +27,14 @@ type Props = {
 
 type Segment = { wide: false; blocks: Block[] } | { wide: true; block: Block }
 
-/** Splits a chapter's blocks at its full-width galleries: text runs beside the heading, galleries span the page. */
+/** Full-width blocks get a row of their own: the galleries and the room cards. */
+const isWide = (b: Block) => b.type === 'gallery' || b.type === 'rooms'
+
+/** Splits blocks into runs of text (beside the heading) and full-width rows. */
 function segmentsOf(blocks: readonly Block[]): Segment[] {
   const out: Segment[] = []
   for (const b of blocks) {
-    if (b.type === 'gallery') out.push({ wide: true, block: b })
+    if (isWide(b)) out.push({ wide: true, block: b })
     else {
       const last = out[out.length - 1]
       if (last && !last.wide) last.blocks.push(b)
@@ -41,18 +44,66 @@ function segmentsOf(blocks: readonly Block[]): Segment[] {
   return out
 }
 
+function PhotoImg({ photo, className, sizes }: { photo: ChapterPhoto; className: string; sizes: string }) {
+  return (
+    <img
+      className={className}
+      src={`${base}thespark/${photo.name}.webp`}
+      srcSet={`${base}thespark/${photo.name}-sm.webp 720w, ${base}thespark/${photo.name}-md.webp 1100w, ${base}thespark/${photo.name}.webp ${photo.width}w`}
+      sizes={sizes}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      style={{ objectPosition: photo.focus }}
+      loading="lazy"
+      decoding="async"
+    />
+  )
+}
+
 /**
- * One chapter. It is built in rows: the first row holds the heading (pinned while the
- * text beside it scrolls) and the first run of text; full-width rows (the spread, the
- * galleries) come between text rows, so the pinned heading never runs over a photo.
+ * The chapter's number, title and standfirst. The first one on the page is the real
+ * heading; a later repeat (a pinned panel after a band) is a visual copy, hidden from
+ * assistive technology and from the document outline.
+ */
+function ChapterHeading({ chapter, index, headingId, copy = false }: { chapter: Chapter; index: number; headingId: string; copy?: boolean }) {
+  const Title = copy ? 'p' : 'h2'
+  return (
+    <div className={copy ? styles.headingCopy : undefined} aria-hidden={copy || undefined}>
+      <p className={styles.chapterLabel}>
+        <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
+        {chapter.nav}
+      </p>
+      <Title id={copy ? undefined : headingId} className={styles.h2}>
+        {chapter.title}
+      </Title>
+      {chapter.lead && (
+        <p className={styles.lead}>
+          <Value value={chapter.lead} />
+        </p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * One chapter, built in rows (editorial layout, CLAUDE.md):
+ * - band: a full-width photo with the heading on it, at the top;
+ * - spread: a full-width row of videos, before the text;
+ * - text rows (.zone): heading pinned on the left, text on the right;
+ * - wide rows: galleries and room cards, the full width;
+ * - panel: a photo with the heading on it, pinned on one side while the text scrolls.
+ * The heading is pinned only within its own row, so it never runs over a photo.
  */
 function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; index: number; next?: Chapter; tabIndex?: number }) {
   const headingId = `${chapter.id}-title`
-  const segments = segmentsOf(chapter.blocks)
-  // With a spread under the heading, the heading's row holds the heading alone.
-  const head = segments[0]
-  const firstText = !chapter.spread && head && !head.wide ? head : undefined
-  if (firstText) segments.shift()
+  const { band, panel, spread } = chapter
+  const from = panel ? (panel.fromBlock ?? 0) : chapter.blocks.length
+  const segments = segmentsOf(chapter.blocks.slice(0, from))
+  const panelBlocks = panel ? chapter.blocks.slice(from) : []
+  let placed = Boolean(band)
+  const lastText = panel ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
+
   const end = (chapter.closing || next) && (
     <div className={styles.chapterEnd}>
       {chapter.closing && <p className={styles.closing}>{chapter.closing}</p>}
@@ -64,79 +115,68 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
       )}
     </div>
   )
-  const lastIsText = segments.length > 0 ? !segments[segments.length - 1].wide : Boolean(firstText)
+
+  const flush = Boolean(band) || (panel && from === 0)
+  const side = panel?.side ?? 'left'
 
   return (
-    <section
-      id={chapter.id}
-      className={chapter.cover ? `${styles.chapter} ${styles.chapterWithCover}` : styles.chapter}
-      aria-labelledby={headingId}
-    >
-      <div className={styles.zone}>
-        <div
-          className={
-            chapter.cover
-              ? `${styles.chapterHead} ${styles.coverHead}${chapter.cover.textAt === 'top' ? ` ${styles.coverHeadTop}` : ''}`
-              : styles.chapterHead
-          }
-        >
-          {chapter.cover && (
-            <img
-              className={styles.coverImage}
-              src={`${base}thespark/${chapter.cover.name}.webp`}
-              srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp ${chapter.cover.width}w`}
-              sizes="100vw"
-              alt={chapter.cover.alt}
-              width={chapter.cover.width}
-              height={chapter.cover.height}
-              style={{ objectPosition: chapter.cover.focus }}
-              loading="lazy"
-              decoding="async"
-            />
-          )}
-          <p className={styles.chapterLabel}>
-            <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
-            {chapter.nav}
-          </p>
-          <h2 id={headingId} className={styles.h2}>
-            {chapter.title}
-          </h2>
-          {chapter.lead && (
-            <p className={styles.lead}>
-              <Value value={chapter.lead} />
-            </p>
-          )}
-        </div>
-        {firstText && (
-          <div className={styles.chapterBody}>
-            <ChapterBlocks blocks={firstText.blocks} tabIndex={tabIndex} />
-            {segments.length === 0 && end}
+    <section id={chapter.id} className={flush ? `${styles.chapter} ${styles.chapterFlush}` : styles.chapter} aria-labelledby={headingId}>
+      {band && (
+        <div className={styles.band}>
+          <PhotoImg photo={band} className={styles.photoFill} sizes="100vw" />
+          <div className={styles.photoText}>
+            <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
           </div>
-        )}
-      </div>
-
-      {chapter.spread && (
-        <div className={styles.wideRow}>
-          <Spread figures={chapter.spread} />
         </div>
       )}
 
-      {segments.map((seg, i) =>
-        seg.wide ? (
-          <div key={i} className={styles.wideRow}>
-            <ChapterBlocks blocks={[seg.block]} tabIndex={tabIndex} />
-          </div>
-        ) : (
+      {spread && (
+        <div className={styles.wideRow}>
+          <Spread figures={spread} />
+        </div>
+      )}
+
+      {segments.map((seg, i) => {
+        if (seg.wide) {
+          return (
+            <div key={i} className={styles.wideRow}>
+              <ChapterBlocks blocks={[seg.block]} tabIndex={tabIndex} />
+            </div>
+          )
+        }
+        const withHead = !placed
+        placed = true
+        return (
           <div key={i} className={styles.zone}>
+            {withHead && (
+              <div className={styles.chapterHead}>
+                <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+              </div>
+            )}
             <div className={styles.chapterBody}>
               <ChapterBlocks blocks={seg.blocks} tabIndex={tabIndex} />
-              {i === segments.length - 1 && end}
+              {i === lastText && end}
             </div>
           </div>
-        ),
+        )
+      })}
+
+      {panel && (
+        <div className={`${styles.zone} ${side === 'right' ? styles.panelZoneRight : styles.panelZoneLeft}`}>
+          <div className={`${styles.panel}${panel.textAt === 'top' ? ` ${styles.panelTop}` : ''}`}>
+            <PhotoImg photo={panel} className={styles.photoFill} sizes="(max-width: 900px) 100vw, 50vw" />
+            <div className={styles.photoText}>
+              <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={placed} />
+            </div>
+          </div>
+          <div className={styles.panelBody}>
+            <ChapterBlocks blocks={panelBlocks} tabIndex={tabIndex} />
+            {end}
+          </div>
+        </div>
       )}
 
-      {!lastIsText && end && (
+      {!panel && lastText === -1 && end && (
         <div className={styles.zone}>
           <div className={styles.chapterBody}>{end}</div>
         </div>
