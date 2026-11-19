@@ -42,39 +42,35 @@ function LoopVideo({ figure }: { figure: Figure }) {
       preload="none"
       controls={reduced}
       aria-label={figure.alt}
-      width={600}
-      height={750}
+      width={figure.width}
+      height={figure.height}
     />
   )
 }
 
-/** Three figures side by side, set like a newspaper page: double rule, column rules, numbered captions. */
+/** Three figures side by side, set like a newspaper page: double rule and column rules. Photos are shown whole. */
 export function Spread({ figures }: { figures: readonly Figure[] }) {
   return (
     <div className={styles.spread}>
-      {figures.map((f, i) => (
+      {figures.map((f) => (
         <figure key={f.name} className={styles.figure}>
-          <div className={styles.frame}>
+          <div className={f.kind === 'video' ? `${styles.frame} ${styles.videoFrame}` : styles.frame}>
             {f.kind === 'video' ? (
               <LoopVideo figure={f} />
             ) : (
               <img
                 className={styles.media}
                 src={`${base}thespark/${f.name}.webp`}
-                srcSet={`${base}thespark/${f.name}-sm.webp 540w, ${base}thespark/${f.name}.webp 900w`}
-                sizes="(max-width: 720px) 92vw, 30vw"
+                srcSet={`${base}thespark/${f.name}-sm.webp 640w, ${base}thespark/${f.name}.webp 1200w`}
+                sizes="(max-width: 720px) 92vw, 38vw"
                 alt={f.alt}
-                width={900}
-                height={1125}
+                width={f.width}
+                height={f.height}
                 loading="lazy"
                 decoding="async"
               />
             )}
           </div>
-          <figcaption className={styles.caption}>
-            <span className={styles.num}>{String(i + 1).padStart(2, '0')}</span>
-            {f.caption}
-          </figcaption>
         </figure>
       ))}
     </div>

@@ -1,11 +1,12 @@
 /*
  * Chapter spread: three figures set like a newspaper page. A double hairline above,
- * 1px column rules between, numbered captions below. Square corners, flat colour,
+ * 1px column rules between, the photos whole and the video tall in the middle. Square corners, flat colour,
  * no grain over the photos (they cover the page grain).
  */
 .spread {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Wide photo, tall video, wide photo. */
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 3fr);
   column-gap: calc(2 * var(--space-6));
   position: relative;
   border-top: 1px solid var(--hairline);
@@ -28,6 +29,10 @@
   margin: 0;
   padding-block: var(--space-6);
   min-width: 0;
+  /* The photos sit in the middle of the row; the column rules still run its full height. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Column rules sit in the middle of the gutter, so all three columns stay the same width. */
@@ -41,33 +46,24 @@
 }
 
 .frame {
-  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--bg-alt);
+}
+
+.videoFrame {
+  aspect-ratio: 4 / 5;
 }
 
 .media {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   max-width: none;
+}
+
+.videoFrame .media {
+  height: 100%;
   object-fit: cover;
-}
-
-.caption {
-  display: flex;
-  gap: 0.75em;
-  margin-top: var(--space-4);
-  font-size: 12px;
-  line-height: 18px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text);
-}
-
-.num {
-  color: var(--text-muted);
 }
 
 /* Phones: one column, the rules run between the figures instead. */
