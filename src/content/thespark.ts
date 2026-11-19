@@ -580,8 +580,6 @@ export const thespark = {
       nav: 'Venue & location',
       title: 'A private estate in the hills of Aljezur',
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
-      // The heading also sits beside "Space to slow down, create and breathe" (Philine, November 2026).
-      repeatHeading: true,
       // Chosen by Philine, November 2026: the main house (levelled). A full-width band first;
       // after the gallery the same photo becomes the pinned panel beside the text.
       band: {
