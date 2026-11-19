@@ -172,6 +172,11 @@ export type Block =
   | { type: 'included'; included: { heading: string; items: string[] }; excluded: { heading: string; items: string[] } }
   | { type: 'faq'; items: Faq[] }
   | { type: 'rooms'; heading: string; items: Room[] }
+  /**
+   * A row of photos, three in view, that slides left and right (public/thespark/venue/:
+   * <name>.webp 900w and <name>-sm.webp 540w, 4:5). label names it for screen readers.
+   */
+  | { type: 'gallery'; label: string; items: { name: string; alt: string }[] }
 
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
 
@@ -534,6 +539,22 @@ export const thespark = {
             'With two houses, open-air spaces, a natural swimming pool and gardens, it suits groups who want to slow down and reconnect with something quieter.',
           ],
         },
+        // Chosen by Philine, November 2026: the estate, the houses and the kitchen.
+        {
+          type: 'gallery',
+          label: 'Photos of Quinta Javali',
+          items: [
+            { name: 'pool-deck', alt: 'The natural swimming pool and wooden deck, with the houses and terraced gardens behind' },
+            { name: 'garden-doors', alt: 'Through glass doors, an outdoor dining table under a large tree and wooded hills' },
+            { name: 'kitchen-island', alt: 'A kitchen island under woven pendant lights, with glass doors open to the hills' },
+            { name: 'kitchen-shelves', alt: 'Wooden shelves with glasses and bowls above a plastered kitchen counter' },
+            { name: 'stairs-painting', alt: 'A white staircase beside a large painted portrait and a wooden dining table' },
+            { name: 'terrace-chairs', alt: 'Two woven armchairs on a shaded terrace looking out over green hills' },
+            { name: 'kitchen', alt: 'A long kitchen with plastered counters, open shelves and woven lamps' },
+            { name: 'living-room', alt: 'A bright living room with white sofas, a wood stove and a beamed ceiling' },
+            { name: 'pool-view', alt: 'The pool among wild planting, with the houses and a tall tree under a blue sky' },
+          ],
+        },
         {
           type: 'text',
           heading: 'The Costa Vicentina as your creative backdrop',
@@ -728,6 +749,8 @@ export const thespark = {
     dark: 'Dark',
     home: 'Scintillart, home',
     next: 'Next',
+    galleryPrev: 'Previous photos',
+    galleryNext: 'Next photos',
   },
 }
 

@@ -4,6 +4,7 @@ import { thespark, type Block, type Fact } from '../../content/thespark'
 import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
 import { Value } from './Tba'
+import { Gallery } from './Gallery'
 import styles from './ChapterBlocks.module.css'
 
 function H3({ children }: { children: string }) {
@@ -198,6 +199,8 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           </ul>
         </div>
       )
+    case 'gallery':
+      return <Gallery label={block.label} items={block.items} tabIndex={tabIndex} />
     case 'faq':
       return (
         <div className={styles.block}>
