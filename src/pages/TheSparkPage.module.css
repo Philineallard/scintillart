@@ -342,10 +342,38 @@
   justify-content: flex-start;
 }
 
-/* Not sticky: the band scrolls away with its photo. */
-.chapterHead.coverHead {
-  position: relative;
-  top: auto;
+/*
+ * Wide screens: the photo and its heading fill the left half, edge to edge, and stay
+ * pinned under the header while the text on the right scrolls (like the plain headings).
+ * Phones: a full-width band above the text that scrolls away with it.
+ */
+@media (min-width: 901px) {
+  .chapterHead.coverHead {
+    grid-column: 1 / span 6;
+    align-self: start;
+    position: sticky;
+    top: var(--header-h, 72px);
+    height: calc(100svh - var(--header-h, 72px));
+    min-height: 0;
+    margin-inline: calc(-1 * var(--gutter)) 0;
+    padding: var(--section-pad) var(--space-12) var(--section-pad) var(--gutter);
+  }
+
+  /* Photo and text sit side by side, so the usual chapter row gap applies. */
+  .chapterWithCover > .zone:first-child {
+    row-gap: var(--space-8);
+  }
+
+  .chapterWithCover > .zone:first-child > .chapterBody {
+    padding-top: var(--section-pad);
+    padding-bottom: var(--space-16);
+  }
+}
+
+@media (max-width: 900px) {
+  .chapterHead.coverHead {
+    position: relative;
+  }
 }
 
 .coverHead > :not(.coverImage) {
