@@ -21,7 +21,7 @@ export const terms = {
     heading: 'Deposit and cancellation',
     items: [
       { term: 'Deposit', text: '50% of the total retreat price, on booking. Your place is confirmed once it is received.' },
-      { term: 'Balance', text: 'The remaining 50%, no later than 30 days before the retreat starts.' },
+      { term: 'Balance', text: 'The remaining 50%, 30 days before the retreat starts.' },
       { term: 'Cancellation', text: 'The deposit is non-refundable. From 15 to 30 days before arrival, 50% of the total price; from 14 days, 100%.' },
       { term: 'Can’t come?', text: 'You can pass your place to someone else.' },
     ],
@@ -34,7 +34,7 @@ export const terms = {
       heading: 'Booking and payment',
       paragraphs: [
         'To secure your retreat reservation, a 50% deposit of the total retreat price is required upon booking.',
-        'The remaining 50% balance is due no later than 30 days before the retreat start date.',
+        'The remaining 50% balance is due 30 days before the retreat start date.',
         'For bookings made within 30 days of arrival, full payment is required upon reservation.',
         'Your booking is confirmed once the initial deposit has been received.',
       ],
