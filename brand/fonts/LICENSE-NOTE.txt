@@ -1,0 +1,2 @@
+Playfair Display and Poppins are open-source fonts licensed under the SIL Open Font License 1.1.
+Full licence text and original files: Google Fonts (fonts.google.com), or the fonts' upstream repositories.

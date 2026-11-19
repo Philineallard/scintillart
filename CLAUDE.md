@@ -10,17 +10,17 @@ Work locally. Dev server: http://localhost:5173
 - British English. Calls to action and headings in sentence case ("Register your interest"). No exclamation marks, superlatives or unsupported claims.
 
 ## Design system (Brand Guidelines v2.0)
-Source of truth: the brand pack in `../../../BRAND/scintillart-brand-pack` (tokens.css/json, fonts, logos, symbol, grain) and the Scintillart design system artifact (README rules).
-- Light background exception (Igor): `/thespark` light theme uses the homepage's original, brighter cinematic white (the live `Atmosphere` in white mode, with its grain and vignette), not gallery-ivory. Dark theme: carbon with the brand grain.
+Source of truth: the brand pack in `brand/` (BRAND-BRIEF.md, guidelines, tokens.css/json, fonts, logos, symbol, texture), shared by everyone who works on this repo, and the Scintillart design system artifact on claude.ai (https://claude.ai/artifact/KNzHQmcfgraru5mafpHy4f). Change brand rules in `brand/` first, then mirror them in `src/styles/brand.css`.
+- Light background exception (Igor): `/thespark` light theme uses the homepage's original, brighter cinematic white (the live `Atmosphere` in white mode, with its grain and vignette), not gallery-ivory: `--bg` is #F9F8F5 (`cinematic-white` in the pack). Dark theme: carbon with the brand grain.
 - Light/dark switch: sun and moon icons, not words.
 - v2.0 is confined to `/thespark` for now (`src/styles/brand.css`, opted in by `[data-brand-root]`). The rest of the site keeps the provisional palette in `src/styles/tokens.css`.
 - Light/dark: a visible Light / Dark toggle in the header (follows the system until chosen; remembered).
-- Seven colours only: gallery-ivory, carbon, parchment, aubergine, warm-grey, oxide, antique-brass. No tints or gradients. Use the semantic tokens (bg, bg-alt, text, text-muted, accent, on-accent, hairline, focus-ring...) so light and dark themes both work. Antique-brass is decorative only, never text.
-- Playfair Display for headlines (regular, sentence case; italic only as an occasional accent). Poppins for body, navigation, labels and buttons (Regular/Medium/SemiBold; no Light).
+- Seven colours only: cinematic-white (#F9F8F5, main bright background; gallery-ivory #F5F1E9 stays only as light ink on dark, label on accent fills and panels), carbon, parchment, aubergine, warm-grey, oxide, antique-brass. No tints or gradients. Use the semantic tokens (bg, bg-alt, text, text-muted, accent, on-accent, hairline, focus-ring...) so light and dark themes both work. Antique-brass is decorative only, never text.
+- Playfair Display for headlines (regular, sentence case; italic only as an occasional accent). No mixed fonts in any heading, including headings that contain the name Scintillart; the double-font lettering exists only in the wordmark logo. Poppins for body, navigation, labels and buttons (Regular/Medium/SemiBold; no Light).
 - Square corners, flat colour, 1px hairlines. No shadows, no ornamental framing.
 - Film grain on background surfaces only, never over photos, text, logos or controls.
 - Motion: restrained. No compulsory intro, no scroll hijacking, nothing over forms, respect prefers-reduced-motion. Exception (Igor's decision): Lenis smooth scrolling stays on for everyone, reduced motion included.
-- Wordmark: the animated `Logotype.tsx` (hover split) is the site's wordmark and stays unchanged (Igor's decision). Use the supplied SVGs only where the Logotype can't be used. Slogan "Where a spark becomes art." is fixed (a spark, never the spark).
+- Wordmark: the animated `Logotype.tsx` (hover split) is the site's wordmark and stays unchanged (Igor's decision). Use the supplied SVGs (`brand/logos/`) wherever the name must appear as the logo and the Logotype can't be used or the double lettering can't be typed; in ordinary sentences write Scintillart as plain text. Slogan "Where a spark becomes art." is fixed (a spark, never the spark). The retreat is called "The Spark": always with the capital "The", a name separate from the slogan.
 - Visual direction for this build: artist agency, gallery, editorial. Award-level layout and transitions, within the rules above. Igor will supply layout/effect references later.
 
 ## The Spark page — structure
