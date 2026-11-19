@@ -231,11 +231,12 @@ export type Chapter = {
   /** Three figures side by side under the heading, laid out like a newspaper page. */
   spread?: Figure[]
   /**
-   * A full-width photo band above the chapter's heading. Files in public/thespark/:
+   * A full-width photo behind the chapter's heading. Files in public/thespark/:
    * <name>.webp (full size, `width` wide), <name>-md.webp (1100w), <name>-sm.webp (720w).
-   * focus: the point kept in view when the photo is cropped.
+   * focus: the point kept in view when the photo is cropped. textAt: where the heading sits
+   * on the photo (default bottom), chosen to keep the photo's subject clear.
    */
-  cover?: { name: string; alt: string; width: number; height: number; focus: string }
+  cover?: { name: string; alt: string; width: number; height: number; focus: string; textAt?: 'top' | 'bottom' }
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
@@ -407,6 +408,7 @@ export const thespark = {
         width: 2048,
         height: 1367,
         focus: '55% 62%',
+        textAt: 'top',
       },
       blocks: [
         {

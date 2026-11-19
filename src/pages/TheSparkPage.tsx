@@ -72,24 +72,28 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
       className={chapter.cover ? `${styles.chapter} ${styles.chapterWithCover}` : styles.chapter}
       aria-labelledby={headingId}
     >
-      {chapter.cover && (
-        <div className={styles.coverBand}>
-          <img
-            className={styles.coverImage}
-            src={`${base}thespark/${chapter.cover.name}.webp`}
-            srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp ${chapter.cover.width}w`}
-            sizes="100vw"
-            alt={chapter.cover.alt}
-            width={chapter.cover.width}
-            height={chapter.cover.height}
-            style={{ objectPosition: chapter.cover.focus }}
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      )}
       <div className={styles.zone}>
-        <div className={styles.chapterHead}>
+        <div
+          className={
+            chapter.cover
+              ? `${styles.chapterHead} ${styles.coverHead}${chapter.cover.textAt === 'top' ? ` ${styles.coverHeadTop}` : ''}`
+              : styles.chapterHead
+          }
+        >
+          {chapter.cover && (
+            <img
+              className={styles.coverImage}
+              src={`${base}thespark/${chapter.cover.name}.webp`}
+              srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp ${chapter.cover.width}w`}
+              sizes="100vw"
+              alt={chapter.cover.alt}
+              width={chapter.cover.width}
+              height={chapter.cover.height}
+              style={{ objectPosition: chapter.cover.focus }}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
           <p className={styles.chapterLabel}>
             <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
             {chapter.nav}

@@ -305,37 +305,90 @@
 
 
 /*
- * A chapter with a photo band (The experience, Venue, Accommodation): the photo runs edge
- * to edge above the chapter and scrolls away normally, at full brightness with nothing
- * over it. The heading and text follow in the usual layout, the heading pinned on the left.
- * The photo covers the page grain.
+ * A chapter with a photo behind its heading (Venue & location): the heading block becomes
+ * a full-bleed band, edge to edge, with the photo dimmed as a photo (no tint layer) and
+ * gallery-ivory text, as in the page hero. The photo covers the page grain.
  */
 .chapterWithCover {
   padding-top: 0;
   border-top: 0;
 }
 
-.coverBand {
-  margin-inline: calc(-1 * var(--gutter));
-  margin-bottom: var(--section-pad);
-  height: calc(88svh - var(--header-h, 72px));
+/* Space between the photo band and the text below it. */
+.chapterWithCover > .zone:first-child {
+  row-gap: var(--space-16);
+}
+
+.coverHead {
+  grid-column: 1 / -1;
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
-  background: var(--bg-alt);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: calc(92svh - var(--header-h, 72px));
+  margin-inline: calc(-1 * var(--gutter));
+  padding: var(--section-pad) var(--gutter);
+  --text: var(--gallery-ivory);
+  --text-muted: var(--gallery-ivory);
+  --accent-editorial: var(--gallery-ivory);
+  --focus-ring: var(--gallery-ivory);
+  color: var(--text);
+}
+
+/* Heading at the top of the photo, when the subject sits low in the frame. */
+.coverHeadTop {
+  justify-content: flex-start;
+}
+
+/*
+ * Wide screens: the photo and its heading fill the left half, edge to edge, and stay
+ * pinned under the header while the text on the right scrolls (like the plain headings).
+ * Phones: a full-width band above the text that scrolls away with it.
+ */
+@media (min-width: 901px) {
+  .chapterHead.coverHead {
+    grid-column: 1 / span 6;
+    align-self: start;
+    position: sticky;
+    top: var(--header-h, 72px);
+    height: calc(100svh - var(--header-h, 72px));
+    min-height: 0;
+    margin-inline: calc(-1 * var(--gutter)) 0;
+    padding: var(--section-pad) var(--space-12) var(--section-pad) var(--gutter);
+  }
+
+  /* Photo and text sit side by side, so the usual chapter row gap applies. */
+  .chapterWithCover > .zone:first-child {
+    row-gap: var(--space-8);
+  }
+
+  .chapterWithCover > .zone:first-child > .chapterBody {
+    padding-top: var(--section-pad);
+    padding-bottom: var(--space-16);
+  }
+}
+
+@media (max-width: 900px) {
+  .chapterHead.coverHead {
+    position: relative;
+  }
+}
+
+.coverHead > :not(.coverImage) {
+  max-width: 40rem;
 }
 
 .coverImage {
-  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   width: 100%;
   height: 100%;
   max-width: none;
   object-fit: cover;
-}
-
-@media (max-width: 900px) {
-  .coverBand {
-    height: 56svh;
-    margin-bottom: var(--space-16);
-  }
+  filter: brightness(0.62);
 }
 
 @media (max-width: 900px) {
