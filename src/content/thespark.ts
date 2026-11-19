@@ -487,7 +487,8 @@ export const thespark = {
           more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
       ],
-      closing: 'Come curious. Leave with something made by you.',
+      closing: 'Become a creator.',
+      closingRegister: 'Join The Spark.',
     },
 
     {
