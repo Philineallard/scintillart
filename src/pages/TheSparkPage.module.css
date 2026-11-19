@@ -542,6 +542,14 @@
   scroll-margin-top: var(--header-h, 72px);
 }
 
+/* The closing section with the hero photo: edge to edge, text at the bottom, no hairline. */
+.interestPhoto {
+  align-content: end;
+  margin-inline: 0;
+  padding-inline: var(--gutter);
+  border-top: 0;
+}
+
 /* ---------- Footer ---------- */
 
 .footer {

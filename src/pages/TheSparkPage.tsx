@@ -353,7 +353,20 @@ export default function TheSparkPage({ embedded = false }: Props) {
         ))}
 
         {/* Closing call to action. (#register is reserved for the panel, so this section is #interest.) */}
-        <section id="interest" className={styles.interest} aria-labelledby="interest-title">
+        {/* The closing call to action carries the hero photo again (Philine, November 2026). */}
+        <section id="interest" className={`${styles.interest} ${styles.heroPhoto} ${styles.interestPhoto}`} aria-labelledby="interest-title">
+          <img
+            className={styles.heroImage}
+            src={`${base}thespark/${hero.image.name}.webp`}
+            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1100w, ${base}thespark/${hero.image.name}.webp ${hero.image.width}w`}
+            sizes="100vw"
+            alt=""
+            width={hero.image.width}
+            height={hero.image.height}
+            style={{ objectPosition: hero.image.focus }}
+            loading="lazy"
+            decoding="async"
+          />
           <p className={styles.kicker}>{thespark.interest.kicker}</p>
           <h2 id="interest-title" className={styles.h2}>
             {thespark.interest.title}
