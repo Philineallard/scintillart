@@ -364,3 +364,8 @@
   font-size: 16px;
   line-height: 1.65;
 }
+
+/* A row of three photos inside a chapter's text column. */
+.figures {
+  margin-block: var(--space-6) var(--space-12);
+}

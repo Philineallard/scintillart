@@ -6,6 +6,7 @@ import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
 import { Value } from './Tba'
 import { Gallery } from './Gallery'
+import { Spread } from './Spread'
 import styles from './ChapterBlocks.module.css'
 
 function H3({ children }: { children: string }) {
@@ -205,6 +206,12 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
               </li>
             ))}
           </ul>
+        </div>
+      )
+    case 'figures':
+      return (
+        <div className={styles.figures}>
+          <Spread figures={block.items} />
         </div>
       )
     case 'gallery':

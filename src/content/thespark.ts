@@ -203,6 +203,8 @@ export type Block =
   | { type: 'included'; included: { heading: string; items: string[] }; excluded: { heading: string; items: string[] } }
   | { type: 'faq'; items: Faq[] }
   | { type: 'rooms'; heading: string; items: Room[] }
+  /** Three photos or silent videos side by side, the same size (see Figure). */
+  | { type: 'figures'; items: Figure[] }
   /**
    * A row of photos, three in view, that slides left and right (public/thespark/venue/:
    * <name>.webp 900w and <name>-sm.webp 540w, 4:5). label names it for screen readers.
@@ -541,8 +543,18 @@ export const thespark = {
           heading: 'The final evening',
           paragraphs: ['On the last evening the week becomes an open-house exhibition of the work that emerged during the retreat.'],
         },
+        // Chosen by Philine, November 2026: exhibitions from a previous edition.
+        {
+          type: 'figures',
+          items: [
+            { kind: 'image', name: 'final-exhibition-igor', alt: 'Photographs pinned to a red curtain under string lights, with prints and a photo book on a table' },
+            { kind: 'image', name: 'final-drawings', alt: 'Small framed ink drawings in a row above a charcoal figure drawing' },
+            { kind: 'image', name: 'final-house', alt: 'A house set up as an exhibition, with artworks on the walls and paper lanterns overhead' },
+          ],
+        },
       ],
-      closing: 'Come for the workshops. Stay for what unfolds.',
+      closing: 'Step out of routine.',
+      closingRegister: 'Ignite your creative spark.',
     },
 
     {
