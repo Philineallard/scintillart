@@ -5,9 +5,9 @@
  */
 .spread {
   display: grid;
-  /* Wide photo, tall video, wide photo. */
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) minmax(0, 3fr);
-  column-gap: calc(2 * var(--space-6));
+  /* Wide photo, tall video, wide photo; the video column is the widest of the three. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr) minmax(0, 1fr);
+  column-gap: var(--space-6);
   position: relative;
   border-top: 1px solid var(--hairline);
   border-bottom: 1px solid var(--hairline);
@@ -41,7 +41,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(-1 * var(--space-6));
+  left: calc(-0.5 * var(--space-6));
   border-left: 1px solid var(--hairline);
 }
 

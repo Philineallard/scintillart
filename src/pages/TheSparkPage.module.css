@@ -291,6 +291,14 @@
   min-width: 0;
 }
 
+/* A chapter's wide photo: full width of the chapter, whole, square corners. */
+.chapterCover {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
 @media (max-width: 900px) {
   .chapterHead,
   .chapterBody {

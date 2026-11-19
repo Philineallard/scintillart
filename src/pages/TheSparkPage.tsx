@@ -48,6 +48,21 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
           <Spread figures={chapter.spread} />
         </div>
       )}
+      {chapter.cover && (
+        <div className={styles.chapterSpread}>
+          <img
+            className={styles.chapterCover}
+            src={`${base}thespark/${chapter.cover.name}.webp`}
+            srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp 1800w`}
+            sizes="(max-width: 900px) 100vw, 92vw"
+            alt={chapter.cover.alt}
+            width={chapter.cover.width}
+            height={chapter.cover.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
       <div className={styles.chapterBody}>
         <ChapterBlocks blocks={chapter.blocks} tabIndex={tabIndex} />
         {(chapter.closing || next) && (

@@ -193,6 +193,11 @@ export type Chapter = {
   lead?: Maybe<string>
   /** Three figures side by side under the heading, laid out like a newspaper page. */
   spread?: Figure[]
+  /**
+   * One wide photo across the chapter under the heading. Files in public/thespark/:
+   * <name>.webp (1800w), <name>-md.webp (1100w), <name>-sm.webp (720w).
+   */
+  cover?: { name: string; alt: string; width: number; height: number }
   blocks: Block[]
   /** A closing line at the end of the chapter. */
   closing?: string
@@ -506,6 +511,13 @@ export const thespark = {
       nav: 'Venue & location',
       title: 'A private estate in the hills of Aljezur',
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
+      // Chosen by Philine, November 2026: the main house, cropped to the building.
+      cover: {
+        name: 'venue-house',
+        alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
+        width: 1800,
+        height: 1145,
+      },
       blocks: [
         {
           type: 'text',
