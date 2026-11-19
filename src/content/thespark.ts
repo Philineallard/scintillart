@@ -428,7 +428,7 @@ export const thespark = {
       lead: 'Creative exploration, wellbeing, nature and human connection, held in a considered rhythm.',
       // Chosen by Philine, November 2026: paints lined up along a sunlit wall (photo: Igor Świeczak).
       panel: {
-        side: 'left',
+        side: 'right',
         name: 'experience-paints',
         alt: 'Tubes and bottles of paint lined up along a sunlit white wall under the leaves of a fig tree',
         width: 2048,
@@ -492,7 +492,7 @@ export const thespark = {
       lead: 'A different artist, practice and creative energy each day.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
       panel: {
-        side: 'right',
+        side: 'left',
         name: 'workshops-shells',
         alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
         width: 1367,
