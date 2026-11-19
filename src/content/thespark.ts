@@ -462,16 +462,17 @@ export const thespark = {
       id: 'workshops',
       nav: 'Workshops & facilitators',
       // Philine, November 2026 (line breaks are kept on the page).
-      title: 'Be guided by artists.\nYou make the art.\nMake it & bring it home.',
+      title: 'Be guided by artists.\nYou make the art.\nMake it & bring\u00a0it\u00a0home.',
       lead: 'A different artist, practice and creative energy each day.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
-      panel: {
-        side: 'left',
+      // A full-width band (Philine, November 2026); the heading also sits beside the text below.
+      repeatHeading: true,
+      band: {
         name: 'workshops-shells',
         alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
         width: 1367,
         height: 2048,
-        focus: '45% 45%',
+        focus: '45% 30%',
       },
       blocks: [
         {
