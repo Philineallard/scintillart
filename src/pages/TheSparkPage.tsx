@@ -166,7 +166,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
           )
         }
         const withHead = !placed
-        const withCopy = placed && chapter.repeatHeading
+        const withCopy = placed && (chapter.repeatHeading === true || (chapter.repeatHeading === 'afterRows' && i > 0 && segments[i - 1].wide))
         placed = true
         return (
           <div key={i} className={styles.zone}>

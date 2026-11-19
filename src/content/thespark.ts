@@ -261,8 +261,11 @@ export type Chapter = {
   band?: ChapterPhoto & { plain?: boolean }
   /** Show the heading on its own, plain, at the very top of the chapter (above the spread). */
   headingAbove?: boolean
-  /** Repeat the heading, pinned on the side, beside each later run of text (after a full-width row). */
-  repeatHeading?: boolean
+  /**
+   * Repeat the heading, pinned on the side, beside later runs of text: true = beside every
+   * one; 'afterRows' = only beside text that follows a full-width row (gallery, rooms).
+   */
+  repeatHeading?: boolean | 'afterRows'
   /**
    * A photo panel beside the text, with the heading on it, pinned while the text scrolls
    * (wide screens; a band above the text on phones). side: which half it takes.
@@ -720,9 +723,9 @@ export const thespark = {
       title: 'Choose the space that feels right for you',
       lead: 'Comfortable rooms in a private natural setting, for rest, reflection and retreat.',
       // Chosen by Philine, November 2026: an en-suite bathroom at Quinta Javali, as a photo band
-      // with the heading on it; the heading is repeated beside "A home for the week" and beside
-      // the text after the rooms. The rooms below have the full width.
-      repeatHeading: true,
+      // with the heading on it; the heading is repeated beside the text after the rooms only.
+      // The rooms below have the full width.
+      repeatHeading: 'afterRows',
       band: {
         name: 'accommodation-bath',
         alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
