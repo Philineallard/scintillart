@@ -545,7 +545,7 @@ export const thespark = {
       lead: 'Enough structure to feel held. Enough freedom to explore, integrate and simply be.',
       // Chosen by Philine, November 2026: Igor Świeczak's exhibition, set up for an evening.
       panel: {
-        side: 'left',
+        side: 'right',
         name: 'day-exhibition',
         alt: 'An evening exhibition of photographs on a wall and a red curtain, with a table of prints and studio lights',
         width: 1367,
