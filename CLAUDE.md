@@ -53,7 +53,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 
 ## Confirmed facts (from Igor)
 - Venue: Quinta Javali, near Aljezur, Costa Vicentina, Portugal.
-- Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates in the current sketch: 1–7 February 2027 (confirm).
+- Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates confirmed by Philine (November 2026): Monday 1 to Sunday 7 February 2027.
 - Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, Arkana Within, Archetype Photoshoot, Morning Routine.
 - Hosts: Philine Allard (host, morning practice, Qi Gong); Igor Świeczak (photography, co-founder).
 - Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: TBA. Deposit: TBA. Cancellation terms: TBA (set our own).
