@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router'
 import { parseRegisterHash, RegisterButton, RegisterContext, registerHash, type OpenRegister } from '../components/thespark/register'
 import { RegisterPanel } from '../components/thespark/RegisterPanel'
 import { BrandGrain } from '../components/thespark/BrandGrain'
+import { EnvelopeGate } from '../components/thespark/EnvelopeGate'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
 import { Spread } from '../components/thespark/Spread'
@@ -365,30 +366,8 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <ChapterSection key={chapter.id} chapter={chapter} index={i} next={thespark.chapters[i + 1]} tabIndex={tab} />
         ))}
 
-        {/* Closing call to action. (#register is reserved for the panel, so this section is #interest.) */}
-        {/* The closing call to action carries the hero photo again (Philine, November 2026). */}
-        <section id="interest" className={`${styles.interest} ${styles.heroPhoto} ${styles.interestPhoto}`} aria-labelledby="interest-title">
-          <img
-            className={styles.heroImage}
-            src={`${base}thespark/${hero.image.name}.webp`}
-            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1100w, ${base}thespark/${hero.image.name}.webp ${hero.image.width}w`}
-            sizes="100vw"
-            alt=""
-            width={hero.image.width}
-            height={hero.image.height}
-            style={{ objectPosition: hero.image.focus }}
-            loading="lazy"
-            decoding="async"
-          />
-          <p className={styles.kicker}>{thespark.interest.kicker}</p>
-          <h2 id="interest-title" className={styles.h2}>
-            {thespark.interest.title}
-          </h2>
-          <p className={styles.interestBody}>{thespark.interest.body}</p>
-          <RegisterButton className={styles.button} tabIndex={tab}>
-            {thespark.interest.label}
-          </RegisterButton>
-        </section>
+        {/* Closing banner: the envelope photograph opens the register panel (Igor, November 2026). */}
+        <EnvelopeGate tabIndex={tab} lenis={lenis} />
       </Main>
 
       <footer className={styles.footer}>
