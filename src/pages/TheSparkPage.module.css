@@ -529,6 +529,7 @@
   line-height: 1.12;
   letter-spacing: -0.005em;
   text-wrap: balance;
+  white-space: pre-line;
 }
 
 .lead {
