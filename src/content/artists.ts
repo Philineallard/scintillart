@@ -87,6 +87,8 @@ export const artists: Artist[] = [
     name: 'Willpower',
     role: 'Performance',
     bio: [TBA],
+    // Philine, November 2026.
+    quote: 'People are going to walk out of the room and ask themselves: what just happened here?',
     portrait: { slug: 'willpower', alt: 'Willpower against a white wall, wearing performance gloves with lights and turquoise rings' },
     workshopIds: ['performance'],
   },
