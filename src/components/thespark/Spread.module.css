@@ -7,7 +7,6 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-3, 12px);
-  margin-block: var(--space-8) var(--space-6);
 }
 
 .figure {

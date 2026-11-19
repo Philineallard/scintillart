@@ -1,22 +1,21 @@
 /*
  * Photo galleries: 4:5 photos, a narrow even gap, square corners, no framing.
  * Controls: a counter, a 1px progress rule and two long hairline arrows, no boxes.
- * .wide (venue): three in view, out of the text column on wide screens.
+ * .wide (venue, food): three in view, the full width of the chapter (a row of its own).
  * .single (room cards): one in view.
  */
 .gallery {
   margin-block: var(--space-8);
 }
 
-.single {
-  width: 100%;
-  margin-block: var(--space-4) var(--space-6);
+.wide {
+  margin-block: 0;
 }
 
-@media (min-width: 901px) {
-  .wide {
-    margin-left: calc(-100% - var(--space-6));
-  }
+/* In a room card: clear space from the tagline above and the price below. */
+.single {
+  width: 100%;
+  margin-block: var(--space-6) var(--space-8);
 }
 
 .track {

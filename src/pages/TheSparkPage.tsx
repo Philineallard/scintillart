@@ -10,7 +10,7 @@ import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
 import { brand } from '../content/brand'
-import { thespark, type Chapter, type RoomId } from '../content/thespark'
+import { thespark, type Block, type Chapter, type RoomId } from '../content/thespark'
 import { useActiveSection } from '../hooks/useActiveSection'
 import { useBrandTheme } from '../hooks/useBrandTheme'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -25,67 +25,122 @@ type Props = {
   embedded?: boolean
 }
 
+type Segment = { wide: false; blocks: Block[] } | { wide: true; block: Block }
+
+/** Splits a chapter's blocks at its full-width galleries: text runs beside the heading, galleries span the page. */
+function segmentsOf(blocks: readonly Block[]): Segment[] {
+  const out: Segment[] = []
+  for (const b of blocks) {
+    if (b.type === 'gallery') out.push({ wide: true, block: b })
+    else {
+      const last = out[out.length - 1]
+      if (last && !last.wide) last.blocks.push(b)
+      else out.push({ wide: false, blocks: [b] })
+    }
+  }
+  return out
+}
+
+/**
+ * One chapter. It is built in rows: the first row holds the heading (pinned while the
+ * text beside it scrolls) and the first run of text; full-width rows (the spread, the
+ * galleries) come between text rows, so the pinned heading never runs over a photo.
+ */
 function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; index: number; next?: Chapter; tabIndex?: number }) {
   const headingId = `${chapter.id}-title`
+  const segments = segmentsOf(chapter.blocks)
+  // With a spread under the heading, the heading's row holds the heading alone.
+  const head = segments[0]
+  const firstText = !chapter.spread && head && !head.wide ? head : undefined
+  if (firstText) segments.shift()
+  const end = (chapter.closing || next) && (
+    <div className={styles.chapterEnd}>
+      {chapter.closing && <p className={styles.closing}>{chapter.closing}</p>}
+      {next && (
+        <a href={`#${next.id}`} className={styles.nextLink} tabIndex={tabIndex}>
+          <span className={styles.nextLabel}>{thespark.ui.next}</span>
+          {next.nav}
+        </a>
+      )}
+    </div>
+  )
+  const lastIsText = segments.length > 0 ? !segments[segments.length - 1].wide : Boolean(firstText)
+
   return (
     <section
       id={chapter.id}
       className={chapter.cover ? `${styles.chapter} ${styles.chapterWithCover}` : styles.chapter}
       aria-labelledby={headingId}
     >
-      <div
-        className={
-          chapter.cover
-            ? `${styles.chapterHead} ${styles.coverHead}${chapter.cover.textAt === 'top' ? ` ${styles.coverHeadTop}` : ''}`
-            : styles.chapterHead
-        }
-      >
-        {chapter.cover && (
-          <img
-            className={styles.coverImage}
-            src={`${base}thespark/${chapter.cover.name}.webp`}
-            srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp ${chapter.cover.width}w`}
-            sizes="100vw"
-            alt={chapter.cover.alt}
-            width={chapter.cover.width}
-            height={chapter.cover.height}
-            style={{ objectPosition: chapter.cover.focus }}
-            loading="lazy"
-            decoding="async"
-          />
-        )}
-        <p className={styles.chapterLabel}>
-          <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
-          {chapter.nav}
-        </p>
-        <h2 id={headingId} className={styles.h2}>
-          {chapter.title}
-        </h2>
-        {chapter.lead && (
-          <p className={styles.lead}>
-            <Value value={chapter.lead} />
+      <div className={styles.zone}>
+        <div
+          className={
+            chapter.cover
+              ? `${styles.chapterHead} ${styles.coverHead}${chapter.cover.textAt === 'top' ? ` ${styles.coverHeadTop}` : ''}`
+              : styles.chapterHead
+          }
+        >
+          {chapter.cover && (
+            <img
+              className={styles.coverImage}
+              src={`${base}thespark/${chapter.cover.name}.webp`}
+              srcSet={`${base}thespark/${chapter.cover.name}-sm.webp 720w, ${base}thespark/${chapter.cover.name}-md.webp 1100w, ${base}thespark/${chapter.cover.name}.webp ${chapter.cover.width}w`}
+              sizes="100vw"
+              alt={chapter.cover.alt}
+              width={chapter.cover.width}
+              height={chapter.cover.height}
+              style={{ objectPosition: chapter.cover.focus }}
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <p className={styles.chapterLabel}>
+            <span className={styles.chapterNum}>{String(index + 1).padStart(2, '0')}</span>
+            {chapter.nav}
           </p>
-        )}
-      </div>
-      {chapter.spread && (
-        <div className={styles.chapterSpread}>
-          <Spread figures={chapter.spread} />
+          <h2 id={headingId} className={styles.h2}>
+            {chapter.title}
+          </h2>
+          {chapter.lead && (
+            <p className={styles.lead}>
+              <Value value={chapter.lead} />
+            </p>
+          )}
         </div>
-      )}
-      <div className={styles.chapterBody}>
-        <ChapterBlocks blocks={chapter.blocks} tabIndex={tabIndex} />
-        {(chapter.closing || next) && (
-          <div className={styles.chapterEnd}>
-            {chapter.closing && <p className={styles.closing}>{chapter.closing}</p>}
-            {next && (
-              <a href={`#${next.id}`} className={styles.nextLink} tabIndex={tabIndex}>
-                <span className={styles.nextLabel}>{thespark.ui.next}</span>
-                {next.nav}
-              </a>
-            )}
+        {firstText && (
+          <div className={styles.chapterBody}>
+            <ChapterBlocks blocks={firstText.blocks} tabIndex={tabIndex} />
+            {segments.length === 0 && end}
           </div>
         )}
       </div>
+
+      {chapter.spread && (
+        <div className={styles.wideRow}>
+          <Spread figures={chapter.spread} />
+        </div>
+      )}
+
+      {segments.map((seg, i) =>
+        seg.wide ? (
+          <div key={i} className={styles.wideRow}>
+            <ChapterBlocks blocks={[seg.block]} tabIndex={tabIndex} />
+          </div>
+        ) : (
+          <div key={i} className={styles.zone}>
+            <div className={styles.chapterBody}>
+              <ChapterBlocks blocks={seg.blocks} tabIndex={tabIndex} />
+              {i === segments.length - 1 && end}
+            </div>
+          </div>
+        ),
+      )}
+
+      {!lastIsText && end && (
+        <div className={styles.zone}>
+          <div className={styles.chapterBody}>{end}</div>
+        </div>
+      )}
     </section>
   )
 }

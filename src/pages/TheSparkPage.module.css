@@ -262,14 +262,32 @@
 /* ---------- Chapters ---------- */
 
 .chapter {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--space-6);
-  row-gap: var(--space-8);
   margin-inline: var(--gutter);
   padding-block: var(--section-pad);
   border-top: 1px solid var(--hairline);
   scroll-margin-top: var(--header-h, 72px);
+}
+
+/*
+ * A chapter is built in rows. A .zone is the 12-column grid: heading on the left, text on
+ * the right. The heading is pinned only within its own zone, so it never runs over the
+ * full-width rows (.wideRow: the spread and the galleries) that follow.
+ */
+.zone {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-6);
+  row-gap: var(--space-8);
+}
+
+/* Space between photos and text: the same generous gap above and below every image row. */
+.wideRow {
+  min-width: 0;
+  margin-block: var(--space-16);
+}
+
+.wideRow:last-child {
+  margin-bottom: 0;
 }
 
 /* The chapter's heading stays in view while its content scrolls past (wide screens). */
@@ -285,11 +303,6 @@
   min-width: 0;
 }
 
-/* A chapter's spread runs the full width under its heading; the text follows below. */
-.chapterSpread {
-  grid-column: 1 / -1;
-  min-width: 0;
-}
 
 /*
  * A chapter with a photo behind its heading (Venue & location): the heading block becomes
@@ -299,6 +312,11 @@
 .chapterWithCover {
   padding-top: 0;
   border-top: 0;
+}
+
+/* Space between the photo band and the text below it. */
+.chapterWithCover > .zone:first-child {
+  row-gap: var(--space-16);
 }
 
 .coverHead {
@@ -322,11 +340,6 @@
 /* Heading at the top of the photo, when the subject sits low in the frame. */
 .coverHeadTop {
   justify-content: flex-start;
-}
-
-/* A wide gallery runs under the heading's column: the heading scrolls away, so they never overlap. */
-.chapter:has([data-wide-gallery]) > .chapterHead:not(.coverHead) {
-  position: static;
 }
 
 /* Not sticky: the band scrolls away with its photo. */

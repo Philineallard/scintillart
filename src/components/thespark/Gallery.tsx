@@ -137,7 +137,6 @@ export function Gallery({ label, items, folder, perView = 3, drift = false, zoom
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
-      {...(perView === 3 ? { 'data-wide-gallery': '' } : {})}
       onPointerEnter={pause}
       onPointerLeave={resume}
       onFocus={pause}
