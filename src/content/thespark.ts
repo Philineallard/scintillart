@@ -390,7 +390,7 @@ export const thespark = {
         },
         {
           type: 'list',
-          heading: 'A week designed to awaken curiosity',
+          heading: 'A week designed to awaken your creativity',
           items: [
             'Begin each day with breathwork, meditation and Qi Gong',
             'Explore a different creative practice with a new artist each day',
