@@ -11,9 +11,15 @@ import './styles/base.css'
 // without real URLs, so it keeps the route in memory instead of the address bar.
 const Router = import.meta.env.VITE_ROUTER === 'memory' ? MemoryRouter : BrowserRouter
 
+// A preview can open on another page: VITE_PREVIEW_START=/thespark npm run build:preview
+const routerProps =
+  import.meta.env.VITE_ROUTER === 'memory'
+    ? { initialEntries: [import.meta.env.VITE_PREVIEW_START || '/'] }
+    : {}
+
 const app = (
   <StrictMode>
-    <Router>
+    <Router {...routerProps}>
       <App />
     </Router>
   </StrictMode>

@@ -139,6 +139,37 @@
   grid-column: 1 / -1;
 }
 
+/*
+ * Hero with a full-bleed photo (the Ripple exhibition). The photo covers the page grain
+ * (grain stays on background surfaces only) and is dimmed as a photo, with no tint layer,
+ * so gallery-ivory text reads on it in both themes.
+ */
+.heroPhoto {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: calc(100svh - var(--header-h, 72px));
+  --text: var(--gallery-ivory);
+  --text-muted: var(--gallery-ivory);
+  --accent-editorial: var(--gallery-ivory);
+  --focus-ring: var(--gallery-ivory);
+  color: var(--text);
+}
+
+.heroPhoto > .heroImage {
+  /* Out of the grid, so it fills the whole section, padding included (edge to edge). */
+  grid-column: auto;
+  grid-row: auto;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  filter: brightness(0.55);
+}
+
 .kicker {
   margin: 0 0 var(--space-6);
   font-size: 13px;

@@ -17,6 +17,7 @@ import { useSmoothScroll } from '../hooks/useSmoothScroll'
 import styles from './TheSparkPage.module.css'
 
 const CHAPTER_IDS = thespark.chapters.map((c) => c.id)
+const base = import.meta.env.BASE_URL
 
 type Props = {
   /** Rendered inside the portal transition layer (hidden, inert) rather than as the route. */
@@ -183,7 +184,18 @@ export default function TheSparkPage({ embedded = false }: Props) {
       </header>
 
       <Main id={embedded ? undefined : 'main'} className={styles.main}>
-        <section className={styles.hero} aria-labelledby="thespark-title">
+        <section className={`${styles.hero} ${styles.heroPhoto}`} aria-labelledby="thespark-title">
+          <img
+            className={styles.heroImage}
+            src={`${base}thespark/${hero.image.name}.webp`}
+            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1200w, ${base}thespark/${hero.image.name}.webp 2048w`}
+            sizes="100vw"
+            alt={hero.image.alt}
+            width={2048}
+            height={1367}
+            fetchPriority="high"
+            decoding="async"
+          />
           <p className={styles.kicker}>{hero.kicker}</p>
           <h1 id="thespark-title" className={styles.h1} tabIndex={-1} {...(live ? { 'data-route-heading': '' } : {})}>
             {hero.title}
