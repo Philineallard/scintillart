@@ -42,7 +42,8 @@ export type Room = {
   photos?: { name: string; alt: string }[]
 }
 
-// Room photos chosen by Philine, November 2026 (Quinta Javali). Both deluxe rooms share the en-suite set.
+// Room photos chosen by Philine, November 2026 (Quinta Javali). Both deluxe rooms share the en-suite set;
+// the couples room starts on the 6th photo (Philine's choice of thumbnail).
 const ensuitePhotos = [
   { name: 'ensuite-01', alt: 'An en-suite bedroom with a freestanding bath beyond the bed' },
   { name: 'ensuite-02', alt: 'A freestanding bath and basin beside a green wooden door' },
@@ -55,6 +56,7 @@ const ensuitePhotos = [
   { name: 'ensuite-09', alt: 'A bright en-suite bedroom with a bath and doors to the garden' },
   { name: 'ensuite-10', alt: 'A double bed with white linen under a colourful painting' },
 ]
+const ensuitePhotosCouples = [...ensuitePhotos.slice(5), ...ensuitePhotos.slice(0, 5)]
 
 /** The four room types and prices (CLAUDE.md, confirmed by Igor). Order = order on the page. */
 export const rooms: Room[] = [
@@ -67,11 +69,11 @@ export const rooms: Room[] = [
       'Twin room with two single beds (90 × 190 cm), private en-suite bathroom, air conditioning, Wi-Fi and terrace access, with countryside and mountain surroundings.',
     price: { regular: '€2,800', earlyBird: '€2,600', basis: 'per person' },
     photos: [
+      { name: 'shared-05', alt: 'Two beds in the shared room, with the bathroom door open beyond' },
       { name: 'shared-01', alt: 'A round mirror above a stone basin in the shared room’s bathroom' },
       { name: 'shared-02', alt: 'The shared room’s bathroom with a walk-in shower and a small window' },
       { name: 'shared-03', alt: 'The shared room with a bed, a sofa and wooden shutters' },
       { name: 'shared-04', alt: 'The shared room under a sloping white ceiling' },
-      { name: 'shared-05', alt: 'Two beds in the shared room, with the bathroom door open beyond' },
     ],
   },
   {
@@ -82,10 +84,10 @@ export const rooms: Room[] = [
     details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
     price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
     photos: [
+      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
       { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
       { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
       { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
-      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
     ],
   },
   {
@@ -106,7 +108,7 @@ export const rooms: Room[] = [
     details:
       'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms.',
     price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
-    photos: ensuitePhotos,
+    photos: ensuitePhotosCouples,
   },
 ]
 

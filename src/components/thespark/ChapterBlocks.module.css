@@ -301,6 +301,30 @@
   margin-top: auto;
 }
 
+/*
+ * The cards share one set of rows (subgrid), so names, galleries, prices and buttons line
+ * up across all four even when a room name runs to two lines.
+ */
+@supports (grid-template-rows: subgrid) {
+  .room {
+    display: grid;
+    grid-row: span 7;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    align-content: start;
+    justify-items: start;
+  }
+
+  .room > * {
+    align-self: start;
+  }
+
+  .room > a {
+    margin-top: 0;
+    align-self: end;
+  }
+}
+
 /* ---------- FAQ ---------- */
 
 .faq {
