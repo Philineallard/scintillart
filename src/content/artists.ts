@@ -95,7 +95,7 @@ export const artists: Artist[] = [
     name: 'Manu',
     role: 'Arkana Within and archetypes',
     bio: [TBA],
-    portrait: { slug: 'manu', alt: 'Manu, laughing, carrying a stack of tarot decks and books' },
+    portrait: { slug: 'manu', alt: 'Manu, smiling, with dark curly hair and a blue shirt' },
     workshopIds: ['arkana-within', 'archetype-photoshoot'],
   },
 ]
