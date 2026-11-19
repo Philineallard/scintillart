@@ -101,7 +101,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
   const from = panel ? (panel.fromBlock ?? 0) : chapter.blocks.length
   const segments = segmentsOf(chapter.blocks.slice(0, from))
   const panelBlocks = panel ? chapter.blocks.slice(from) : []
-  let placed = Boolean(band) && !band?.plain
+  let placed = (Boolean(band) && !band?.plain) || Boolean(chapter.headingAbove)
   const lastText = panel ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
 
   const end = (chapter.closing || next) && (
@@ -116,7 +116,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
     </div>
   )
 
-  const flush = Boolean(band) || (panel && from === 0)
+  const flush = Boolean(band) || (panel && from === 0 && !chapter.headingAbove)
   const side = panel?.side ?? 'left'
 
   return (
@@ -129,6 +129,12 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
               <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
             </div>
           )}
+        </div>
+      )}
+
+      {chapter.headingAbove && (
+        <div className={styles.headingAbove}>
+          <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
         </div>
       )}
 

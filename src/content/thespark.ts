@@ -241,6 +241,8 @@ export type Chapter = {
    * away normally.
    */
   band?: ChapterPhoto & { plain?: boolean }
+  /** Show the heading on its own, plain, at the very top of the chapter (above the spread). */
+  headingAbove?: boolean
   /** Repeat the heading, pinned on the side, beside each later run of text (after a full-width row). */
   repeatHeading?: boolean
   /**
@@ -334,6 +336,17 @@ export const thespark = {
       id: 'overview',
       nav: 'Overview',
       title: 'More than a holiday. A return to your creative self.',
+      // Chosen by Philine, November 2026: the heading plain above the videos, then the pool and
+      // houses (drone photo) pinned on the left beside "Something shifts…".
+      headingAbove: true,
+      panel: {
+        side: 'left',
+        name: 'overview-pool',
+        alt: 'The natural swimming pool and wooden deck at Quinta Javali, with terraced gardens and the houses behind',
+        width: 2400,
+        height: 1350,
+        focus: '42% 50%',
+      },
       // Chosen by Philine, November 2026: three silent videos of the same size, no lines, no captions.
       spread: [
         {

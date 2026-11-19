@@ -280,6 +280,11 @@
   row-gap: var(--space-8);
 }
 
+/* A heading shown on its own above the chapter's first row (Overview, above the videos). */
+.headingAbove {
+  max-width: 40rem;
+}
+
 /* Space between photos and text: the same generous gap above and below every image row. */
 .wideRow {
   min-width: 0;
