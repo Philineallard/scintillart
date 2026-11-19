@@ -106,16 +106,19 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
 
   const end = (chapter.closing || next) && (
     <div className={styles.chapterEnd}>
-      {chapter.closing &&
-        (chapter.closingOpensRegister ? (
-          <p className={styles.closing}>
-            <RegisterButton className={styles.closingLink} tabIndex={tabIndex}>
-              {chapter.closing}
-            </RegisterButton>
-          </p>
-        ) : (
-          <p className={styles.closing}>{chapter.closing}</p>
-        ))}
+      {chapter.closing && (
+        <p className={styles.closing}>
+          {chapter.closing}
+          {chapter.closingRegister && (
+            <>
+              {' '}
+              <RegisterButton className={styles.closingLink} tabIndex={tabIndex}>
+                {chapter.closingRegister}
+              </RegisterButton>
+            </>
+          )}
+        </p>
+      )}
       {next && (
         <a href={`#${next.id}`} className={styles.nextLink} tabIndex={tabIndex}>
           <span className={styles.nextLabel}>{thespark.ui.next}</span>
