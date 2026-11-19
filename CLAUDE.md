@@ -56,7 +56,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 - Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates confirmed by Philine (November 2026): Monday 1 to Sunday 7 February 2027.
 - Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, Arkana Within, Archetype Photoshoot, Morning Routine.
 - Hosts: Philine Allard (host, morning practice, Qi Gong); Igor Świeczak (photography, co-founder).
-- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: TBA. Deposit: TBA. Cancellation terms: TBA (set our own).
+- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026). Deposit: TBA. Cancellation terms: TBA (set our own).
   - Shared Room: €2,800 / €2,600 (twin room, two single beds 90 × 190 cm, private en-suite, countryside and mountain surroundings, A/C, Wi-Fi, terrace)
   - Private Room: €3,100 / €2,900 (single occupancy, double bed 180 × 200 cm, A/C, bathroom outside the bedroom)
   - Private Deluxe En-Suite Room: €3,500 / €3,300 (single occupancy, double bed, private en-suite, A/C, garden views or private terrace depending on room)

@@ -383,9 +383,8 @@ export const thespark = {
             { term: 'Duration', detail: '7 days, 6 nights, Monday afternoon to Sunday morning' },
             { term: 'Location', detail: 'Quinta Javali, near Aljezur, Costa Vicentina, Portugal' },
             { term: 'Group size', detail: '6–14 guests' },
-            { term: 'Hosts', detail: 'Philine Allard and Igor Świeczak' },
             { term: 'Includes', detail: 'Workshops, wellbeing practices, accommodation, meals, materials and the final exhibition' },
-            { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early-bird deadline: TBA' },
+            { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early bird until 6 December 2026' },
           ],
         },
         {
@@ -778,7 +777,7 @@ export const thespark = {
           type: 'facts',
           heading: 'Booking and cancellation',
           facts: [
-            { term: 'Early-bird deadline', detail: TBA },
+            { term: 'Early-bird deadline', detail: '6 December 2026' },
             { term: 'Deposit', detail: TBA },
             { term: 'Balance', detail: TBA },
             { term: 'Cancellation', detail: TBA },
