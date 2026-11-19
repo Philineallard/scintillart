@@ -249,7 +249,7 @@ export const thespark = {
     lead: 'Seven days to step away from routine, reconnect with your creativity and discover what wants to emerge.',
     /** In-page link to chapter 2 (navigation, not a second call to action). */
     explore: { label: 'Explore the experience', href: '#experience' },
-    note: 'No artistic experience needed. Just curiosity, openness and a willingness to begin.',
+    note: 'No artistic experience needed. Just curiosity, openness and a willingness to explore.',
     /** Full-bleed photo behind the hero (Philine, November 2026: the Ripple exhibition). Files in public/thespark/. */
     image: {
       name: 'hero-exhibition',
