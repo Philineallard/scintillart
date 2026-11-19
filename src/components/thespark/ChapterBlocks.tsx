@@ -208,7 +208,7 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
         </div>
       )
     case 'gallery':
-      return <Gallery label={block.label} items={block.items} folder={block.folder} drift={block.drift} tabIndex={tabIndex} />
+      return <Gallery label={block.label} items={block.items} folder={block.folder} drift={block.drift} zoom={block.zoom} tabIndex={tabIndex} />
     case 'faq':
       return (
         <div className={styles.block}>

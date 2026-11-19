@@ -207,7 +207,7 @@ export type Block =
    * A row of photos, three in view, that slides left and right (public/thespark/venue/:
    * <name>.webp 900w and <name>-sm.webp 540w, 4:5). label names it for screen readers.
    */
-  | { type: 'gallery'; label: string; folder: string; drift?: boolean; items: { name: string; alt: string }[] }
+  | { type: 'gallery'; label: string; folder: string; drift?: boolean; zoom?: boolean; items: { name: string; alt: string }[] }
 
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
 
@@ -623,6 +623,20 @@ export const thespark = {
             'Our chef prepares fresh vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included, with an emphasis on fresh ingredients, shared meals and time around the table.',
           ],
         },
+        // Chosen by Philine, November 2026: dishes from the retreat kitchen. Still, zooms on hover.
+        {
+          type: 'gallery',
+          label: 'Photos of the food',
+          folder: 'food',
+          zoom: true,
+          items: [
+            { name: 'food-01', alt: 'Golden fried tofu with carrots, broccoli and fresh coriander in a dark bowl' },
+            { name: 'food-02', alt: 'Roasted red pepper, aubergine and nuts over salad leaves' },
+            { name: 'food-03', alt: 'Pasta with mushrooms and crushed pistachios' },
+            { name: 'food-04', alt: 'Rice with broccoli and crispy tofu on a speckled plate' },
+            { name: 'food-05', alt: 'A folded flatbread with mushrooms, tomatoes and basil on a wooden board' },
+          ],
+        },
         {
           type: 'text',
           heading: 'Meals that bring people together',
@@ -655,6 +669,14 @@ export const thespark = {
       nav: 'Accommodation & pricing',
       title: 'Choose the space that feels right for you',
       lead: 'Comfortable rooms in a private natural setting, for rest, reflection and retreat.',
+      // Chosen by Philine, November 2026: an en-suite bathroom at Quinta Javali.
+      cover: {
+        name: 'accommodation-bath',
+        alt: 'An en-suite bathroom with a freestanding bath, a basin and an old green door',
+        width: 2048,
+        height: 1536,
+        focus: '50% 45%',
+      },
       blocks: [
         {
           type: 'text',

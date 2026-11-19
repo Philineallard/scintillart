@@ -15,6 +15,8 @@ type Props = {
   perView?: 1 | 3
   /** A very slow continuous drift (venue only). Off under reduced motion; pauses on hover, focus or touch, and off screen. */
   drift?: boolean
+  /** Photos zoom in slowly while the cursor is on them (inside their frame). */
+  zoom?: boolean
   tabIndex?: number
 }
 
@@ -38,7 +40,7 @@ function Arrow({ dir }: { dir: 'prev' | 'next' }) {
  * repeated once, the copy hidden from assistive technology). Rendered without browser
  * APIs so /thespark can be pre-rendered.
  */
-export function Gallery({ label, items, folder, perView = 3, drift = false, tabIndex }: Props) {
+export function Gallery({ label, items, folder, perView = 3, drift = false, zoom = false, tabIndex }: Props) {
   const track = useRef<HTMLDivElement>(null)
   const paused = useRef(false)
   const [index, setIndex] = useState(0)
@@ -131,10 +133,11 @@ export function Gallery({ label, items, folder, perView = 3, drift = false, tabI
 
   return (
     <div
-      className={`${styles.gallery} ${perView === 3 ? styles.wide : styles.single}`}
+      className={`${styles.gallery} ${perView === 3 ? styles.wide : styles.single}${zoom ? ` ${styles.zoom}` : ''}`}
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
+      {...(perView === 3 ? { 'data-wide-gallery': '' } : {})}
       onPointerEnter={pause}
       onPointerLeave={resume}
       onFocus={pause}

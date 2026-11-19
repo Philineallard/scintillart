@@ -324,6 +324,11 @@
   justify-content: flex-start;
 }
 
+/* A wide gallery runs under the heading's column: the heading scrolls away, so they never overlap. */
+.chapter:has([data-wide-gallery]) > .chapterHead:not(.coverHead) {
+  position: static;
+}
+
 /* Not sticky: the band scrolls away with its photo. */
 .chapterHead.coverHead {
   position: relative;

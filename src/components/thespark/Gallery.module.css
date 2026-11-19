@@ -37,6 +37,25 @@
   grid-auto-columns: 100%;
 }
 
+/* .zoom: the photo eases in while the cursor is on it, staying inside its frame. */
+.zoom .img {
+  transition: transform 1.4s var(--ease-out, ease-out);
+}
+
+.zoom .slide:hover .img {
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoom .img {
+    transition: none;
+  }
+
+  .zoom .slide:hover .img {
+    transform: none;
+  }
+}
+
 /* While drifting, snapping would fight the slow movement. */
 .track.drifting {
   scroll-snap-type: none;
