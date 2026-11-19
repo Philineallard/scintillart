@@ -188,11 +188,12 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <img
             className={styles.heroImage}
             src={`${base}thespark/${hero.image.name}.webp`}
-            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1200w, ${base}thespark/${hero.image.name}.webp 2048w`}
+            srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1100w, ${base}thespark/${hero.image.name}.webp ${hero.image.width}w`}
             sizes="100vw"
             alt={hero.image.alt}
-            width={2048}
-            height={1367}
+            width={hero.image.width}
+            height={hero.image.height}
+            style={{ objectPosition: hero.image.focus }}
             fetchPriority="high"
             decoding="async"
           />

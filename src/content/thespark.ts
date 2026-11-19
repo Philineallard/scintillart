@@ -250,10 +250,17 @@ export const thespark = {
     /** In-page link to chapter 2 (navigation, not a second call to action). */
     explore: { label: 'Explore the experience', href: '#experience' },
     note: 'No artistic experience needed. Just curiosity, openness and a willingness to explore.',
-    /** Full-bleed photo behind the hero (Philine, November 2026: the Ripple exhibition). Files in public/thespark/. */
+    /**
+     * Full-bleed photo behind the hero (Philine, November 2026: "star", sun through a fig tree).
+     * Files in public/thespark/: <name>-sm (720w), <name>-md (1100w), <name> (full size).
+     * focus: the point kept in view when the photo is cropped (the sun's spark).
+     */
     image: {
-      name: 'hero-exhibition',
-      alt: 'Artworks hung and leaning along the walls of a quiet room during an exhibition',
+      name: 'hero-star',
+      width: 1367,
+      height: 2048,
+      focus: '61% 36%',
+      alt: 'Low sun shining through the branches of a fig tree over hills at dusk',
     },
   },
 
