@@ -38,7 +38,23 @@ export type Room = {
   details: string
   /** Euro prices exactly as on the listing: regular, then early bird. */
   price: { regular: string; earlyBird: string; basis: string }
+  /** Photos in public/thespark/rooms/ (<name>.webp 900w, <name>-sm.webp 540w, 4:5), shown as a gallery in the card. */
+  photos?: { name: string; alt: string }[]
 }
+
+// Room photos chosen by Philine, November 2026 (Quinta Javali). Both deluxe rooms share the en-suite set.
+const ensuitePhotos = [
+  { name: 'ensuite-01', alt: 'An en-suite bedroom with a freestanding bath beyond the bed' },
+  { name: 'ensuite-02', alt: 'A freestanding bath and basin beside a green wooden door' },
+  { name: 'ensuite-03', alt: 'The bath and a wall niche in an en-suite room' },
+  { name: 'ensuite-04', alt: 'A double bed with linen bedding under a large artwork' },
+  { name: 'ensuite-05', alt: 'A double bed beside a bedside lamp and a green-tiled wall' },
+  { name: 'ensuite-06', alt: 'A freestanding bath under a framed drawing' },
+  { name: 'ensuite-07', alt: 'A double bed under a wooden ceiling fan' },
+  { name: 'ensuite-08', alt: 'A bedroom with a double bed, a wooden wardrobe and a ceiling fan' },
+  { name: 'ensuite-09', alt: 'A bright en-suite bedroom with a bath and doors to the garden' },
+  { name: 'ensuite-10', alt: 'A double bed with white linen under a colourful painting' },
+]
 
 /** The four room types and prices (CLAUDE.md, confirmed by Igor). Order = order on the page. */
 export const rooms: Room[] = [
@@ -50,6 +66,13 @@ export const rooms: Room[] = [
     details:
       'Twin room with two single beds (90 × 190 cm), private en-suite bathroom, air conditioning, Wi-Fi and terrace access, with countryside and mountain surroundings.',
     price: { regular: '€2,800', earlyBird: '€2,600', basis: 'per person' },
+    photos: [
+      { name: 'shared-01', alt: 'A round mirror above a stone basin in the shared room’s bathroom' },
+      { name: 'shared-02', alt: 'The shared room’s bathroom with a walk-in shower and a small window' },
+      { name: 'shared-03', alt: 'The shared room with a bed, a sofa and wooden shutters' },
+      { name: 'shared-04', alt: 'The shared room under a sloping white ceiling' },
+      { name: 'shared-05', alt: 'Two beds in the shared room, with the bathroom door open beyond' },
+    ],
   },
   {
     id: 'private',
@@ -58,6 +81,12 @@ export const rooms: Room[] = [
     bestFor: 'Solo guests seeking privacy',
     details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
     price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
+    photos: [
+      { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
+      { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
+      { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
+      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
+    ],
   },
   {
     id: 'deluxe',
@@ -67,6 +96,7 @@ export const rooms: Room[] = [
     details:
       'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room.',
     price: { regular: '€3,500', earlyBird: '€3,300', basis: 'per person' },
+    photos: ensuitePhotos,
   },
   {
     id: 'deluxe-two',
@@ -76,6 +106,7 @@ export const rooms: Room[] = [
     details:
       'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms.',
     price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
+    photos: ensuitePhotos,
   },
 ]
 
@@ -176,7 +207,7 @@ export type Block =
    * A row of photos, three in view, that slides left and right (public/thespark/venue/:
    * <name>.webp 900w and <name>-sm.webp 540w, 4:5). label names it for screen readers.
    */
-  | { type: 'gallery'; label: string; items: { name: string; alt: string }[] }
+  | { type: 'gallery'; label: string; folder: string; drift?: boolean; items: { name: string; alt: string }[] }
 
 export type ChapterId = 'overview' | 'experience' | 'workshops' | 'day' | 'venue' | 'food' | 'accommodation' | 'faq'
 
@@ -543,6 +574,8 @@ export const thespark = {
         {
           type: 'gallery',
           label: 'Photos of Quinta Javali',
+          folder: 'venue',
+          drift: true,
           items: [
             { name: 'pool-deck', alt: 'The natural swimming pool and wooden deck, with the houses and terraced gardens behind' },
             { name: 'garden-doors', alt: 'Through glass doors, an outdoor dining table under a large tree and wooded hills' },
