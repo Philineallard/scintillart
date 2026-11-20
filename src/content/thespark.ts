@@ -196,7 +196,7 @@ export type Faq = { q: string; a: string }
 /** The building blocks of a chapter, rendered in order by <ChapterBlocks />. */
 export type Block =
   | { type: 'text'; heading?: string; paragraphs: string[] }
-  | { type: 'list'; heading?: string; items: string[] }
+  | { type: 'list'; heading?: string; caption?: string; items: string[] }
   | { type: 'pillars'; heading: string; items: { title: string; text: string }[] }
   | { type: 'workshops'; heading: string; items: Workshop[]; more?: { label: string; href: string } }
   | { type: 'people'; heading: string; items: Person[] }
@@ -433,6 +433,28 @@ export const thespark = {
             'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
             'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
             'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
+          ],
+        },
+        // From the first retreats page (October 2026): what previous participants said they
+        // took home, written as what you get from joining. Anonymous, as there.
+        {
+          type: 'list',
+          heading: 'What people take home',
+          caption: 'Words from previous participants',
+          items: [
+            'A wonderful, nourishing creative time',
+            'A community that feels like a family, even in a short time',
+            'Less isolation and new perspectives',
+            'Exchanging ideas, skills and motivating talks',
+            'Permission to show your emotions and be vulnerable',
+            'Seeing how your inner world can express itself through creativity',
+            'Stepping out of your comfort zone and the usual grooves of everyday life',
+            'Reconnecting with your playfulness and innate creative capacity',
+            'Discovering you’re creative once you drop the idea that you’re not',
+            'Feeling good enough about yourself and daring to show your true self',
+            'More self-assurance and the wish to keep expanding your creativity',
+            'Moving, heartfelt moments that stay with you',
+            'Rich memories to take home',
           ],
         },
         {

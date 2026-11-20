@@ -68,6 +68,7 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
       return (
         <div className={styles.block}>
           {block.heading && <H3>{block.heading}</H3>}
+          {block.caption && <p className={styles.listCaption}>{block.caption}</p>}
           <ul className={styles.list}>
             {block.items.map((item) => (
               <li key={item}>{item}</li>
