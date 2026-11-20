@@ -33,8 +33,10 @@ export const artists: Artist[] = [
     name: 'Philine Allard',
     role: 'Co-founder, host and facilitator of Scintillart',
     bio: [
-      'Philine hosts The Spark and leads its morning practice. She is an artist, energy guide and Qi Gong teacher, and a certified Mind-Body-Soul Mentor and Reiki Master.',
-      'Since a road trip in 2022 she has gathered shells, feathers and driftwood, and turns them into handmade totems: pieces made with intention, each holding something of the person who made it. She lives in the Alentejo countryside in Portugal.',
+      // Philine's bio, November 2026.
+      'Philine hosts The Spark and leads its morning practice. She is an artist, energy guide, Qi Gong teacher, certified Mind-Body-Soul Mentor, and Reiki Master.',
+      'She lives on an off-grid farm in the Alentejo countryside with three rescue horses and two dogs, where she offers 1:1 retreats, energy work, and creative experiences. Her work supports people in coming home to themselves, releasing what no longer serves them, and living with greater clarity, freedom, and joy.',
+      'Since a road trip in 2022 she has gathered shells, feathers and driftwood, and turns them into handmade totems: pieces made with intention, each holding something of the person who made it.',
     ],
     quote: 'Nature already holds the beauty. We simply listen, create, and allow it to take form.',
     portrait: { slug: 'philine-allard', alt: 'Philine Allard holding a totem of cork bark, cord and shells against a white wall' },
