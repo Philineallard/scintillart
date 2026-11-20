@@ -911,6 +911,38 @@ export const thespark = {
     /** Without JavaScript, and when sending fails: a plain email instead. */
     fallbackEmail: 'hello@scintillart.com',
     mailSubject: 'The Spark: registering my interest',
+    /**
+     * The confirmation email sent to the person who registers (Philine, November 2026).
+     * {firstName} is the first word of the name they typed. Replies go to hello@scintillart.com.
+     */
+    confirmation: {
+      subject: 'Scintillart Retreat · The Spark · We received your spark of interest',
+      greeting: 'Dear {firstName},',
+      paragraphs: [
+        'Thank you so much for registering your interest in The Spark, our creative retreat at Quinta Javali near Aljezur, from 1 to 7 February 2027.',
+        'We are delighted that you would like to find out more. We will be in touch shortly to arrange a phone call, so we can speak personally about The Spark, answer any questions you may have, and explore whether it feels like the right fit for you.',
+        'In the meantime, please feel free to reply to this email with anything you would like to know.',
+      ],
+      closing: ['All the best,', 'Creative sparks,'],
+      signature: {
+        names: 'Philine & Igor',
+        role: 'Founders',
+        company: 'Scintillart',
+        website: 'www.scintillart.com',
+        websiteHref: 'https://www.scintillart.com',
+        email: 'hello@scintillart.com',
+        phone: '+32 494 619 059',
+        definitionTerm: 'Scintillart /sɪnˈtɪl.ɑːrt/',
+        definitionClass: 'noun',
+        definition: [
+          'A creative spark made tangible through art.',
+          'The initial flash of an idea, feeling, image, or encounter, given form, shared, and allowed to travel.',
+        ],
+        /** Absolute URL: email clients load it from the live site. */
+        image: 'https://scintillart.com/email/scintillart-signature.jpg',
+        imageAlt: 'Scintillart. Where a spark becomes art.',
+      },
+    },
   },
 
   ui: {

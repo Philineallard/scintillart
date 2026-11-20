@@ -95,6 +95,78 @@ export function validateRegistration(input: unknown): { ok: true; data: Register
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true, data }
 }
 
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+/**
+ * The confirmation the visitor receives: plain text plus a simple HTML version (tables and
+ * inline styles only, so it holds up in Gmail, Outlook and Apple Mail). Copy lives in
+ * thespark.register.confirmation.
+ */
+export function formatConfirmationEmail(p: RegisterPayload): { subject: string; text: string; html: string } {
+  const c = thespark.register.confirmation
+  const s = c.signature
+  const firstName = p.name.trim().split(/\s+/)[0] || p.name.trim()
+  const greeting = c.greeting.replace('{firstName}', firstName)
+
+  const text = [
+    greeting,
+    '',
+    ...c.paragraphs.flatMap((para) => [para, '']),
+    ...c.closing,
+    '',
+    '--',
+    s.names,
+    s.role,
+    s.company,
+    s.website,
+    s.email,
+    s.phone,
+    '',
+    s.definitionTerm,
+    s.definitionClass,
+    ...s.definition,
+  ].join('\n')
+
+  const font = "font-family:Georgia,'Times New Roman',serif;"
+  const sans = 'font-family:Helvetica,Arial,sans-serif;'
+  const p_ = (t: string, extra = '') =>
+    `<p style="margin:0 0 16px;${font}font-size:16px;line-height:1.6;color:#232323;${extra}">${t}</p>`
+  const small = (t: string, extra = '') =>
+    `<div style="${sans}font-size:13px;line-height:1.6;color:#4a4744;${extra}">${t}</div>`
+  const link = (href: string, label: string) =>
+    `<a href="${escapeHtml(href)}" style="color:#4a4744;text-decoration:underline;">${escapeHtml(label)}</a>`
+
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${escapeHtml(c.subject)}</title></head>
+<body style="margin:0;padding:0;background:#F9F8F5;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F9F8F5;">
+<tr><td align="center" style="padding:32px 16px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+<tr><td style="padding:0;">
+${p_(escapeHtml(greeting))}
+${c.paragraphs.map((t) => p_(escapeHtml(t))).join('\n')}
+${p_(c.closing.map(escapeHtml).join('<br>'), 'margin-bottom:28px;')}
+<div style="border-top:1px solid #d9d4ca;padding-top:20px;">
+${small(`<strong style="color:#232323;font-weight:600;">${escapeHtml(s.names)}</strong><br>${escapeHtml(s.role)}<br>${escapeHtml(s.company)}`)}
+${small(
+  `${link(s.websiteHref, s.website)}<br>${link(`mailto:${s.email}`, s.email)}<br>${link(`tel:${s.phone.replace(/\s/g, '')}`, s.phone)}`,
+  'margin-top:10px;',
+)}
+${small(
+  `<span style="${font}font-style:italic;font-size:14px;color:#232323;">${escapeHtml(s.definitionTerm)}</span><br><em>${escapeHtml(s.definitionClass)}</em><br>${s.definition.map(escapeHtml).join('<br>')}`,
+  'margin-top:16px;',
+)}
+<img src="${escapeHtml(s.image)}" width="300" height="125" alt="${escapeHtml(s.imageAlt)}" style="display:block;margin-top:20px;border:0;width:300px;max-width:100%;height:auto;">
+</div>
+</td></tr></table>
+</td></tr></table>
+</body></html>`
+
+  return { subject: c.subject, text, html }
+}
+
 /** The email Scintillart receives: plain text, one field per line. */
 export function formatRegistrationEmail(p: RegisterPayload): { subject: string; text: string } {
   const f = thespark.register.fields

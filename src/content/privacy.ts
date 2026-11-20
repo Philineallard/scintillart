@@ -61,7 +61,7 @@ export const privacy = {
       id: 'consent',
       heading: 'Your consent',
       paragraphs: [
-        'By ticking the box on the registration form, you agree that we may contact you about that retreat, by email or phone. If you also tick the box for further information, we will occasionally send you news about Scintillart. Both are your choice: you can change your mind at any time by emailing hello@scintillart.com, and we will stop.',
+        'By ticking the box on the registration form, you agree that we may contact you about that retreat, by email or phone. We also send you one email confirming that we received your registration. If you also tick the box for further information, we will occasionally send you news about Scintillart. Both are your choice: you can change your mind at any time by emailing hello@scintillart.com, and we will stop.',
       ],
     },
     {

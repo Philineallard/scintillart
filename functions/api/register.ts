@@ -20,7 +20,7 @@
  * Later, if spam gets through: Cloudflare Turnstile on the form, or a WAF rate-limit rule
  * on /api/register.
  */
-import { formatRegistrationEmail, isHoneypotHit, validateRegistration } from '../../src/lib/register.ts'
+import { formatConfirmationEmail, formatRegistrationEmail, isHoneypotHit, validateRegistration } from '../../src/lib/register.ts'
 
 interface Env {
   MAIL_ENABLED?: string
@@ -90,5 +90,24 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
     console.log(`register: mail service answered ${res.status}`)
     return json({ ok: false, reason: 'send-failed' }, 502)
   }
+
+  // Confirmation to the visitor. Their registration has already reached the inbox, so a
+  // failure here is logged but does not turn the visitor's success into an error.
+  const confirmation = formatConfirmationEmail(result.data)
+  const confirm = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      from: env.MAIL_FROM,
+      to: [result.data.email],
+      // Replies to the confirmation reach the Scintillart inbox.
+      reply_to: env.MAIL_TO || DEFAULT_TO,
+      subject: confirmation.subject,
+      text: confirmation.text,
+      html: confirmation.html,
+    }),
+  }).catch(() => null)
+  if (!confirm?.ok) console.log(`register: confirmation answered ${confirm?.status ?? 'network error'}`)
+
   return json({ ok: true })
 }
