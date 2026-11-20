@@ -78,7 +78,10 @@ export const artists: Artist[] = [
     id: 'andre',
     name: 'André',
     role: 'Ceramics',
-    bio: [TBA],
+    // Philine, November 2026.
+    bio: [
+      'André guides intimate ceramics workshops centred on touch, presence and personal expression. Working with Andorinha, a handmade wheel with a family story, he welcomes beginners, families, couples and groups to explore clay at their own pace, whether in the studio, in nature or at a special venue. His practice values traditional making, locally sourced materials and the unique creative fingerprint each participant brings to the wheel.',
+    ],
     portrait: { slug: 'andre', alt: 'André, smiling, at a potter’s wheel with freshly thrown pots in front of him' },
     workshopIds: ['ceramics'],
   },
