@@ -65,7 +65,11 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
   if (env.MAIL_ENABLED !== 'true' || !env.RESEND_API_KEY || !env.MAIL_FROM) {
     // No personal data in the logs.
     console.log('register: valid registration received, but sending is disabled (MAIL_ENABLED)')
-    return json({ ok: false, reason: 'sending-disabled' }, 503)
+    // Names only (never values), so a missing setting is easy to spot after a deploy.
+    const missing = (['MAIL_ENABLED', 'RESEND_API_KEY', 'MAIL_FROM'] as const).filter((k) =>
+      k === 'MAIL_ENABLED' ? env.MAIL_ENABLED !== 'true' : !env[k],
+    )
+    return json({ ok: false, reason: 'sending-disabled', missing }, 503)
   }
 
   const { subject, text } = formatRegistrationEmail(result.data)
