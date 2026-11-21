@@ -13,7 +13,7 @@ export const terms = {
     description: 'Deposit, payment, cancellation and replacement terms for The Spark, the creative retreat by Scintillart.',
   },
   title: 'Booking and cancellation terms',
-  updated: 'Last updated 19 November 2026',
+  updated: 'Last updated 21 November 2026',
   intro: 'These terms apply to bookings for The Spark.',
 
   /** The short version, shown in a box on /thespark with a link to this page. */
@@ -22,8 +22,8 @@ export const terms = {
     items: [
       { term: 'Deposit', text: '50% of the total retreat price, on booking. Your place is confirmed once it is received.' },
       { term: 'Balance', text: 'The remaining 50%, 30 days before the retreat starts.' },
-      { term: 'Cancellation', text: 'The deposit is non-refundable. From 15 to 30 days before arrival, 50% of the total price; from 14 days, 100%.' },
-      { term: 'Can’t come?', text: 'You can pass your place to someone else.' },
+      { term: 'Cancellation', text: 'The deposit is non-refundable. More than 30 days before arrival, any further payments are refunded; from 15 to 30 days, 50% of the total price is non-refundable; from 14 days, 100%.' },
+      { term: 'Can’t come?', text: 'You can transfer your reservation to someone else, subject to our approval.' },
     ],
     link: 'Full booking and cancellation terms',
   },
@@ -46,8 +46,10 @@ export const terms = {
         'We understand that circumstances can change. However, as retreats involve advance accommodation bookings, preparation and financial commitments, the following cancellation terms apply:',
       ],
       items: [
-        { term: 'More than 30 days before arrival', text: 'The 50% deposit is non-refundable.' },
-        { term: 'Between 15 and 30 days before arrival', text: '50% of the total retreat price is non-refundable.' },
+        // Philine, 21 November 2026.
+        { term: 'Upon booking', text: 'A 50% deposit of the total retreat price is required to secure your reservation. This deposit is non-refundable.' },
+        { term: 'More than 30 days before arrival', text: 'If you cancel, the deposit will be retained. Any additional payments made will be refunded.' },
+        { term: '15–30 days before arrival', text: '50% of the total retreat price is non-refundable.' },
         { term: '14 days or less before arrival', text: '100% of the total retreat price is non-refundable.' },
       ],
     },
@@ -55,10 +57,8 @@ export const terms = {
       id: 'replacement',
       heading: 'Finding a replacement participant',
       paragraphs: [
-        'If you are unable to attend, you have the option to find another person to take your place.',
-        'You may transfer your reservation to a replacement participant, subject to our approval and any relevant accommodation requirements.',
-        'Once the replacement participant has confirmed their booking and completed the payment, your original payment will be fully transferred or refunded.',
-        'This means you won’t lose your investment if you find someone else to enjoy the retreat in your place.',
+        // Philine, 21 November 2026.
+        'If you are unable to attend, you may transfer your reservation to another person, subject to approval by the organisers and availability of the accommodation. This allows you to recover your investment without losing your booking payment.',
       ],
     },
     {

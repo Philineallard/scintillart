@@ -120,6 +120,28 @@
   border-bottom: 1px solid var(--hairline);
 }
 
+.personWithPhoto {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.personPhoto {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .personWithPhoto {
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-4);
+  }
+}
+
 .pillarTitle,
 .personName {
   margin: 0 0 var(--space-2);
@@ -233,7 +255,8 @@
 
 .rooms {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  /* At most three per row, so five rooms sit as 3 + 2 rather than 4 + 1. */
+  grid-template-columns: repeat(auto-fill, minmax(max(17rem, calc((100% - 2 * var(--space-8)) / 3)), 1fr));
   gap: 0 var(--space-8);
   margin: 0;
   padding: 0;
@@ -443,4 +466,15 @@
     grid-template-columns: 1fr;
     gap: var(--space-1);
   }
+}
+
+/* A small label under a list heading (e.g. "Words from previous participants"). */
+.listCaption {
+  margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }

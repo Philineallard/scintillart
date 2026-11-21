@@ -152,8 +152,9 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
         </div>
       )}
 
+      {/* The videos are left out on phones (Philine, November 2026). */}
       {spread && (
-        <div className={styles.wideRow}>
+        <div className={`${styles.wideRow} ${styles.noPhone}`}>
           <Spread figures={spread} />
         </div>
       )}
