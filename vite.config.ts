@@ -121,7 +121,7 @@ function withHead(html: string, route: RouteHead): string {
     .replace(/(<meta property="og:description" content=")[^"]*/, `$1${escapeAttr(route.description)}`)
     .replace(/(<meta property="og:url" content=")[^"]*/, `$1${url}`)
     .replace(/(<meta property="og:image" content=")[^"]*/, `$1${SITE}${route.ogImage ?? '/og/scintillart.jpg'}`)
-    .replace(/(<meta property="og:image:alt" content=")[^"]*/, `$1${escapeAttr(route.ogImageAlt ?? 'Scintillart: a creative spark made tangible through art. Where a spark becomes art.')}`)
+    .replace(/(<meta property="og:image:alt" content=")[^"]*/, `$1${escapeAttr(route.ogImageAlt ?? 'Scintillart. Art, culture, events. Where a spark becomes art.')}`)
     .replace('</head>', `  ${tags}\n  </head>`)
   if (!replaced.includes(`<title>${escapeAttr(route.title)}</title>`) || !replaced.includes(tags)) {
     throw new Error(`static route html: could not set the <head> for ${route.file}`)
