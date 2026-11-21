@@ -120,6 +120,28 @@
   border-bottom: 1px solid var(--hairline);
 }
 
+.personWithPhoto {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.personPhoto {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .personWithPhoto {
+    grid-template-columns: 7.5rem 1fr;
+    gap: var(--space-4);
+  }
+}
+
 .pillarTitle,
 .personName {
   margin: 0 0 var(--space-2);

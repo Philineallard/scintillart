@@ -125,15 +125,34 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
         <div className={styles.block}>
           <H3>{block.heading}</H3>
           <ul className={styles.people}>
-            {block.items.map((person) => (
-              <li key={person.name} className={styles.person}>
-                <p className={styles.personName}>
-                  <ArtistHover artist={artists.find((a) => a.name === person.name)}>{person.name}</ArtistHover>
-                </p>
-                {person.role && <p className={styles.by}>{person.role}</p>}
-                <p className={styles.small}>{person.text}</p>
-              </li>
-            ))}
+            {block.items.map((person) => {
+              const artist = artists.find((a) => a.name === person.name)
+              // Hosts with a portrait (Philine, November 2026): photo beside their description.
+              return (
+                <li key={person.name} className={artist?.portrait ? `${styles.person} ${styles.personWithPhoto}` : styles.person}>
+                  {artist?.portrait && (
+                    <img
+                      className={styles.personPhoto}
+                      src={`${import.meta.env.BASE_URL}artists/${artist.portrait.slug}-sm.webp`}
+                      srcSet={`${import.meta.env.BASE_URL}artists/${artist.portrait.slug}-sm.webp 360w, ${import.meta.env.BASE_URL}artists/${artist.portrait.slug}.webp 900w`}
+                      sizes="(max-width: 720px) 40vw, 12rem"
+                      width={360}
+                      height={480}
+                      loading="lazy"
+                      decoding="async"
+                      alt={artist.portrait.alt}
+                    />
+                  )}
+                  <div>
+                    <p className={styles.personName}>
+                      <ArtistHover artist={artist}>{person.name}</ArtistHover>
+                    </p>
+                    {person.role && <p className={styles.by}>{person.role}</p>}
+                    <p className={styles.small}>{person.text}</p>
+                  </div>
+                </li>
+              )
+            })}
           </ul>
         </div>
       )
