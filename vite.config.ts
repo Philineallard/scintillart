@@ -48,7 +48,7 @@ const ROUTES: RouteHead[] = [
     index: true,
     jsonLd: faqJsonLd(),
     ogImage: '/og/thespark.jpg',
-    ogImageAlt: 'Sunlight through the branches of a fig tree above the hills near Aljezur',
+    ogImageAlt: 'The Spark, a creative retreat by Scintillart: 1 to 7 February 2027, Quinta Javali, Aljezur, Portugal',
   },
   {
     file: 'thespark-artists.html',
@@ -57,7 +57,7 @@ const ROUTES: RouteHead[] = [
     description: artistsPage.meta.description,
     index: true,
     ogImage: '/og/thespark.jpg',
-    ogImageAlt: 'Sunlight through the branches of a fig tree above the hills near Aljezur',
+    ogImageAlt: 'The Spark, a creative retreat by Scintillart: 1 to 7 February 2027, Quinta Javali, Aljezur, Portugal',
   },
   {
     file: 'privacy.html',
@@ -73,7 +73,7 @@ const ROUTES: RouteHead[] = [
     description: terms.meta.description,
     index: true,
     ogImage: '/og/thespark.jpg',
-    ogImageAlt: 'Sunlight through the branches of a fig tree above the hills near Aljezur',
+    ogImageAlt: 'The Spark, a creative retreat by Scintillart: 1 to 7 February 2027, Quinta Javali, Aljezur, Portugal',
   },
   {
     // The fuller venue presentation. Out of search for now: chapter 5 of /thespark
@@ -121,7 +121,7 @@ function withHead(html: string, route: RouteHead): string {
     .replace(/(<meta property="og:description" content=")[^"]*/, `$1${escapeAttr(route.description)}`)
     .replace(/(<meta property="og:url" content=")[^"]*/, `$1${url}`)
     .replace(/(<meta property="og:image" content=")[^"]*/, `$1${SITE}${route.ogImage ?? '/og/scintillart.jpg'}`)
-    .replace(/(<meta property="og:image:alt" content=")[^"]*/, `$1${escapeAttr(route.ogImageAlt ?? 'Scintillart. Where a spark becomes art.')}`)
+    .replace(/(<meta property="og:image:alt" content=")[^"]*/, `$1${escapeAttr(route.ogImageAlt ?? 'Scintillart: a creative spark made tangible through art. Where a spark becomes art.')}`)
     .replace('</head>', `  ${tags}\n  </head>`)
   if (!replaced.includes(`<title>${escapeAttr(route.title)}</title>`) || !replaced.includes(tags)) {
     throw new Error(`static route html: could not set the <head> for ${route.file}`)
