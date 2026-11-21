@@ -33,8 +33,10 @@ export const artists: Artist[] = [
     name: 'Philine Allard',
     role: 'Co-founder, host and facilitator of Scintillart',
     bio: [
-      'Philine hosts The Spark and leads its morning practice. She is an artist, energy guide and Qi Gong teacher, and a certified Mind-Body-Soul Mentor and Reiki Master.',
-      'Since a road trip in 2022 she has gathered shells, feathers and driftwood, and turns them into handmade totems: pieces made with intention, each holding something of the person who made it. She lives in the Alentejo countryside in Portugal.',
+      // Philine's bio, November 2026.
+      'Philine hosts The Spark and leads its morning practice. She is an artist, energy guide, Qi Gong teacher, certified Mind-Body-Soul Mentor, and Reiki Master.',
+      'She lives on an off-grid farm in the Alentejo countryside with three rescue horses and two dogs, where she offers 1:1 retreats, energy work, and creative experiences. Her work supports people in coming home to themselves, releasing what no longer serves them, and living with greater clarity, freedom, and joy.',
+      'Since a road trip in 2022 she has gathered shells, feathers and driftwood, and turns them into handmade totems: pieces made with intention, each holding something of the person who made it.',
     ],
     quote: 'Nature already holds the beauty. We simply listen, create, and allow it to take form.',
     portrait: { slug: 'philine-allard', alt: 'Philine Allard holding a totem of cork bark, cord and shells against a white wall' },
@@ -78,7 +80,10 @@ export const artists: Artist[] = [
     id: 'andre',
     name: 'André',
     role: 'Ceramics',
-    bio: [TBA],
+    // Philine, November 2026.
+    bio: [
+      'André guides intimate ceramics workshops centred on touch, presence and personal expression. Working with Andorinha, a handmade wheel with a family story, he welcomes beginners, families, couples and groups to explore clay at their own pace, whether in the studio, in nature or at a special venue. His practice values traditional making, locally sourced materials and the unique creative fingerprint each participant brings to the wheel.',
+    ],
     portrait: { slug: 'andre', alt: 'André, smiling, at a potter’s wheel with freshly thrown pots in front of him' },
     workshopIds: ['ceramics'],
   },
@@ -96,7 +101,10 @@ export const artists: Artist[] = [
     id: 'manu',
     name: 'Manu',
     role: 'Arkana Within and archetypes',
-    bio: [TBA],
+    // Philine, November 2026.
+    bio: [
+      'Manu is a tarot reader, maker and facilitator who explores self-discovery through craft, symbolism and personal mythology. With a background in jewellery, metals conservation, textiles, yoga and dance, they create welcoming spaces for people to connect with tarot, their creativity and their own inner knowledge. Manu’s Inner Deck Workshops invite participants to discover a personal archetype and make their first card, turning reflection into a lasting, handmade object.',
+    ],
     portrait: { slug: 'manu', alt: 'Manu, smiling, with dark curly hair and a blue shirt' },
     workshopIds: ['arkana-within', 'archetype-photoshoot'],
   },

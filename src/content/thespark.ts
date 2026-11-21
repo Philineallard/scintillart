@@ -28,7 +28,7 @@ export type Fact = {
   note?: string
 }
 
-export type RoomId = 'shared' | 'private' | 'deluxe' | 'deluxe-two'
+export type RoomId = 'shared' | 'private' | 'private-two' | 'deluxe' | 'deluxe-two'
 export type Room = {
   /** Stable id: used in /thespark#register?room=<id> and sent with the form. */
   id: RoomId
@@ -88,6 +88,23 @@ export const rooms: Room[] = [
       { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
       { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
       { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
+    ],
+  },
+  {
+    // Added by Philine, November 2026: the private room shared by a couple (same room and photos).
+    id: 'private-two',
+    name: 'Private room for couples',
+    tagline: 'Together, simply.',
+    bestFor: 'Couples sharing a double bed',
+    details: 'For two guests sharing a double bed (180 × 200 cm), with air conditioning and a bathroom outside the bedroom.',
+    // €2,700 / €2,500 per person (Philine), shown per room like the deluxe couples room.
+    price: { regular: '€5,400', earlyBird: '€5,000', basis: 'per room, for two guests' },
+    // Starts on the 3rd photo (Philine's choice of thumbnail), so it differs from the private room.
+    photos: [
+      { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
+      { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
+      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
+      { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
     ],
   },
   {
@@ -196,7 +213,7 @@ export type Faq = { q: string; a: string }
 /** The building blocks of a chapter, rendered in order by <ChapterBlocks />. */
 export type Block =
   | { type: 'text'; heading?: string; paragraphs: string[] }
-  | { type: 'list'; heading?: string; items: string[] }
+  | { type: 'list'; heading?: string; caption?: string; items: string[] }
   | { type: 'pillars'; heading: string; items: { title: string; text: string }[] }
   | { type: 'workshops'; heading: string; items: Workshop[]; more?: { label: string; href: string } }
   | { type: 'people'; heading: string; items: Person[] }
@@ -433,6 +450,28 @@ export const thespark = {
             'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
             'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
             'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
+          ],
+        },
+        // From the first retreats page (October 2026): what previous participants said they
+        // took home, written as what you get from joining. Anonymous, as there.
+        {
+          type: 'list',
+          heading: 'What people take home',
+          caption: 'Words from previous participants',
+          items: [
+            'A wonderful, nourishing creative time',
+            'A community that feels like a family, even in a short time',
+            'Less isolation and new perspectives',
+            'Exchanging ideas, skills and motivating talks',
+            'Permission to show your emotions and be vulnerable',
+            'Seeing how your inner world can express itself through creativity',
+            'Stepping out of your comfort zone and the usual grooves of everyday life',
+            'Reconnecting with your playfulness and innate creative capacity',
+            'Discovering you’re creative once you drop the idea that you’re not',
+            'Feeling good enough about yourself and daring to show your true self',
+            'More self-assurance and the wish to keep expanding your creativity',
+            'Moving, heartfelt moments that stay with you',
+            'Rich memories to take home',
           ],
         },
         {
@@ -889,6 +928,38 @@ export const thespark = {
     /** Without JavaScript, and when sending fails: a plain email instead. */
     fallbackEmail: 'hello@scintillart.com',
     mailSubject: 'The Spark: registering my interest',
+    /**
+     * The confirmation email sent to the person who registers (Philine, November 2026).
+     * {firstName} is the first word of the name they typed. Replies go to hello@scintillart.com.
+     */
+    confirmation: {
+      subject: 'Scintillart Retreat · The Spark · We received your spark of interest',
+      greeting: 'Dear {firstName},',
+      paragraphs: [
+        'Thank you so much for registering your interest in The Spark, our creative retreat at Quinta Javali near Aljezur, from 1 to 7 February 2027.',
+        'We are delighted that you would like to find out more. We will be in touch shortly to arrange a phone call, so we can speak personally about The Spark, answer any questions you may have, and explore whether it feels like the right fit for you.',
+        'In the meantime, please feel free to reply to this email with anything you would like to know.',
+      ],
+      closing: ['All the best,', 'Creative sparks,'],
+      signature: {
+        names: 'Philine & Igor',
+        role: 'Founders',
+        company: 'Scintillart',
+        website: 'www.scintillart.com',
+        websiteHref: 'https://www.scintillart.com',
+        email: 'hello@scintillart.com',
+        phone: '+32 494 619 059',
+        definitionTerm: 'Scintillart /sɪnˈtɪl.ɑːrt/',
+        definitionClass: 'noun',
+        definition: [
+          'A creative spark made tangible through art.',
+          'The initial flash of an idea, feeling, image, or encounter, given form, shared, and allowed to travel.',
+        ],
+        /** Absolute URL: email clients load it from the live site. */
+        image: 'https://scintillart.com/email/scintillart-signature.jpg',
+        imageAlt: 'Scintillart. Where a spark becomes art.',
+      },
+    },
   },
 
   ui: {

@@ -20,7 +20,7 @@
  * Later, if spam gets through: Cloudflare Turnstile on the form, or a WAF rate-limit rule
  * on /api/register.
  */
-import { formatRegistrationEmail, isHoneypotHit, validateRegistration } from '../../src/lib/register.ts'
+import { formatConfirmationEmail, formatRegistrationEmail, isHoneypotHit, validateRegistration } from '../../src/lib/register.ts'
 
 interface Env {
   MAIL_ENABLED?: string
@@ -65,7 +65,11 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
   if (env.MAIL_ENABLED !== 'true' || !env.RESEND_API_KEY || !env.MAIL_FROM) {
     // No personal data in the logs.
     console.log('register: valid registration received, but sending is disabled (MAIL_ENABLED)')
-    return json({ ok: false, reason: 'sending-disabled' }, 503)
+    // Names only (never values), so a missing setting is easy to spot after a deploy.
+    const missing = (['MAIL_ENABLED', 'RESEND_API_KEY', 'MAIL_FROM'] as const).filter((k) =>
+      k === 'MAIL_ENABLED' ? env.MAIL_ENABLED !== 'true' : !env[k],
+    )
+    return json({ ok: false, reason: 'sending-disabled', missing }, 503)
   }
 
   const { subject, text } = formatRegistrationEmail(result.data)
@@ -86,5 +90,24 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
     console.log(`register: mail service answered ${res.status}`)
     return json({ ok: false, reason: 'send-failed' }, 502)
   }
+
+  // Confirmation to the visitor. Their registration has already reached the inbox, so a
+  // failure here is logged but does not turn the visitor's success into an error.
+  const confirmation = formatConfirmationEmail(result.data)
+  const confirm = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      from: env.MAIL_FROM,
+      to: [result.data.email],
+      // Replies to the confirmation reach the Scintillart inbox.
+      reply_to: env.MAIL_TO || DEFAULT_TO,
+      subject: confirmation.subject,
+      text: confirmation.text,
+      html: confirmation.html,
+    }),
+  }).catch(() => null)
+  if (!confirm?.ok) console.log(`register: confirmation answered ${confirm?.status ?? 'network error'}`)
+
   return json({ ok: true })
 }
