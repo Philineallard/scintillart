@@ -99,11 +99,12 @@ export const rooms: Room[] = [
     details: 'For two guests sharing a double bed (180 × 200 cm), with air conditioning and a bathroom outside the bedroom.',
     // €2,700 / €2,500 per person (Philine), shown per room like the deluxe couples room.
     price: { regular: '€5,400', earlyBird: '€5,000', basis: 'per room, for two guests' },
+    // Starts on the 3rd photo (Philine's choice of thumbnail), so it differs from the private room.
     photos: [
-      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
-      { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
       { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
       { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
+      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
+      { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
     ],
   },
   {
