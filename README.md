@@ -59,6 +59,11 @@ src/
   components/                  ScintillartWordmark, BrandDefinition, ActionLink
   pages/EntryPage.tsx          entry layout, wires up the portal
   pages/RetreatPage.tsx        retreats page (also pre-rendered inside the transition)
+  components/thespark/EnvelopeGate.tsx  /thespark closing banner: envelope photo → 3D sequence → register panel
+  envelope/                    the envelope sequence's WebGL engine (lazy chunk, plain three.js)
+    config.ts                  sizes, points in the photo (seal, envelope), hand-over timings
+    world.ts                   meshes, lights, particles and the GSAP choreography (play())
+    engine.ts                  renderer, post-processing (DOF, bloom, grade), render loop
   portal/
     timing.ts                  ALL animation timings and visual controls
     usePortalMachine.ts        state machine + GSAP timelines

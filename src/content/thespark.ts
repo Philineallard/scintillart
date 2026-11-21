@@ -867,6 +867,30 @@ export const thespark = {
   },
 
   /**
+   * The closing banner: Igor's photograph of a wax-sealed envelope (Igor, November 2026).
+   * Clicking the envelope or the button opens the register panel through a short 3D
+   * sequence (src/envelope): the seal breaks and the letter comes out. Lines marked DRAFT
+   * were written by Claude and await approval (TBA).
+   */
+  envelope: {
+    image: {
+      name: 'envelope',
+      width: 2048,
+      height: 1102,
+      alt: 'Dried gypsophila in a green-glazed vase beside a stack of kraft envelopes, one sealed with red wax, on a rough wooden shelf.',
+    },
+    credit: 'Photograph: Igor Świeczak',
+    /** DRAFT (TBA): label shown over the seal on hover. */
+    hint: 'Break the seal',
+    /** DRAFT (TBA): shown while the sequence plays. */
+    skip: 'Click or press Escape to skip',
+    /** Accessible name of the envelope link. */
+    openLabel: 'Register your interest: open the letter',
+    /** Written on the letter that comes out of the envelope. */
+    letterKicker: 'The Spark',
+  },
+
+  /**
    * The "Register your interest" panel. Lines marked DRAFT were written by Claude and
    * await Igor's approval (TBA): replace or confirm, then remove the marker.
    */
