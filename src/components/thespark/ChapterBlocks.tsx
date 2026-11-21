@@ -145,7 +145,8 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
                   )}
                   <div>
                     <p className={styles.personName}>
-                      <ArtistHover artist={artist}>{person.name}</ArtistHover>
+                      {/* No hover portrait when the photo is already shown beside the text. */}
+                      {artist?.portrait ? person.name : <ArtistHover artist={artist}>{person.name}</ArtistHover>}
                     </p>
                     {person.role && <p className={styles.by}>{person.role}</p>}
                     <p className={styles.small}>{person.text}</p>
