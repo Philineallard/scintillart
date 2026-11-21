@@ -28,7 +28,7 @@ export type Fact = {
   note?: string
 }
 
-export type RoomId = 'shared' | 'private' | 'deluxe' | 'deluxe-two'
+export type RoomId = 'shared' | 'private' | 'private-two' | 'deluxe' | 'deluxe-two'
 export type Room = {
   /** Stable id: used in /thespark#register?room=<id> and sent with the form. */
   id: RoomId
@@ -83,6 +83,21 @@ export const rooms: Room[] = [
     bestFor: 'Solo guests seeking privacy',
     details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
     price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
+    photos: [
+      { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
+      { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
+      { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
+      { name: 'private-03', alt: 'A double bed with white linen under a framed artwork' },
+    ],
+  },
+  {
+    // Added by Philine, November 2026: the private room shared by a couple (same room and photos).
+    id: 'private-two',
+    name: 'Private room for couples',
+    tagline: 'Together, simply.',
+    bestFor: 'Couples sharing a double bed',
+    details: 'For two guests sharing a double bed (180 × 200 cm), with air conditioning and a bathroom outside the bedroom.',
+    price: { regular: '€2,700', earlyBird: '€2,500', basis: 'per person' },
     photos: [
       { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
       { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },

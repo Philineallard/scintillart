@@ -233,7 +233,8 @@
 
 .rooms {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  /* At most three per row, so five rooms sit as 3 + 2 rather than 4 + 1. */
+  grid-template-columns: repeat(auto-fill, minmax(max(17rem, calc((100% - 2 * var(--space-8)) / 3)), 1fr));
   gap: 0 var(--space-8);
   margin: 0;
   padding: 0;
