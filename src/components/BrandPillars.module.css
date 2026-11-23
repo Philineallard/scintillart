@@ -41,20 +41,20 @@
   transition: opacity 0.15s linear;
 }
 
-/* Matches the definition's headword. */
+/* Same size and layout as the definition: headword, then the text indented like a numbered sense. */
 .name {
-  margin: 0 0 0.45em;
+  /* Room of the definition's "noun" line, so the text lines up across the page. */
+  margin: 0 0 1.55em; /* in the name's own em: equals 3.1em of body text */
   font-family: var(--font-display);
   font-style: var(--font-display-style);
   font-weight: var(--font-display-weight);
   font-size: 2em;
   line-height: 1.1;
-  letter-spacing: 0.04em;
 }
 
 .lead,
 .body {
-  margin: 0;
+  margin: 0 0 0 1.75em;
 }
 
 .lead {

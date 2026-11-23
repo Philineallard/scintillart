@@ -27,17 +27,17 @@ export const brand = {
    */
   pillars: [
     {
-      name: 'ART',
+      name: 'Art',
       lead: 'Artist-led creation, collaboration, and content.',
       body: 'We connect the right artists with the right places and brands.',
     },
     {
-      name: 'CULTURE',
+      name: 'Culture',
       lead: 'Retreats, gatherings, and creative experiences.',
       body: 'We make room for curiosity, craft, and meaningful connection.',
     },
     {
-      name: 'EVENTS',
+      name: 'Events',
       lead: 'Exhibitions, vernissages, and artistic encounters.',
       body: 'We create moments that leave a lasting trace.',
     },
