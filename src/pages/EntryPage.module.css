@@ -92,6 +92,19 @@
   font-size: 0.875rem;
 }
 
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2.2svh, 1.5rem);
+}
+
+.pillars {
+  width: 100%;
+  max-width: 34rem;
+  font-size: 0.875rem;
+}
+
 .ctaBlock {
   display: flex;
   flex-direction: column;
@@ -168,6 +181,8 @@
   .stage {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    /* Rows: space, then the definition beside Art / Culture / Events (same top line), then the call to action. */
+    grid-template-rows: minmax(0, 1fr) auto auto;
     align-items: end;
     column-gap: var(--col-gap);
     margin-top: calc(var(--wm-size) * (var(--cover-overlap) - 0.92));
@@ -175,7 +190,7 @@
 
   .slotBox {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 1 / span 3;
     align-self: center;
     display: block;
     container-type: normal;
@@ -193,18 +208,33 @@
 
   .definition {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 2 / span 2;
     justify-self: start;
-    align-self: end;
+    align-self: start;
     max-width: 24em;
+  }
+
+  /* The right side's two blocks become grid items, so Art / Culture / Events can share the definition's top line. */
+  .side {
+    display: contents;
+  }
+
+  .pillars {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
+    align-self: start;
+    width: 24em;
+    max-width: 100%;
   }
 
   .ctaBlock {
     grid-column: 3;
-    grid-row: 1;
+    grid-row: 3;
     justify-self: end;
     align-self: end;
     align-items: flex-end;
+    margin-top: clamp(0.5rem, 2svh, 1.5rem);
   }
 
   .cta {
@@ -213,7 +243,8 @@
 }
 
 @media (min-width: 1500px) and (min-height: 820px) {
-  .definition {
+  .definition,
+  .pillars {
     font-size: 0.9375rem;
   }
 }
@@ -240,6 +271,15 @@
     align-self: center;
     font-size: 0.8125rem;
     line-height: 1.5;
+  }
+
+  /* No room for a second block here: the definition alone carries the text. */
+  .pillars {
+    display: none;
+  }
+
+  .side {
+    align-items: flex-start;
   }
 
   .ctaBlock {
