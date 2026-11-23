@@ -2,6 +2,7 @@ import { lazy, type MouseEvent, Suspense, useCallback, useEffect, useMemo, useRe
 import { useNavigate } from 'react-router'
 import { ActionLink } from '../components/ActionLink'
 import { BrandDefinition } from '../components/BrandDefinition'
+import { BrandPillars } from '../components/BrandPillars'
 import { ScintillartWordmark } from '../components/ScintillartWordmark'
 import { brand } from '../content/brand'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
@@ -30,6 +31,7 @@ export default function EntryPage() {
 
   const wordmarkRef = useRef<HTMLSpanElement>(null)
   const definitionRef = useRef<HTMLElement>(null)
+  const pillarsRef = useRef<HTMLElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
   const sloganRef = useRef<HTMLParagraphElement>(null)
   const entryRef = useRef<HTMLElement>(null)
@@ -41,7 +43,7 @@ export default function EntryPage() {
   const machine = usePortalMachine({
     refs: {
       wordmark: wordmarkRef,
-      copy: [sloganRef, definitionRef, ctaRef],
+      copy: [sloganRef, definitionRef, pillarsRef, ctaRef],
       slot: slotRef,
       staticArt: staticArtRef,
       destination: destinationRef,
@@ -163,13 +165,23 @@ export default function EntryPage() {
             reducedMotion={reducedMotion}
           />
 
-          <div ref={ctaRef} className={styles.ctaBlock}>
-            <ActionLink href="/thespark" onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
-              {brand.primaryAction}
-            </ActionLink>
-            <a href={`mailto:${brand.contact.email}`} className={styles.contact}>
-              {brand.contact.email}
-            </a>
+          {/* Right side: Art, Culture, Events (following the definition), then the call to action. */}
+          <div className={styles.side}>
+            <BrandPillars
+              ref={pillarsRef}
+              className={styles.pillars}
+              active={sense}
+              reducedMotion={reducedMotion}
+            />
+
+            <div ref={ctaRef} className={styles.ctaBlock}>
+              <ActionLink href="/thespark" onClick={onCta} aria-disabled={busy || undefined} className={styles.cta}>
+                {brand.primaryAction}
+              </ActionLink>
+              <a href={`mailto:${brand.contact.email}`} className={styles.contact}>
+                {brand.contact.email}
+              </a>
+            </div>
           </div>
         </div>
       </div>

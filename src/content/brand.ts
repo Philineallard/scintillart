@@ -21,6 +21,27 @@ export const brand = {
       body: 'Not only the artwork itself, but the atmosphere, conversation, relationship, and momentum it leaves behind.',
     },
   ],
+  /**
+   * What Scintillart does, shown on the right of the homepage. One pillar per sense above:
+   * the first definition shows Art, the second Culture, the third Events (Philine, November 2026).
+   */
+  pillars: [
+    {
+      name: 'ART',
+      lead: 'Artist-led creation, collaboration, and content.',
+      body: 'We connect the right artists with the right places and brands.',
+    },
+    {
+      name: 'CULTURE',
+      lead: 'Retreats, gatherings, and creative experiences.',
+      body: 'We make room for curiosity, craft, and meaningful connection.',
+    },
+    {
+      name: 'EVENTS',
+      lead: 'Exhibitions, vernissages, and artistic encounters.',
+      body: 'We create moments that leave a lasting trace.',
+    },
+  ],
   primaryAction: 'Our retreats',
   /** Shown on the landing page in place of the retreats link (launch version). */
   contact: { label: 'Contact', email: 'hello@scintillart.com' },

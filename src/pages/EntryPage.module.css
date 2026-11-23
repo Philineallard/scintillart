@@ -92,6 +92,19 @@
   font-size: 0.875rem;
 }
 
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2.2svh, 1.5rem);
+}
+
+.pillars {
+  width: 100%;
+  max-width: 34rem;
+  font-size: 0.875rem;
+}
+
 .ctaBlock {
   display: flex;
   flex-direction: column;
@@ -199,11 +212,21 @@
     max-width: 24em;
   }
 
-  .ctaBlock {
+  .side {
     grid-column: 3;
     grid-row: 1;
     justify-self: end;
     align-self: end;
+    align-items: flex-end;
+    gap: clamp(1.5rem, 5svh, 3.5rem);
+  }
+
+  .pillars {
+    width: auto;
+    max-width: 24em;
+  }
+
+  .ctaBlock {
     align-items: flex-end;
   }
 
@@ -213,7 +236,8 @@
 }
 
 @media (min-width: 1500px) and (min-height: 820px) {
-  .definition {
+  .definition,
+  .pillars {
     font-size: 0.9375rem;
   }
 }
@@ -240,6 +264,15 @@
     align-self: center;
     font-size: 0.8125rem;
     line-height: 1.5;
+  }
+
+  /* No room for a second block here: the definition alone carries the text. */
+  .pillars {
+    display: none;
+  }
+
+  .side {
+    align-items: flex-start;
   }
 
   .ctaBlock {
