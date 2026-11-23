@@ -378,9 +378,8 @@ export const thespark = {
       id: 'overview',
       nav: 'Overview',
       title: 'More than a holiday. A return to your creative self.',
-      // Chosen by Philine, November 2026: the heading plain at the top, then the pool and
-      // houses (drone photo) pinned on the left beside "Something shifts…".
-      headingAbove: true,
+      // Philine, November 2026: the heading on the pool and houses photo (drone), pinned on the
+      // left beside "Something shifts…".
       panel: {
         side: 'left',
         name: 'overview-pool',
