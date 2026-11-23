@@ -417,6 +417,13 @@
   margin-block: var(--space-6) var(--space-12);
 }
 
+/* Videos left out on phones (Philine, November 2026). */
+@media (max-width: 720px) {
+  .noPhone {
+    display: none;
+  }
+}
+
 /* Deposit and cancellation in short: a 1px hairline box, square corners, flat. */
 .termsBox {
   margin-block: var(--space-8);

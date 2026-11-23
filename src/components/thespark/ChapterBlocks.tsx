@@ -251,7 +251,7 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
       )
     case 'figures':
       return (
-        <div className={styles.figures}>
+        <div className={block.noPhone ? `${styles.figures} ${styles.noPhone}` : styles.figures}>
           <Spread figures={block.items} />
         </div>
       )
