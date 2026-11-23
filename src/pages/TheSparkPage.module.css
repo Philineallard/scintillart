@@ -283,6 +283,8 @@
 /* A heading shown on its own above the chapter's first row (Overview, above the videos). */
 .headingAbove {
   max-width: 40rem;
+  /* Clear space between the heading and the photo below (the videos moved further down, Philine, November 2026). */
+  margin-bottom: var(--space-12);
 }
 
 /* Space between photos and text: the same generous gap above and below every image row. */
@@ -627,10 +629,5 @@
 @media (max-width: 720px) {
   .noPhone {
     display: none;
-  }
-
-  /* With the videos gone, keep clear space between the heading and the photo below. */
-  .headingAbove {
-    margin-bottom: var(--space-12);
   }
 }

@@ -225,7 +225,7 @@ export type Block =
   /** The short deposit and cancellation box, from src/content/terms.ts. */
   | { type: 'terms' }
   /** Three photos or silent videos side by side, the same size (see Figure). */
-  | { type: 'figures'; items: Figure[] }
+  | { type: 'figures'; items: Figure[]; /** Left out on phones. */ noPhone?: boolean }
   /**
    * A row of photos, three in view, that slides left and right (public/thespark/venue/:
    * <name>.webp 900w and <name>-sm.webp 540w, 4:5). label names it for screen readers.
@@ -378,7 +378,7 @@ export const thespark = {
       id: 'overview',
       nav: 'Overview',
       title: 'More than a holiday. A return to your creative self.',
-      // Chosen by Philine, November 2026: the heading plain above the videos, then the pool and
+      // Chosen by Philine, November 2026: the heading plain at the top, then the pool and
       // houses (drone photo) pinned on the left beside "Something shifts…".
       headingAbove: true,
       panel: {
@@ -389,24 +389,6 @@ export const thespark = {
         height: 1350,
         focus: '42% 50%',
       },
-      // Chosen by Philine, November 2026: three silent videos of the same size, no lines, no captions.
-      spread: [
-        {
-          kind: 'video',
-          name: 'mural-wall',
-          alt: 'Artists painting a large mural on a white wall while others watch',
-        },
-        {
-          kind: 'video',
-          name: 'photoshoot',
-          alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
-        },
-        {
-          kind: 'video',
-          name: 'quinta-javali-walk',
-          alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
-        },
-      ],
       blocks: [
         {
           type: 'text',
@@ -450,6 +432,29 @@ export const thespark = {
             'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
             'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
             'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
+          ],
+        },
+        // Philine, November 2026: the three silent videos, same size, no lines, no captions,
+        // moved from the top of the chapter to just above "What people take home". Not on phones.
+        {
+          type: 'figures',
+          noPhone: true,
+          items: [
+            {
+              kind: 'video',
+              name: 'mural-wall',
+              alt: 'Artists painting a large mural on a white wall while others watch',
+            },
+            {
+              kind: 'video',
+              name: 'photoshoot',
+              alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
+            },
+            {
+              kind: 'video',
+              name: 'quinta-javali-walk',
+              alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
+            },
           ],
         },
         // From the first retreats page (October 2026): what previous participants said they
