@@ -528,7 +528,7 @@ export const thespark = {
       // Shortened by Igor, 25 November 2026, from Philine's "Be guided by artists. You make the art.
       // Make it & bring it home." (line breaks are kept on the page). To confirm with Philine.
       title: 'Guided by artists.\nMade by you.',
-      lead: 'A different artist and practice each day, and work you take home.',
+      lead: 'A different artist and practice each day, and work you take\u00a0home.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
       // A full-width band (Philine, November 2026); the heading also sits beside the text below.
       repeatHeading: true,
