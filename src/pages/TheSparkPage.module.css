@@ -523,6 +523,11 @@
   border-top: 1px solid var(--hairline);
 }
 
+/* Straight after a full-width row, the row's own margin is the gap: no second one. */
+.wideRow + .zone .chapterEnd {
+  margin-top: 0;
+}
+
 /* Closing line: the occasional italic accent the brand allows for selected statements. */
 .closing {
   margin: 0 0 var(--space-6);

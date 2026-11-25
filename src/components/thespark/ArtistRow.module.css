@@ -5,11 +5,20 @@
  */
 
 .wrap {
-  padding-top: var(--space-8);
+  padding-top: 0;
+}
+
+/* Heading on the left, "Meet the artists" on the right: the link never moves. */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-8);
 }
 
 .heading {
-  margin: 0 0 var(--space-12);
+  margin: 0;
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
@@ -24,8 +33,8 @@
   justify-content: space-between;
   gap: clamp(var(--space-4), 2.4vw, var(--space-12));
   margin: 0;
-  /* Room above for the lifted portrait. */
-  padding: var(--space-12) 0 var(--space-4);
+  /* Room above for the lifted portrait (it grows upwards from its lower edge). */
+  padding: var(--space-12) 0 0;
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -163,13 +172,17 @@
     display: none;
   }
 
+  /* A fixed height, with the text laid over it: nothing below moves on hover. */
   .detailArea {
+    position: relative;
     display: block;
-    min-height: 8.5rem;
-    padding-top: var(--space-6);
+    height: 11.5rem;
   }
 
   .detail {
+    position: absolute;
+    top: var(--space-6);
+    left: 0;
     display: grid;
     gap: var(--space-3);
     width: min(36rem, 100%);
@@ -220,7 +233,6 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  margin-top: var(--space-4);
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.12em;

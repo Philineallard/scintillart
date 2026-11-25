@@ -58,7 +58,12 @@ export function ArtistRow({ heading, more, tabIndex }: Props) {
 
   return (
     <div className={styles.wrap}>
-      <h3 className={styles.heading}>{heading}</h3>
+      <div className={styles.head}>
+        <h3 className={styles.heading}>{heading}</h3>
+        <Link to={more.href} className={styles.link} tabIndex={tabIndex}>
+          {more.label}
+        </Link>
+      </div>
       <ol ref={listRef} className={styles.row}>
         {ordered.map((a, i) => {
           const ws = artistWorkshops(a)
@@ -136,9 +141,6 @@ export function ArtistRow({ heading, more, tabIndex }: Props) {
             ))}
         </div>
       </div>
-      <Link to={more.href} className={styles.link} tabIndex={tabIndex}>
-        {more.label}
-      </Link>
     </div>
   )
 }
