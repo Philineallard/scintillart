@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router'
 import { artistWorkshops, artists, artistsPage } from '../../content/artists'
-import { workshops } from '../../content/thespark'
+import { thespark, workshops } from '../../content/thespark'
+import { useScrollEdges } from '../../hooks/useScrollEdges'
+import { Arrow } from './Gallery'
+import galleryStyles from './Gallery.module.css'
 import styles from './ArtistRow.module.css'
 
 const base = import.meta.env.BASE_URL
@@ -26,6 +29,31 @@ type Props = { heading: string; more: { label: string; href: string }; tabIndex?
 export function ArtistRow({ heading, more, tabIndex }: Props) {
   const listRef = useRef<HTMLOListElement>(null)
   const detailRef = useRef<HTMLDivElement>(null)
+  // When the row is wider than the screen (phones, tablets): the counter, rule and arrows of
+  // the photo galleries underneath, so it reads as a row to swipe (Igor, 25 November 2026).
+  const edges = useScrollEdges(listRef)
+  const scrolls = edges.start || edges.end
+  const [first, setFirst] = useState(0)
+  useEffect(() => {
+    const list = listRef.current
+    if (!list) return
+    const onScroll = () => {
+      const cell = list.firstElementChild as HTMLElement | null
+      if (!cell) return
+      const stepPx = cell.offsetWidth + parseFloat(getComputedStyle(list).columnGap || '0')
+      setFirst(Math.min(ordered.length - 1, Math.round(list.scrollLeft / stepPx)))
+    }
+    list.addEventListener('scroll', onScroll, { passive: true })
+    return () => list.removeEventListener('scroll', onScroll)
+  }, [])
+  const step = (dir: 1 | -1) => {
+    const list = listRef.current
+    const cell = list?.firstElementChild as HTMLElement | null
+    if (!list || !cell) return
+    const stepPx = cell.offsetWidth + parseFloat(getComputedStyle(list).columnGap || '0')
+    list.scrollBy({ left: dir * stepPx, behavior: 'smooth' })
+  }
+  const shownTo = edges.end ? first + 1 : ordered.length
   // Wide screens with a pointer: the hovered (or focused) artist's workshops, in the space under the row.
   const [active, setActive] = useState<{ i: number; left: number; on: boolean } | null>(null)
 
@@ -125,6 +153,22 @@ export function ArtistRow({ heading, more, tabIndex }: Props) {
           )
         })}
       </ol>
+      {scrolls && (
+        <div className={`${galleryStyles.controls} ${styles.controls}`}>
+          <span className={galleryStyles.counter} aria-hidden="true">
+            {String(shownTo).padStart(2, '0')} <span className={galleryStyles.counterOf}>/ {String(ordered.length).padStart(2, '0')}</span>
+          </span>
+          <span className={galleryStyles.rule} aria-hidden="true">
+            <span className={galleryStyles.ruleFill} style={{ width: `${(shownTo / ordered.length) * 100}%` }} />
+          </span>
+          <button type="button" className={galleryStyles.arrow} onClick={() => step(-1)} aria-label={thespark.ui.artistsPrev} tabIndex={tabIndex}>
+            <Arrow dir="prev" />
+          </button>
+          <button type="button" className={galleryStyles.arrow} onClick={() => step(1)} aria-label={thespark.ui.artistsNext} tabIndex={tabIndex}>
+            <Arrow dir="next" />
+          </button>
+        </div>
+      )}
       <div className={styles.detailArea} aria-hidden="true">
         <div
           ref={detailRef}

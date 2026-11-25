@@ -242,6 +242,10 @@
   text-underline-offset: 4px;
 }
 
+.controls {
+  margin-top: var(--space-6);
+}
+
 .link:hover {
   text-decoration-color: transparent;
 }

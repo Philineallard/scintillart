@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Chapter } from '../../content/thespark'
+import { useScrollEdges } from '../../hooks/useScrollEdges'
 import styles from './ChapterNav.module.css'
 
 type Props = {
@@ -16,6 +17,12 @@ type Props = {
  */
 export function ChapterNav({ chapters, active, label, tabIndex }: Props) {
   const listRef = useRef<HTMLOListElement>(null)
+  // A small arrow at the edge that has more chapters (Igor, 25 November 2026): shows the row scrolls.
+  const edges = useScrollEdges(listRef)
+  const nudge = (dir: 1 | -1) => {
+    const list = listRef.current
+    if (list) list.scrollBy({ left: dir * list.clientWidth * 0.7, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     const list = listRef.current
@@ -46,6 +53,17 @@ export function ChapterNav({ chapters, active, label, tabIndex }: Props) {
           </li>
         ))}
       </ol>
+      {/* Pointer and touch only: keyboard users reach every chapter with Tab. */}
+      <button type="button" className={`${styles.more} ${styles.moreStart}`} data-shown={edges.start ? '' : undefined} onClick={() => nudge(-1)} tabIndex={-1} aria-hidden="true">
+        <svg viewBox="0 0 16 12" width="16" height="12" aria-hidden="true">
+          <path d="M16 6H2M7 1L2 6l5 5" fill="none" stroke="currentColor" strokeWidth="1" />
+        </svg>
+      </button>
+      <button type="button" className={`${styles.more} ${styles.moreEnd}`} data-shown={edges.end ? '' : undefined} onClick={() => nudge(1)} tabIndex={-1} aria-hidden="true">
+        <svg viewBox="0 0 16 12" width="16" height="12" aria-hidden="true">
+          <path d="M0 6h14M9 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1" />
+        </svg>
+      </button>
     </nav>
   )
 }

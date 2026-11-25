@@ -1053,6 +1053,8 @@ export const thespark = {
     next: 'Next',
     galleryPrev: 'Previous photos',
     galleryNext: 'Next photos',
+    artistsPrev: 'Previous artists',
+    artistsNext: 'Next artists',
   },
 }
 
