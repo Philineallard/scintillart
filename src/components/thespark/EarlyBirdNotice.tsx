@@ -4,7 +4,7 @@ import { RegisterButton } from './register'
 import styles from './EarlyBirdNotice.module.css'
 
 const KEY = 'scintillart-earlybird-closed'
-const DELAY_MS = 4000
+const DELAY_MS = (import.meta.env.VITE_EB_DELAY ? Number(import.meta.env.VITE_EB_DELAY) : 120_000) // two minutes after arrival (Philine)
 
 /**
  * A quiet corner notice: "Early bird prices until 6 December", with Register your interest.
