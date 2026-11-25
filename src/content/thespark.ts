@@ -322,54 +322,41 @@ export type Chapter = {
   closingRegister?: string
 }
 
+// Trimmed to the eight questions that decide a booking (Igor, 25 November 2026: a sales page,
+// not an editorial book). Merged: group size + venue, time alone + introverts. Left out: "Who is
+// The Spark for?" and "What will I take home?" (both covered in the overview).
 const faq: Faq[] = [
   {
     q: 'Do I need artistic experience?',
-    a: 'No. The retreat is open to everyone, whatever their experience or background. You do not need to be “creative” or good at art, only curious and willing to try. The workshops are invitations to explore and play, not tests of skill.',
+    a: 'No. You do not need to be “creative” or good at art, only curious and willing to try. The workshops are invitations to explore and play, not tests of skill.',
   },
   {
     q: 'Is this an art retreat or a wellness retreat?',
-    a: 'It is an art retreat first, supported by wellbeing. Artist-led workshops sit alongside breathwork, meditation, Qi Gong, nourishing food, nature and time to rest.',
-  },
-  {
-    q: 'Who is The Spark for?',
-    a: 'Anyone who wants to reconnect with creativity, slow down and try something new. Many guests are business owners, creatives, professionals or people in a period of change, but no particular background is needed.',
+    a: 'An art retreat first, supported by wellbeing: artist-led workshops alongside breathwork, meditation, Qi Gong, good food, nature and time to rest.',
   },
   {
     q: 'How many people attend?',
-    a: 'The group is intentionally small: usually 8 to 12 guests, and never more than 14. This allows for personal attention, real conversation and a strong sense of community.',
+    a: 'Usually 8 to 12 guests, and never more than 14. The whole of Quinta Javali is reserved for The Spark for the week, so there are no other guests.',
   },
   {
     q: 'Will I have time alone?',
-    a: 'Yes. There is a gentle daily rhythm, but also time to rest, walk in nature, swim in the natural pool, journal or simply be. You are invited, never pressured, to take part.',
-  },
-  {
-    q: 'What food is provided?',
-    a: 'Our chef prepares fresh, seasonal, homemade vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included. Please tell us about any allergies or dietary needs when you book.',
-  },
-  {
-    q: 'What will I take home?',
-    a: 'Your own artworks, new connections and ideas to keep creating at home. A complimentary integration call is included 7–14 days after the retreat.',
-  },
-  {
-    q: 'How do I get there?',
-    a: 'The retreat is near Aljezur, about 1 hour 15 minutes by car from Faro Airport and 3 hours from Lisbon Airport. A shuttle on arrival and departure days is included with the deluxe rooms and can be added to any other room (add-on price TBA). We also create a WhatsApp group before arrival so guests can share cars or taxis.',
-  },
-  {
-    q: 'Is it suitable for introverts?',
-    a: 'Yes. The week offers both connection and space for solitude. You can take part in the group experience and still take the quiet time you need.',
-  },
-  {
-    q: 'Will we share the venue with other guests?',
-    a: 'No. The whole of Quinta Javali is reserved for The Spark for the week.',
-  },
-  {
-    q: 'What if I cannot come?',
-    a: 'The deposit and all payments are non-refundable. You can transfer your place to someone else, subject to our approval, and if we are able to fill your place we will offer you a credit towards a future retreat. We recommend travel and cancellation insurance.',
+    a: 'Yes. There is a daily rhythm, but also time to rest, walk, swim or simply be. You are invited, never pressured, to take part, so the week suits introverts too.',
   },
   {
     q: 'Can I come with a partner or friend?',
-    a: 'Yes. Solo travellers, couples, friends, family members and colleagues are all welcome.',
+    a: 'Yes. Solo travellers, couples, friends and colleagues are all welcome. Two of the rooms are priced for two guests sharing.',
+  },
+  {
+    q: 'What food is provided?',
+    a: 'Fresh, seasonal vegan and vegetarian meals made by our chef: breakfast, lunch, dinner and snacks. Tell us about any allergies or dietary needs when you register.',
+  },
+  {
+    q: 'How do I get there?',
+    a: 'Quinta Javali is about 1 hour 15 minutes by car from Faro Airport and 3 hours from Lisbon Airport. A shuttle on arrival and departure days is included with the deluxe rooms and can be added to any other room (price TBA). A WhatsApp group before arrival helps guests share cars or taxis.',
+  },
+  {
+    q: 'How does payment work, and what if I cannot come?',
+    a: 'A 50% deposit confirms your place, and the balance is due 45 days before arrival. Payments are non-refundable, but you can transfer your place to someone else with our approval, and if we fill your place we offer a credit towards a future retreat. We recommend travel and cancellation insurance.',
   },
 ]
 
@@ -882,7 +869,7 @@ export const thespark = {
       id: 'faq',
       nav: 'FAQ',
       title: 'Everything you need to know',
-      lead: 'We want you to arrive feeling informed, welcome and free of expectations. Here are the questions guests most often ask before joining The Spark.',
+      lead: 'The questions guests most often ask before joining.',
       blocks: [{ type: 'faq', items: faq }],
     },
   ] satisfies Chapter[],
