@@ -111,7 +111,9 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
   const segments = segmentsOf(chapter.blocks.slice(0, from))
   const panelBlocks = panel ? chapter.blocks.slice(from) : []
   let placed = (Boolean(band) && !band?.plain) || Boolean(chapter.headingAbove)
-  const lastText = panel ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
+  // The closing line and "Next" go after the last row: beside the last text, or under a final full-width row (Igor, 25 November 2026).
+  const endsWide = !panel && segments.length > 0 && segments[segments.length - 1].wide
+  const lastText = panel || endsWide ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
 
   const end = (chapter.closing || next) && (
     <div className={styles.chapterEnd}>
@@ -226,7 +228,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
 
       {!panel && lastText === -1 && end && (
         <div className={styles.zone}>
-          <div className={styles.chapterBody}>{end}</div>
+          <div className={chapter.textLeft ? `${styles.chapterBody} ${styles.chapterBodyLeft}` : styles.chapterBody}>{end}</div>
         </div>
       )}
     </section>

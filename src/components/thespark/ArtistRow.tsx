@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router'
 import { artistWorkshops, artists, artistsPage } from '../../content/artists'
 import { workshops } from '../../content/thespark'
@@ -25,6 +25,19 @@ type Props = { heading: string; more: { label: string; href: string }; tabIndex?
  */
 export function ArtistRow({ heading, more, tabIndex }: Props) {
   const listRef = useRef<HTMLOListElement>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
+  // Wide screens with a pointer: the hovered (or focused) artist's workshops, in the space under the row.
+  const [active, setActive] = useState<{ i: number; left: number; on: boolean } | null>(null)
+
+  const show = (i: number, card: HTMLElement) => {
+    const list = listRef.current
+    const detail = detailRef.current
+    if (!list || !detail) return
+    // Start under the card, but never past the row's right edge.
+    const width = Math.min(detail.offsetWidth, list.clientWidth)
+    const x = card.getBoundingClientRect().left - list.getBoundingClientRect().left
+    setActive({ i, left: Math.max(0, Math.min(x, list.clientWidth - width)), on: true })
+  }
 
   // Open the portraits once the row is on screen (before JavaScript: simply shown).
   useEffect(() => {
@@ -51,7 +64,15 @@ export function ArtistRow({ heading, more, tabIndex }: Props) {
           const ws = artistWorkshops(a)
           return (
             <li key={a.id} className={styles.cell} style={{ '--delay': `${DELAYS[i % DELAYS.length]}s` } as CSSProperties}>
-              <Link to={`${artistsPage.path}#${a.id}`} className={styles.card} tabIndex={tabIndex}>
+              <Link
+                to={`${artistsPage.path}#${a.id}`}
+                className={styles.card}
+                tabIndex={tabIndex}
+                onMouseEnter={(e) => show(i, e.currentTarget)}
+                onFocus={(e) => show(i, e.currentTarget)}
+                onMouseLeave={() => setActive((v) => v && { ...v, on: false })}
+                onBlur={() => setActive((v) => v && { ...v, on: false })}
+              >
                 <span className={styles.frame}>
                   {a.portrait ? (
                     <img
@@ -83,7 +104,7 @@ export function ArtistRow({ heading, more, tabIndex }: Props) {
                 <span className={styles.name}>
                   <span className={styles.with}>with</span> {a.name}
                 </span>
-                {/* Unfolds on hover or focus; always shown on touch screens. */}
+                {/* Touch screens and narrow windows: shown in the card. Wide screens: in the space under the row. */}
                 <span className={styles.more}>
                   <span className={styles.moreInner}>
                     {ws.map((w) => (
@@ -99,6 +120,22 @@ export function ArtistRow({ heading, more, tabIndex }: Props) {
           )
         })}
       </ol>
+      <div className={styles.detailArea} aria-hidden="true">
+        <div
+          ref={detailRef}
+          className={styles.detail}
+          data-shown={active?.on ? '' : undefined}
+          style={{ transform: `translateX(${active?.left ?? 0}px)` }}
+        >
+          {active &&
+            artistWorkshops(ordered[active.i]).map((w) => (
+              <p key={w.id} className={styles.detailItem}>
+                <span className={styles.detailTitle}>{w.practice}</span>
+                {w.points ? w.points.join(' ') : w.text}
+              </p>
+            ))}
+        </div>
+      </div>
       <Link to={more.href} className={styles.link} tabIndex={tabIndex}>
         {more.label}
       </Link>

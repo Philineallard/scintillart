@@ -17,20 +17,24 @@
 }
 
 .row {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(10.5rem, 1fr);
-  gap: clamp(var(--space-4), 1.8vw, var(--space-8));
+  /* Portraits the size of those on /thespark-artists. */
+  --card-w: clamp(110px, 10.4vw, 172px);
+  display: flex;
+  /* Spread across the full width when they fit; a row to scroll when they don't. */
+  justify-content: space-between;
+  gap: clamp(var(--space-4), 2.4vw, var(--space-12));
   margin: 0;
   /* Room above for the lifted portrait. */
   padding: var(--space-12) 0 var(--space-4);
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .cell {
+  flex: none;
+  width: var(--card-w);
   scroll-snap-align: start;
 }
 
@@ -104,7 +108,7 @@
 .titles {
   margin-top: var(--space-2);
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.25;
 }
 
@@ -149,37 +153,57 @@
   color: var(--text);
 }
 
+/* The shared description space under the row: wide screens with a pointer only. */
+.detailArea {
+  display: none;
+}
+
 @media (hover: hover) and (min-width: 901px) {
-  /* The description opens into space kept under the row, so nothing below moves. */
-  .row {
-    padding-bottom: 9rem;
-  }
-
-  .card {
-    position: relative;
-  }
-
   .more {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    grid-template-rows: 0fr;
+    display: none;
+  }
+
+  .detailArea {
+    display: block;
+    min-height: 8.5rem;
+    padding-top: var(--space-6);
+  }
+
+  .detail {
+    display: grid;
+    gap: var(--space-3);
+    width: min(36rem, 100%);
     opacity: 0;
     transition:
-      grid-template-rows 0.5s var(--ease-out),
-      opacity 0.35s var(--ease-out);
+      opacity 0.35s var(--ease-out),
+      transform 0.55s var(--ease-out);
   }
 
-  .card:hover .more,
-  .card:focus-visible .more {
-    grid-template-rows: 1fr;
+  .detail[data-shown] {
     opacity: 1;
+  }
+
+  .detailItem {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--text-muted);
+  }
+
+  .detailTitle {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
   }
 
   .card:hover .frame,
   .card:focus-visible .frame {
-    transform: scale(1.2);
+    transform: scale(1.25);
   }
 }
 
@@ -213,7 +237,8 @@
 /* Phones and tablets: a row to swipe, each card most of the screen wide. */
 @media (max-width: 900px) {
   .row {
-    grid-auto-columns: min(62vw, 16rem);
+    --card-w: min(62vw, 16rem);
+    justify-content: flex-start;
     margin-inline: calc(-1 * var(--gutter));
     padding-inline: var(--gutter);
     scroll-padding-inline: var(--gutter);
@@ -228,7 +253,8 @@
   }
 
   .frame,
-  .more {
+  .more,
+  .detail {
     transition: none;
   }
 }
