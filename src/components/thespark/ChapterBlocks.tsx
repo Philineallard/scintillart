@@ -109,7 +109,17 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
                   {w.title && <span className={styles.workshopTitle}>{w.title}</span>}
                 </p>
                 <WorkshopBy workshopId={w.id} fallback={w.by} tabIndex={tabIndex} />
-                <p className={styles.small}>{w.text}</p>
+                {w.points ? (
+                  <ul className={styles.workshopPoints}>
+                    {w.points.map((pt) => (
+                      <li key={pt} className={styles.small}>
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className={styles.small}>{w.text}</p>
+                )}
               </li>
             ))}
           </ul>

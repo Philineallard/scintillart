@@ -100,7 +100,7 @@ export const artists: Artist[] = [
   {
     id: 'manu',
     name: 'Manu',
-    role: 'Arkana Within and archetypes',
+    role: 'The Inner Deck and archetypes',
     // Philine, November 2026.
     bio: [
       'Manu is a tarot reader, maker and facilitator who explores self-discovery through craft, symbolism and personal mythology. With a background in jewellery, metals conservation, textiles, yoga and dance, they create welcoming spaces for people to connect with tarot, their creativity and their own inner knowledge. Manu’s Inner Deck Workshops invite participants to discover a personal archetype and make their first card, turning reflection into a lasting, handmade object.',

@@ -135,6 +135,10 @@ export type Workshop = {
   title?: string
   by: string
   text: string
+  /** Optional short points shown instead of `text` (chapter 3 and the artists page). */
+  points?: string[]
+  /** Optional longer description, shown on the artists page under the points. */
+  description?: string[]
   /** A photo from a previous edition, in public/practices (people shown have agreed to its use). */
   photo: { slug: string; w: number; h: number; alt: string }
 }
@@ -178,11 +182,21 @@ export const workshops: Workshop[] = [
     photo: { slug: 'performance', w: 540, h: 720, alt: 'A performance by Willpower, lit in pink and violet' },
   },
   {
+    // Renamed and rewritten by Philine, 25 November 2026 (was "Arkana Within").
     id: 'arkana-within',
-    practice: 'Arkana Within',
-    title: 'Archetypes',
+    practice: 'The Inner Deck',
     by: 'Manu',
     text: 'Explore the inner patterns and stories that shape how you see yourself.',
+    points: [
+      'Explore the inner patterns and stories that shape how you see yourself.',
+      'Discover personal symbols, archetypes and imagery that reflect your experiences.',
+    ],
+    description: [
+      'Tarot brings together human experiences and emotions through archetypes and symbols. But what if you created your own?',
+      'The Inner Deck is an invitation to explore your inner world through guided meditation, reflection and creativity.',
+      'We’ll start by looking inward, gaining clarity on the stories and patterns that shape you. From there, you’ll translate your insights into your own cards, creating a personal deck that reflects your experiences, perspective and inner world.',
+      'A creative tool for self-discovery, personal reflection and expression.',
+    ],
     photo: { slug: 'arkana-within', w: 571, h: 720, alt: 'Three tarot cards, the Ace of Cups, the Star and the King of Wands, upright on a cream cloth' },
   },
   {
