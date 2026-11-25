@@ -852,18 +852,22 @@ export const thespark = {
   voices: {
     kicker: 'From a previous retreat',
     title: 'In their own words',
+    /** lead: the opening words of each quote, set large (must be the exact start of text). */
     items: [
       {
+        lead: 'A truly nourishing experience.',
         text: 'A truly nourishing experience. Being part of other artists’ workshops, sharing a living and creative space, exchanging ideas and skills, and becoming a little community or family in such a short time was so beautiful. I reconnected with my innate creativity and the joy of sharing it with others. It reminded me that I can step outside the boxes that unconsciously keep me trapped in everyday life. If you’ve lost touch with your playfulness and the simple joy of creating, experimenting and connecting, give yourself this gift.',
         name: 'Jyoti Graziano',
         role: 'Photographer and web designer',
       },
       {
+        lead: 'A wonderful and creative experience',
         text: 'A wonderful and creative experience that left me with rich memories, a beautiful birthday song that moved me to tears, and a sculpture I created myself. Being immersed in such a creative environment is truly a blessing.',
         name: 'Simon Benedict Smith',
         role: 'Artist',
       },
       {
+        lead: 'Heartwarming, transformative and full of love.',
         text: 'Heartwarming, transformative and full of love. I discovered how beautifully my inner world can express itself through creativity. I left feeling more confident in myself, daring to show my true self and embracing the possibility of living more from my heart and soul. An experience that can bring you deeper insights into who you are than you might initially imagine.',
         name: 'Mandy',
         role: 'Workshop participant',
@@ -871,6 +875,7 @@ export const thespark = {
       {
         // The first sentence of the approved text ("It was the best creative experience I’ve ever had!")
         // is left out: the brand rules allow no exclamation marks or superlatives.
+        lead: 'I discovered that I am creative after all,',
         text: 'I discovered that I am creative after all, once I let go of the belief that I’m not and simply allowed myself to have fun. I left feeling more confident in my creativity and inspired to explore and expand it further. I would recommend this experience to anyone who feels a little stuck and wants to rediscover the joy of creating.',
         name: 'Dhyano',
         role: 'Studied textile and handcrafts',

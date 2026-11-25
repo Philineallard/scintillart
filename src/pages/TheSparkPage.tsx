@@ -374,19 +374,27 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <h2 id="voices-title" className={styles.h2}>
             {thespark.voices.title}
           </h2>
-          <div className={styles.voicesGrid}>
-            {thespark.voices.items.map((q) => (
-              <figure key={q.name} className={styles.voice}>
-                <blockquote className={styles.voiceText}>
-                  <p>“{q.text}”</p>
-                </blockquote>
-                <figcaption className={styles.voiceBy}>
-                  <span className={styles.voiceName}>{q.name}</span>
-                  {q.role ? <span className={styles.voiceRole}>{q.role}</span> : null}
-                </figcaption>
-              </figure>
+          {/* One quote per row: the guest's opening words set large, the rest beneath (Igor, 25 November 2026). */}
+          <ol className={styles.voicesList}>
+            {thespark.voices.items.map((q, i) => (
+              <li key={q.name} className={styles.voice}>
+                <figure className={styles.voiceFigure}>
+                  <figcaption className={styles.voiceBy}>
+                    <span className={styles.voiceNumber} aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className={styles.voiceName}>{q.name}</span>
+                    {q.role ? <span className={styles.voiceRole}>{q.role}</span> : null}
+                  </figcaption>
+                  <blockquote className={styles.voiceText}>
+                    <p>
+                      <span className={styles.voiceLead}>“{q.lead}</span> {q.text.slice(q.lead.length).trim()}”
+                    </p>
+                  </blockquote>
+                </figure>
+              </li>
             ))}
-          </div>
+          </ol>
         </section>
 
         {thespark.chapters.map((chapter, i) => (
