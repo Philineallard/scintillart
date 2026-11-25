@@ -368,6 +368,27 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <p className={styles.heroNote}>{hero.note}</p>
         </section>
 
+        {/* Guests' words, full width, before the chapters (Igor, 25 November 2026). */}
+        <section className={styles.voices} aria-labelledby="voices-title">
+          <p className={styles.kicker}>{thespark.voices.kicker}</p>
+          <h2 id="voices-title" className={styles.h2}>
+            {thespark.voices.title}
+          </h2>
+          <div className={styles.voicesGrid}>
+            {thespark.voices.items.map((q) => (
+              <figure key={q.name} className={styles.voice}>
+                <blockquote className={styles.voiceText}>
+                  <p>“{q.text}”</p>
+                </blockquote>
+                <figcaption className={styles.voiceBy}>
+                  <span className={styles.voiceName}>{q.name}</span>
+                  {q.role ? <span className={styles.voiceRole}>{q.role}</span> : null}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
         {thespark.chapters.map((chapter, i) => (
           <ChapterSection key={chapter.id} chapter={chapter} index={i} next={thespark.chapters[i + 1]} tabIndex={tab} />
         ))}

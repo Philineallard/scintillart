@@ -485,36 +485,6 @@ export const thespark = {
           ],
         },
 
-        // Previous guests' words, shown with their agreement (Igor, 25 November 2026). From the
-        // Art Residency survey, September 2026: each guest approved the shortened wording.
-        {
-          type: 'quotes',
-          caption: 'From a previous retreat',
-          items: [
-            {
-              text: 'A truly nourishing experience. Being part of other artists’ workshops, sharing a living and creative space, exchanging ideas and skills, and becoming a little community or family in such a short time was so beautiful. I reconnected with my innate creativity and the joy of sharing it with others. It reminded me that I can step outside the boxes that unconsciously keep me trapped in everyday life. If you’ve lost touch with your playfulness and the simple joy of creating, experimenting and connecting, give yourself this gift.',
-              name: 'Jyoti Graziano',
-              role: 'Photographer and web designer',
-            },
-            {
-              text: 'A wonderful and creative experience that left me with rich memories, a beautiful birthday song that moved me to tears, and a sculpture I created myself. Being immersed in such a creative environment is truly a blessing.',
-              name: 'Simon Benedict Smith',
-              role: 'Artist',
-            },
-            {
-              text: 'Heartwarming, transformative and full of love. I discovered how beautifully my inner world can express itself through creativity. I left feeling more confident in myself, daring to show my true self and embracing the possibility of living more from my heart and soul. An experience that can bring you deeper insights into who you are than you might initially imagine.',
-              name: 'Mandy',
-              role: 'Workshop participant',
-            },
-            {
-              // The first sentence of the approved text ("It was the best creative experience I’ve ever had!")
-              // is left out: the brand rules allow no exclamation marks or superlatives.
-              text: 'I discovered that I am creative after all, once I let go of the belief that I’m not and simply allowed myself to have fun. I left feeling more confident in my creativity and inspired to explore and expand it further. I would recommend this experience to anyone who feels a little stuck and wants to rediscover the joy of creating.',
-              name: 'Dhyano',
-              role: 'Studied textile and handcrafts',
-            },
-          ],
-        },
         {
           type: 'text',
           heading: 'You arrive with curiosity. You leave with something made by you.',
@@ -873,6 +843,40 @@ export const thespark = {
       blocks: [{ type: 'faq', items: faq }],
     },
   ] satisfies Chapter[],
+
+  /**
+   * Previous guests' words, in their own band straight after the hero (Igor, 25 November 2026).
+   * Shown with their agreement (Igor, 25 November 2026); from the Art Residency survey, September
+   * 2026: each guest approved the shortened wording.
+   */
+  voices: {
+    kicker: 'From a previous retreat',
+    title: 'In their own words',
+    items: [
+      {
+        text: 'A truly nourishing experience. Being part of other artists’ workshops, sharing a living and creative space, exchanging ideas and skills, and becoming a little community or family in such a short time was so beautiful. I reconnected with my innate creativity and the joy of sharing it with others. It reminded me that I can step outside the boxes that unconsciously keep me trapped in everyday life. If you’ve lost touch with your playfulness and the simple joy of creating, experimenting and connecting, give yourself this gift.',
+        name: 'Jyoti Graziano',
+        role: 'Photographer and web designer',
+      },
+      {
+        text: 'A wonderful and creative experience that left me with rich memories, a beautiful birthday song that moved me to tears, and a sculpture I created myself. Being immersed in such a creative environment is truly a blessing.',
+        name: 'Simon Benedict Smith',
+        role: 'Artist',
+      },
+      {
+        text: 'Heartwarming, transformative and full of love. I discovered how beautifully my inner world can express itself through creativity. I left feeling more confident in myself, daring to show my true self and embracing the possibility of living more from my heart and soul. An experience that can bring you deeper insights into who you are than you might initially imagine.',
+        name: 'Mandy',
+        role: 'Workshop participant',
+      },
+      {
+        // The first sentence of the approved text ("It was the best creative experience I’ve ever had!")
+        // is left out: the brand rules allow no exclamation marks or superlatives.
+        text: 'I discovered that I am creative after all, once I let go of the belief that I’m not and simply allowed myself to have fun. I left feeling more confident in my creativity and inspired to explore and expand it further. I would recommend this experience to anyone who feels a little stuck and wants to rediscover the joy of creating.',
+        name: 'Dhyano',
+        role: 'Studied textile and handcrafts',
+      },
+      ],
+  },
 
   interest: {
     /** The only call to action on the page. */

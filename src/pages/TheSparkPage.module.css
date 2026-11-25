@@ -665,3 +665,64 @@
     display: none;
   }
 }
+
+/* ---------- Guests' words, after the hero (Igor, 25 November 2026) ---------- */
+
+.voices {
+  margin-inline: var(--gutter);
+  padding-block: var(--section-pad);
+}
+
+.voicesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12) var(--space-12);
+  margin-top: var(--space-12);
+}
+
+.voice {
+  margin: 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--hairline);
+}
+
+.voiceText {
+  margin: 0;
+}
+
+.voiceText p {
+  margin: 0;
+  max-width: 36rem;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.voiceBy {
+  display: grid;
+  gap: 2px;
+  margin-top: var(--space-6);
+}
+
+.voiceName {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.voiceRole {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  .voicesGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .voiceText p {
+    font-size: 16px;
+    line-height: 27px;
+  }
+}
