@@ -410,6 +410,25 @@
   padding: var(--section-pad) var(--gutter);
 }
 
+/*
+ * Split band (wide screens): a tall photo shown whole, at full band height on the right, the
+ * heading on flat carbon on the left (Igor, 25 November 2026). --ratio is the photo's width/height.
+ */
+@media (min-width: 901px) {
+  .band[data-split] {
+    --split-h: max(32rem, calc(100svh - var(--header-h, 72px)));
+    --split-w: calc(var(--split-h) * var(--ratio));
+    background: var(--carbon);
+    padding-right: calc(var(--split-w) + var(--gutter));
+  }
+
+  .band[data-split] .photoFill {
+    inset: 0 0 0 auto;
+    width: var(--split-w);
+    filter: none;
+  }
+}
+
 /* Panel: half the width, edge to edge on its side, pinned while the text beside it scrolls. */
 .panelTop {
   justify-content: flex-start;

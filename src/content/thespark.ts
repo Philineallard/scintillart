@@ -282,6 +282,11 @@ export type ChapterPhoto = {
    * subject can't otherwise move sideways in a wide band.
    */
   pushRight?: number
+  /**
+   * Wide screens only, for a tall photo in a band: the whole photo, uncropped, at full band
+   * height on the right, with the heading on flat carbon on the left (Igor, 25 November 2026).
+   */
+  split?: boolean
 }
 
 export type Chapter = {
@@ -538,7 +543,8 @@ export const thespark = {
         width: 1367,
         height: 2048,
         focus: '45% 30%',
-        pushRight: 1.45,
+        // The whole hanging, uncropped (Igor, 25 November 2026; was zoomed 1.45× from the left).
+        split: true,
       },
       blocks: [
         {
