@@ -864,6 +864,7 @@ export const thespark = {
               'All guided creative workshops and materials',
               'Daily breathwork, meditation and Qi Gong',
               'Breakfast, lunch, dinner and snacks',
+              'Airport shuttle on arrival and departure days (deluxe rooms)',
               'Access to the natural pool, gardens, communal spaces and sauna',
               'Evening performances, shared experiences and the final exhibition',
               'Your own artworks to take home',
@@ -871,7 +872,7 @@ export const thespark = {
           },
           excluded: {
             heading: 'Not included',
-            items: ['Flights', 'Airport shuttle (included with the deluxe rooms; add-on for other rooms)', 'Travel insurance', 'Visa fees', 'One open dinner at a local restaurant', 'Optional treatments'],
+            items: ['Flights', 'Airport shuttle for the other rooms (add-on, price TBA)', 'Travel insurance', 'Visa fees', 'One open dinner at a local restaurant', 'Optional treatments'],
           },
         },
         {
