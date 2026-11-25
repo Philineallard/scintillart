@@ -7,6 +7,7 @@ import { EnvelopeGate } from '../components/thespark/EnvelopeGate'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
 import { Spread } from '../components/thespark/Spread'
+import { Voices } from '../components/thespark/Voices'
 import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
@@ -368,34 +369,8 @@ export default function TheSparkPage({ embedded = false }: Props) {
           <p className={styles.heroNote}>{hero.note}</p>
         </section>
 
-        {/* Guests' words, full width, before the chapters (Igor, 25 November 2026). */}
-        <section className={styles.voices} aria-labelledby="voices-title">
-          <p className={styles.kicker}>{thespark.voices.kicker}</p>
-          <h2 id="voices-title" className={styles.h2}>
-            {thespark.voices.title}
-          </h2>
-          {/* One quote per row: the guest's opening words set large, the rest beneath (Igor, 25 November 2026). */}
-          <ol className={styles.voicesList}>
-            {thespark.voices.items.map((q, i) => (
-              <li key={q.name} className={styles.voice}>
-                <figure className={styles.voiceFigure}>
-                  <figcaption className={styles.voiceBy}>
-                    <span className={styles.voiceNumber} aria-hidden="true">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <span className={styles.voiceName}>{q.name}</span>
-                    {q.role ? <span className={styles.voiceRole}>{q.role}</span> : null}
-                  </figcaption>
-                  <blockquote className={styles.voiceText}>
-                    <p>
-                      <span className={styles.voiceLead}>“{q.lead}</span> {q.text.slice(q.lead.length).trim()}”
-                    </p>
-                  </blockquote>
-                </figure>
-              </li>
-            ))}
-          </ol>
-        </section>
+        {/* Guests' words, pinned while they change on scroll (Igor, 25 November 2026). */}
+        <Voices />
 
         {thespark.chapters.map((chapter, i) => (
           <ChapterSection key={chapter.id} chapter={chapter} index={i} next={thespark.chapters[i + 1]} tabIndex={tab} />
