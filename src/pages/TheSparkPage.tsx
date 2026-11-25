@@ -176,7 +176,21 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
         }
         const withHead = !placed
         const withCopy = placed && (chapter.repeatHeading === true || (chapter.repeatHeading === 'afterRows' && i > 0 && segments[i - 1].wide))
+        const side = chapter.sideFirst && !withHead && !withCopy && i === 0 && seg.blocks.length > 1
         placed = true
+        if (side) {
+          return (
+            <div key={i} className={styles.zone}>
+              <div className={styles.chapterHead}>
+                <ChapterBlocks blocks={seg.blocks.slice(0, 1)} tabIndex={tabIndex} />
+              </div>
+              <div className={styles.chapterBody}>
+                <ChapterBlocks blocks={seg.blocks.slice(1)} tabIndex={tabIndex} />
+                {i === lastText && end}
+              </div>
+            </div>
+          )
+        }
         return (
           <div key={i} className={styles.zone}>
             {(withHead || withCopy) && (
@@ -196,9 +210,12 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
         <div className={`${styles.zone} ${side === 'right' ? styles.panelZoneRight : styles.panelZoneLeft}`}>
           <div className={`${styles.panel}${panel.textAt === 'top' ? ` ${styles.panelTop}` : ''}`}>
             <PhotoImg photo={panel} className={styles.photoFill} sizes="(max-width: 900px) 100vw, 50vw" />
-            <div className={styles.photoText}>
-              <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={placed} />
-            </div>
+            {/* The heading goes on the panel only if it isn't already shown above (Igor, 25 November 2026: no repeats). */}
+            {!placed && (
+              <div className={styles.photoText}>
+                <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+              </div>
+            )}
           </div>
           <div className={styles.panelBody}>
             <ChapterBlocks blocks={panelBlocks} tabIndex={tabIndex} />

@@ -311,6 +311,11 @@ export type Chapter = {
    * one; 'afterRows' = only beside text that follows a full-width row (gallery, rooms).
    */
   repeatHeading?: boolean | 'afterRows'
+  /**
+   * When the heading is already shown on the band above: the first text block of the first row
+   * takes the left column (sticky), the rest sit on the right (Igor, 25 November 2026).
+   */
+  sideFirst?: boolean
   /** Text with no heading beside it sits in the left column instead of the right (wide screens). */
   textLeft?: boolean
   /**
@@ -466,7 +471,6 @@ export const thespark = {
           type: 'text',
           heading: 'Step into the unknown. Discover what you can create.',
           paragraphs: [
-            'A week-long retreat at Quinta Javali, near Aljezur, with a small group of strangers. The whole estate is ours for the week.',
             'We arrive as strangers and gather around the table from the very first night. Each morning begins with mind–body–soul practices; during the day, creative practices invite us to explore and express ourselves, with breaks in between to rest and let inspiration settle.',
             'By the end of the week we are a team of artists working toward a shared purpose: the final exhibition, when we open our doors to the local community and celebrate what we have made.',
           ],
@@ -535,8 +539,8 @@ export const thespark = {
       title: 'Guided by artists.\nMade by you.',
       lead: 'A different artist and practice each day, and work you take\u00a0home.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
-      // A full-width band (Philine, November 2026); the heading also sits beside the text below.
-      repeatHeading: true,
+      // A full-width band (Philine, November 2026); the heading is shown once, on the band (Igor, 25 November 2026).
+      sideFirst: true,
       band: {
         // Igor, 25 November 2026: another frame of the same hanging (_SCR7275), centred, so a
         // gentle 1.15× zoom moves it right of the heading. Photo: Igor Świeczak, resized only.
@@ -625,6 +629,8 @@ export const thespark = {
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
       // Chosen by Philine, November 2026: the main house (levelled). A full-width band first;
       // after the gallery the same photo becomes the pinned panel beside the text.
+      // The text sits on the left under the band, like the accommodation chapter (Igor, 25 November 2026).
+      textLeft: true,
       band: {
         name: 'venue-house',
         alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',

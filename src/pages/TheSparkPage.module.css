@@ -406,7 +406,8 @@
 
 /* Band: full width, edge to edge, at the top of the chapter; scrolls away normally. */
 /* A band without text is shown at full brightness. */
-.band:not(:has(.photoText)) .photoFill {
+.band:not(:has(.photoText)) .photoFill,
+.panel:not(:has(.photoText)) .photoFill {
   filter: none;
 }
 
