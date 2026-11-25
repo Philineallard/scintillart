@@ -384,16 +384,17 @@ export const thespark = {
     explore: { label: 'Explore the experience', href: '#experience' },
     note: 'No artistic experience needed. Just curiosity, openness and a willingness to explore.',
     /**
-     * Full-bleed photo behind the hero (Philine, November 2026: "star", sun through a fig tree).
+     * Full-bleed photo behind the hero (Igor, 25 November 2026: HERO1, the gardens of Quinta
+     * Javali at sunset; replaces "hero-star"). Photo: Igor Świeczak, resized only.
      * Files in public/thespark/: <name>-sm (720w), <name>-md (1100w), <name> (full size).
-     * focus: the point kept in view when the photo is cropped (the sun's spark).
+     * focus: the point kept in view when the photo is cropped (the sun in the tree, left).
      */
     image: {
-      name: 'hero-star',
-      width: 1367,
-      height: 2048,
-      focus: '61% 36%',
-      alt: 'Low sun shining through the branches of a fig tree over hills at dusk',
+      name: 'hero-javali',
+      width: 2048,
+      height: 1152,
+      focus: '7% 38%',
+      alt: 'Low sun through a tree over the gardens of Quinta Javali, with stone steps, grasses and palms',
     },
   },
 
