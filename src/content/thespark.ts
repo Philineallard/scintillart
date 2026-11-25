@@ -533,12 +533,14 @@ export const thespark = {
       // A full-width band (Philine, November 2026); the heading also sits beside the text below.
       repeatHeading: true,
       band: {
-        name: 'workshops-shells',
+        // Igor, 25 November 2026: another frame of the same hanging (_SCR7275), centred, so a
+        // gentle 1.15× zoom moves it right of the heading. Photo: Igor Świeczak, resized only.
+        name: 'workshops-hanging',
         alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
         width: 1367,
         height: 2048,
-        // No extra zoom (Igor, 25 November 2026; was pushRight: 1.45). Focus on the hanging's centre.
-        focus: '45% 40%',
+        focus: '50% 45%',
+        pushRight: 1.15,
       },
       blocks: [
         {
