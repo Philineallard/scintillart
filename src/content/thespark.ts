@@ -37,7 +37,9 @@ export type Room = {
   bestFor: string
   details: string
   /** Euro prices exactly as on the listing: regular, then early bird. */
-  price: { regular: string; earlyBird: string; basis: string }
+  price: { regular: string; earlyBird: string; basis: string; /** Rooms for two: the price per person. */ perPerson?: string }
+  /** The comparison table above the cards (Igor, 25 November 2026). */
+  compare: { guests: string; bed: string; bathroom: string; shuttle: boolean }
   /** Photos in public/thespark/rooms/ (<name>.webp 900w, <name>-sm.webp 540w, 4:5), shown as a gallery in the card. */
   photos?: { name: string; alt: string }[]
 }
@@ -68,6 +70,7 @@ export const rooms: Room[] = [
     details:
       'Twin room with two single beds (90 × 190 cm), private en-suite bathroom, air conditioning, Wi-Fi and terrace access, with countryside and mountain surroundings.',
     price: { regular: '€2,800', earlyBird: '€2,600', basis: 'per person' },
+    compare: { guests: 'Two guests, shared', bed: 'Two single beds', bathroom: 'En-suite', shuttle: false },
     photos: [
       { name: 'shared-05', alt: 'Two beds in the shared room, with the bathroom door open beyond' },
       { name: 'shared-01', alt: 'A round mirror above a stone basin in the shared room’s bathroom' },
@@ -83,6 +86,7 @@ export const rooms: Room[] = [
     bestFor: 'Solo guests seeking privacy',
     details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
     price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
+    compare: { guests: 'One guest', bed: 'Double bed', bathroom: 'Outside the bedroom', shuttle: false },
     photos: [
       { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
       { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
@@ -98,7 +102,8 @@ export const rooms: Room[] = [
     bestFor: 'Couples sharing a double bed',
     details: 'For two guests sharing a double bed (180 × 200 cm), with air conditioning and a bathroom outside the bedroom.',
     // €2,700 / €2,500 per person (Philine), shown per room like the deluxe couples room.
-    price: { regular: '€5,400', earlyBird: '€5,000', basis: 'per room, for two guests' },
+    price: { regular: '€5,400', earlyBird: '€5,000', basis: 'per room, for two guests', perPerson: '€2,700' },
+    compare: { guests: 'Two guests, together', bed: 'Double bed', bathroom: 'Outside the bedroom', shuttle: false },
     // Starts on the 3rd photo (Philine's choice of thumbnail), so it differs from the private room.
     photos: [
       { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
@@ -115,6 +120,7 @@ export const rooms: Room[] = [
     details:
       'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room. Includes the shuttle on arrival and departure days.',
     price: { regular: '€3,500', earlyBird: '€3,300', basis: 'per person' },
+    compare: { guests: 'One guest', bed: 'Double bed', bathroom: 'En-suite', shuttle: true },
     photos: ensuitePhotos,
   },
   {
@@ -124,7 +130,9 @@ export const rooms: Room[] = [
     bestFor: 'Couples, friends or travel companions',
     details:
       'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms. Includes the shuttle on arrival and departure days.',
-    price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
+    // Per person: half the room price.
+    price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests', perPerson: '€3,100' },
+    compare: { guests: 'Two guests, together', bed: 'King-size or double bed', bathroom: 'En-suite', shuttle: true },
     photos: ensuitePhotosCouples,
   },
 ]
@@ -888,6 +896,19 @@ export const thespark = {
     /** Room cards: price line labels. */
     earlyBird: 'Early bird',
     bestFor: 'Best for',
+    /** The room comparison table. */
+    compare: {
+      caption: 'The rooms at a glance',
+      room: 'Room',
+      guests: 'Guests',
+      bed: 'Bed',
+      bathroom: 'Bathroom',
+      shuttle: 'Airport shuttle',
+      price: 'Price',
+      included: 'Included',
+      addOn: 'Add-on',
+      perPerson: 'per person',
+    },
   },
 
   /**

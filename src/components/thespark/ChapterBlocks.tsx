@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { artists, artistsPage, workshopArtists } from '../../content/artists'
 import { ArtistHover } from './ArtistHover'
-import { thespark, type Block, type Fact } from '../../content/thespark'
+import { thespark, type Block, type Fact, type Room } from '../../content/thespark'
 import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
 import { Value } from './Tba'
@@ -230,10 +230,11 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
       return (
         <div className={styles.block}>
           <H3>{block.heading}</H3>
-          {/* Still to add: amenity tags and "Show more". */}
+          {/* All five rooms side by side before the cards (Igor, 25 November 2026). */}
+          <RoomTable rooms={block.items} tabIndex={tabIndex} />
           <ul className={styles.rooms}>
             {block.items.map((room) => (
-              <li key={room.id} className={styles.room}>
+              <li key={room.id} id={`room-${room.id}`} className={styles.room}>
                 <h4 className={styles.roomName}>{room.name}</h4>
                 <p className={styles.roomTagline}>{room.tagline}</p>
                 {room.photos && (
@@ -243,6 +244,11 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
                   <span className={styles.priceMain}>
                     {room.price.regular} <span className={styles.priceBasis}>{room.price.basis}</span>
                   </span>
+                  {room.price.perPerson && (
+                    <span className={styles.priceBasis}>
+                      {room.price.perPerson} {thespark.interest.compare.perPerson}
+                    </span>
+                  )}
                 </p>
                 <p className={styles.small}>{room.details}</p>
                 <p className={styles.roomBestFor}>
@@ -302,6 +308,49 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
 }
 
 /** A chapter's content blocks, in the order they appear in the content file. */
+/** The rooms at a glance: one row per room, each name links to its card. Rows stack on phones. */
+function RoomTable({ rooms, tabIndex }: { rooms: Room[]; tabIndex?: number }) {
+  const t = thespark.interest.compare
+  return (
+    <table className={styles.compare}>
+      <caption className={styles.compareCaption}>{t.caption}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{t.room}</th>
+          <th scope="col">{t.guests}</th>
+          <th scope="col">{t.bed}</th>
+          <th scope="col">{t.bathroom}</th>
+          <th scope="col">{t.shuttle}</th>
+          <th scope="col">{t.price}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rooms.map((room) => (
+          <tr key={room.id}>
+            <th scope="row" className={styles.compareRoom}>
+              <a href={`#room-${room.id}`} tabIndex={tabIndex}>
+                {room.name}
+              </a>
+            </th>
+            <td data-label={t.guests}>{room.compare.guests}</td>
+            <td data-label={t.bed}>{room.compare.bed}</td>
+            <td data-label={t.bathroom}>{room.compare.bathroom}</td>
+            <td data-label={t.shuttle}>{room.compare.shuttle ? t.included : t.addOn}</td>
+            <td data-label={t.price} className={styles.comparePrice}>
+              <span>
+                <span className={styles.priceMain}>{room.price.regular}</span>{' '}
+                <span className={styles.priceBasis}>
+                  {room.price.perPerson ? `per room (${room.price.perPerson} ${t.perPerson})` : room.price.basis}
+                </span>
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 export function ChapterBlocks({ blocks, tabIndex }: { blocks: readonly Block[]; tabIndex?: number }) {
   return (
     <>
