@@ -537,8 +537,8 @@ export const thespark = {
         alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
         width: 1367,
         height: 2048,
-        focus: '45% 30%',
-        pushRight: 1.45,
+        // No extra zoom (Igor, 25 November 2026; was pushRight: 1.45). Focus on the hanging's centre.
+        focus: '45% 40%',
       },
       blocks: [
         {
