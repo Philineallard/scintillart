@@ -113,7 +113,7 @@ export const rooms: Room[] = [
     tagline: 'A little more comfort and privacy.',
     bestFor: 'Guests seeking additional comfort',
     details:
-      'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room.',
+      'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room. Includes the shuttle on arrival and departure days.',
     price: { regular: '€3,500', earlyBird: '€3,300', basis: 'per person' },
     photos: ensuitePhotos,
   },
@@ -123,7 +123,7 @@ export const rooms: Room[] = [
     tagline: 'Share the experience, enjoy the comfort.',
     bestFor: 'Couples, friends or travel companions',
     details:
-      'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms.',
+      'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms. Includes the shuttle on arrival and departure days.',
     price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
     photos: ensuitePhotosCouples,
   },
@@ -228,6 +228,8 @@ export type Faq = { q: string; a: string }
 export type Block =
   | { type: 'text'; heading?: string; paragraphs: string[] }
   | { type: 'list'; heading?: string; caption?: string; items: string[] }
+  /** Named words from previous guests, shown only with their agreement (see CLAUDE.md, Photography). */
+  | { type: 'quotes'; heading?: string; caption?: string; items: { text: string; name: string; role?: string }[] }
   | { type: 'pillars'; heading: string; items: { title: string; text: string }[] }
   | { type: 'workshops'; heading: string; items: Workshop[]; more?: { label: string; href: string } }
   | { type: 'people'; heading: string; items: Person[] }
@@ -327,7 +329,7 @@ const faq: Faq[] = [
   },
   {
     q: 'How many people attend?',
-    a: 'The group is intentionally small: between 6 and 14 guests. This allows for personal attention, real conversation and a strong sense of community.',
+    a: 'The group is intentionally small: usually 8 to 12 guests, and never more than 14. This allows for personal attention, real conversation and a strong sense of community.',
   },
   {
     q: 'Will I have time alone?',
@@ -343,11 +345,19 @@ const faq: Faq[] = [
   },
   {
     q: 'How do I get there?',
-    a: 'The retreat is near Aljezur, about 1 hour 15 minutes by car from Faro Airport and 3 hours from Lisbon Airport. Transfers are not included; we create a WhatsApp group before arrival so guests can share cars, taxis or transfers.',
+    a: 'The retreat is near Aljezur, about 1 hour 15 minutes by car from Faro Airport and 3 hours from Lisbon Airport. A shuttle on arrival and departure days is included with the deluxe rooms and can be added to any other room (add-on price TBA). We also create a WhatsApp group before arrival so guests can share cars or taxis.',
   },
   {
     q: 'Is it suitable for introverts?',
     a: 'Yes. The week offers both connection and space for solitude. You can take part in the group experience and still take the quiet time you need.',
+  },
+  {
+    q: 'Will we share the venue with other guests?',
+    a: 'No. The whole of Quinta Javali is reserved for The Spark for the week.',
+  },
+  {
+    q: 'What if I cannot come?',
+    a: 'The deposit and all payments are non-refundable. You can transfer your place to someone else, subject to our approval, and if we are able to fill your place we will offer you a credit towards a future retreat. We recommend travel and cancellation insurance.',
   },
   {
     q: 'Can I come with a partner or friend?',
@@ -419,7 +429,7 @@ export const thespark = {
             { term: 'Dates', detail: 'Monday 1 to Sunday 7 February 2027' },
             { term: 'Duration', detail: '7 days, 6 nights, Monday afternoon to Sunday morning' },
             { term: 'Location', detail: 'Quinta Javali, near Aljezur, Costa Vicentina, Portugal' },
-            { term: 'Group size', detail: '6–14 guests' },
+            { term: 'Group size', detail: '8–12 guests, 14 at most' },
             { term: 'Includes', detail: 'Workshops, wellbeing practices, accommodation, meals, materials and the final exhibition' },
             { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early bird until 6 December 2026' },
           ],
@@ -492,6 +502,36 @@ export const thespark = {
             'Rich memories to take home',
           ],
         },
+        // Previous guests' words, shown with their agreement (Igor, 25 November 2026). From the
+        // Art Residency survey, September 2026: each guest approved the shortened wording.
+        {
+          type: 'quotes',
+          caption: 'From a previous retreat',
+          items: [
+            {
+              text: 'A truly nourishing experience. Being part of other artists’ workshops, sharing a living and creative space, exchanging ideas and skills, and becoming a little community or family in such a short time was so beautiful. I reconnected with my innate creativity and the joy of sharing it with others. It reminded me that I can step outside the boxes that unconsciously keep me trapped in everyday life. If you’ve lost touch with your playfulness and the simple joy of creating, experimenting and connecting, give yourself this gift.',
+              name: 'Jyoti Graziano',
+              role: 'Photographer and web designer',
+            },
+            {
+              text: 'A wonderful and creative experience that left me with rich memories, a beautiful birthday song that moved me to tears, and a sculpture I created myself. Being immersed in such a creative environment is truly a blessing.',
+              name: 'Simon Benedict Smith',
+              role: 'Artist',
+            },
+            {
+              text: 'Heartwarming, transformative and full of love. I discovered how beautifully my inner world can express itself through creativity. I left feeling more confident in myself, daring to show my true self and embracing the possibility of living more from my heart and soul. An experience that can bring you deeper insights into who you are than you might initially imagine.',
+              name: 'Mandy',
+              role: 'Workshop participant',
+            },
+            {
+              // The first sentence of the approved text ("It was the best creative experience I’ve ever had!")
+              // is left out: the brand rules allow no exclamation marks or superlatives.
+              text: 'I discovered that I am creative after all, once I let go of the belief that I’m not and simply allowed myself to have fun. I left feeling more confident in my creativity and inspired to explore and expand it further. I would recommend this experience to anyone who feels a little stuck and wants to rediscover the joy of creating.',
+              name: 'Dhyano',
+              role: 'Studied textile and handcrafts',
+            },
+          ],
+        },
         {
           type: 'text',
           heading: 'You arrive with curiosity. You leave with something made by you.',
@@ -524,7 +564,7 @@ export const thespark = {
           type: 'text',
           heading: 'Step into the unknown. Discover what you can create.',
           paragraphs: [
-            'A week-long retreat in a shared two-house villa in the Algarve, with 6–11 strangers.',
+            'A week-long retreat at Quinta Javali, near Aljezur, with a small group of strangers. The whole estate is ours for the week.',
             'We arrive as strangers and gather around the table from the very first night. Through shared meals, conversations, life stories, creative projects, dreams, and the unexpected topics that arise, we begin to see one another more deeply.',
             'Each morning, we dive into powerful mind–body–soul practices. During the day, creative practices invite us to explore, experiment, and express ourselves, with delicious breaks in between to rest, connect, and let inspiration settle.',
             'Slowly, step by step, strangers become friends. The creative energy opens a different way of being: one of creation, play, and free expression. We loosen the grip of limitations and move into lightness, joy, and moments of genuine connection.',
@@ -667,6 +707,7 @@ export const thespark = {
           paragraphs: [
             'The Spark takes place at Quinta Javali, a private estate near Aljezur on the Costa Vicentina. Set among rolling hills, gardens, cork oaks and walking trails, it offers privacy, comfort and a rare sense of space.',
             'With two houses, open-air spaces, a natural swimming pool and gardens, it suits groups who want to slow down and reconnect with something quieter.',
+            'The whole estate is reserved for The Spark for the week, so there are no other guests.',
           ],
         },
         // Chosen by Philine, November 2026: the estate, the houses and the kitchen.
@@ -701,7 +742,7 @@ export const thespark = {
           items: [
             'Faro Airport: about 108 km, around 1 hour 15 minutes by car',
             'Lisbon Airport: about 238 km, around 3 hours by car',
-            'Transfers are not included. A WhatsApp group is created before arrival so guests can share cars, taxis or private transfers.',
+            'A shuttle on arrival and departure days is included with the deluxe rooms and can be added to any other room (add-on price, pick-up point and times TBA). A WhatsApp group is created before arrival so guests can also share cars or taxis.',
           ],
         },
       ],
@@ -830,13 +871,16 @@ export const thespark = {
           },
           excluded: {
             heading: 'Not included',
-            items: ['Flights', 'Airport transfers', 'Travel insurance', 'Visa fees', 'One open dinner at a local restaurant', 'Optional treatments'],
+            items: ['Flights', 'Airport shuttle (included with the deluxe rooms; add-on for other rooms)', 'Travel insurance', 'Visa fees', 'One open dinner at a local restaurant', 'Optional treatments'],
           },
         },
         {
           type: 'facts',
           heading: 'Booking',
-          facts: [{ term: 'Early-bird deadline', detail: '6 December 2026' }],
+          facts: [
+            { term: 'Early-bird deadline', detail: '6 December 2026' },
+            { term: 'Airport shuttle add-on', detail: TBA, note: 'Included with the deluxe rooms' },
+          ],
         },
         // Deposit and cancellation in short, linking to /booking-terms (Philine, November 2026).
         { type: 'terms' },
@@ -1031,5 +1075,44 @@ export function faqJsonLd(): string {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faq.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  })
+}
+
+/** Event and price structured data (schema.org), from the same facts as the page. */
+export function eventJsonLd(): string {
+  const euros = (v: string) => Number(v.replace(/[^\d]/g, ''))
+  const url = 'https://scintillart.com/thespark'
+  const offers = rooms.flatMap((r) => [
+    {
+      '@type': 'Offer',
+      name: `${r.name} (${r.price.basis})`,
+      price: euros(r.price.regular),
+      priceCurrency: 'EUR',
+      url,
+    },
+    {
+      '@type': 'Offer',
+      name: `${r.name}, early bird (${r.price.basis})`,
+      price: euros(r.price.earlyBird),
+      priceCurrency: 'EUR',
+      validThrough: '2026-12-06',
+      url,
+    },
+  ])
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: 'The Spark',
+    description: thespark.meta.description,
+    startDate: '2027-02-01',
+    endDate: '2027-02-07',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: {
+      '@type': 'Place',
+      name: 'Quinta Javali',
+      address: { '@type': 'PostalAddress', addressLocality: 'Aljezur', addressCountry: 'PT' },
+    },
+    organizer: { '@type': 'Organization', name: 'Scintillart', url: 'https://scintillart.com' },
+    offers,
   })
 }

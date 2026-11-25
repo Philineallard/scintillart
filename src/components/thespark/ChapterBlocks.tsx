@@ -76,6 +76,26 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           </ul>
         </div>
       )
+    case 'quotes':
+      return (
+        <div className={styles.block}>
+          {block.heading && <H3>{block.heading}</H3>}
+          {block.caption && <p className={styles.listCaption}>{block.caption}</p>}
+          <div className={styles.quotes}>
+            {block.items.map((q) => (
+              <figure key={q.name} className={styles.quote}>
+                <blockquote className={styles.quoteText}>
+                  <p>“{q.text}”</p>
+                </blockquote>
+                <figcaption className={styles.quoteBy}>
+                  <span className={styles.quoteName}>{q.name}</span>
+                  {q.role ? <span className={styles.quoteRole}>{q.role}</span> : null}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      )
     case 'facts':
       return (
         <div className={styles.block}>

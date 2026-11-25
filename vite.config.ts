@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 import { artistsPage } from './src/content/artists.ts'
 import { privacy } from './src/content/privacy.ts'
 import { terms } from './src/content/terms.ts'
-import { faqJsonLd, thespark } from './src/content/thespark.ts'
+import { eventJsonLd, faqJsonLd, thespark } from './src/content/thespark.ts'
 import { isHoneypotHit, validateRegistration } from './src/lib/register.ts'
 
 const SITE = 'https://scintillart.com'
@@ -23,7 +23,7 @@ type RouteHead = {
   description: string
   index: boolean
   /** schema.org structured data (JSON), added as <script type="application/ld+json">. */
-  jsonLd?: string
+  jsonLd?: string | string[]
   /** Share thumbnail (1200 × 630 JPG in public/og); defaults to the Scintillart one. */
   ogImage?: string
   ogImageAlt?: string
@@ -46,7 +46,7 @@ const ROUTES: RouteHead[] = [
     title: thespark.meta.title,
     description: thespark.meta.description,
     index: true,
-    jsonLd: faqJsonLd(),
+    jsonLd: [faqJsonLd(), eventJsonLd()],
     ogImage: '/og/thespark.jpg',
     ogImageAlt: 'The Spark, a creative retreat by Scintillart: 1 to 7 February 2027, Quinta Javali, Aljezur, Portugal',
   },
@@ -112,7 +112,7 @@ function withHead(html: string, route: RouteHead): string {
     route.index ? `<link rel="canonical" href="${url}" />` : '<meta name="robots" content="noindex, nofollow" />',
     // A data block, not a script: the CSP (script-src 'self') does not apply to it.
     // "<" is escaped so the JSON can never close the tag early.
-    ...(route.jsonLd ? [`<script type="application/ld+json">${route.jsonLd.replace(/</g, '\\u003c')}</script>`] : []),
+    ...(route.jsonLd ? [route.jsonLd].flat().map((ld) => `<script type="application/ld+json">${ld.replace(/</g, '\\u003c')}</script>`) : []),
   ].join('\n    ')
   const replaced = html
     .replace(/<title>[^<]*<\/title>/, `<title>${escapeAttr(route.title)}</title>`)

@@ -68,7 +68,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 
 ## Confirmed with the website copy (Igor, November 2026)
 Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with a light brand edit.
-- Group size 6–14 guests.
+- Group size (Igor, 25 November 2026): a small group of 8–12 guests, 14 at most; the retreat runs from 6 guests (internal, not shown on the site). Quinta Javali is used by our group only, for the week.
 - Facilitators and workshops as named: Igor (In search of beauty), Erika (Natural Creations), Bruno (Life drawing), André (Ceramics), Willpower (Performance), Manu (The Inner Deck, formerly Arkana Within), Igor and Manu (Archetype Photoshoot), Philine (Tea Ceremony, morning practice).
 - Daily rhythm 08:00–21:30 as in the copy.
 - Food and extras: chef-made vegan and vegetarian meals (breakfast, lunch, dinner, snacks), opening dinner, cooking workshop, one open dinner (not included), optional treatments, integration call 7–14 days after, final open-house exhibition.
@@ -77,7 +77,7 @@ Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with
 - Booking terms: confirmed by Philine (November 2026), see above.
 
 ## Still TBA / to confirm
-- Final dates, group size (sketch says 8–16; previous listing said 6–14, venue sleeps up to 16).
+- Final dates.
 - Which facilitators lead sessions in the February 2027 edition (previous listing named Erika, André, Willpower, Bruno, Manu; no bios).
 - Daily rhythm (previous listing: 08:00 morning practice, 09:00 breakfast, 10:30–13:30 workshop, 13:30 lunch, 14:30–18:30 free time or extra workshop, 18:30 dinner, 20:00 evening session) — confirm for 2027.
 - Food details, optional treatments, integration call, final-evening exhibition: not confirmed; show as TBA or leave out.

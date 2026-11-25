@@ -494,3 +494,45 @@
   display: grid;
   gap: var(--space-2);
 }
+
+/* ---------- Guest quotes: hairline above each, name and role beneath ---------- */
+
+.quotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: var(--space-8) var(--space-8);
+}
+
+.quote {
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--hairline);
+}
+
+.quoteText {
+  margin: 0;
+}
+
+.quoteText p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.quoteBy {
+  display: grid;
+  gap: 2px;
+  margin-top: var(--space-4);
+}
+
+.quoteName {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.quoteRole {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-muted);
+}
