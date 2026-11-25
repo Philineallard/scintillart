@@ -417,9 +417,8 @@ export const thespark = {
           type: 'text',
           paragraphs: [
             'Something shifts when you leave the familiar behind.',
-            'A new landscape. New faces. New materials. New ways of seeing, making and expressing yourself.',
-            'For seven days, Quinta Javali, in the hills near Aljezur, becomes your creative studio, your place to rest and your shared table. Guided by working artists, you will draw, photograph, shape clay, work with natural materials, move, perform, and find that creativity is not something you either have or do not have.',
-            'It is something you can return to.',
+            'For seven days, Quinta Javali, in the hills near Aljezur, becomes your creative studio, your place to rest and your shared table. Guided by working artists, you will draw, photograph, shape clay, work with natural materials, move and perform.',
+            'Creativity is not something you either have or do not have. It is something you can return to.',
           ],
         },
         {
@@ -430,8 +429,7 @@ export const thespark = {
             { term: 'Duration', detail: '7 days, 6 nights, Monday afternoon to Sunday morning' },
             { term: 'Location', detail: 'Quinta Javali, near Aljezur, Costa Vicentina, Portugal' },
             { term: 'Group size', detail: '8–12 guests, 14 at most' },
-            { term: 'Includes', detail: 'Workshops, wellbeing practices, accommodation, meals, materials and the final exhibition' },
-            { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early bird until 6 December 2026' },
+            { term: 'Price', detail: 'From €2,800 per person, with meals, materials and all workshops included' },
           ],
         },
         {
@@ -440,10 +438,9 @@ export const thespark = {
           items: [
             'Begin each day with breathwork, meditation and Qi Gong',
             'Explore a different creative practice with a new artist each day',
-            'Work with photography, drawing, ceramics, natural materials, movement and performance',
             'Share seasonal vegan and vegetarian meals around a long table',
             'Rest in nature and swim in the natural pool',
-            'Close the week by creating and presenting your own open-house exhibition',
+            'Close the week with your own open-house exhibition',
           ],
         },
         {
@@ -451,14 +448,10 @@ export const thespark = {
           heading: 'Who is The Spark for?',
           paragraphs: [
             'The Spark is for thoughtful, open-minded people who may be capable and successful in many areas of life, yet feel that something essential has gone quiet: curiosity, play, self-expression or connection.',
-            'You may be a business owner, a creative professional, a parent, or simply someone in a period of change. You do not need to identify as an artist. You only need to arrive curious, try something new and see what happens.',
-            'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
-            'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
-            'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
+            'You may be a business owner, a creative professional, a parent, or someone in a period of change. You do not need to identify as an artist. You only need to arrive curious.',
           ],
         },
-        // Philine, November 2026: the three silent videos, same size, no lines, no captions,
-        // moved from the top of the chapter to just above "What people take home". Not on phones.
+        // Philine, November 2026: the three silent videos, same size, no lines, no captions. Not on phones.
         {
           type: 'figures',
           noPhone: true,
@@ -480,28 +473,20 @@ export const thespark = {
             },
           ],
         },
-        // From the first retreats page (October 2026): what previous participants said they
-        // took home, written as what you get from joining. Anonymous, as there.
+        // Trimmed from 13 lines (Igor, 25 November 2026: a sales page, not an editorial book).
         {
           type: 'list',
           heading: 'What people take home',
           caption: 'Words from previous participants',
           items: [
-            'A wonderful, nourishing creative time',
             'A community that feels like a family, even in a short time',
-            'Less isolation and new perspectives',
-            'Exchanging ideas, skills and motivating talks',
             'Permission to show your emotions and be vulnerable',
-            'Seeing how your inner world can express itself through creativity',
-            'Stepping out of your comfort zone and the usual grooves of everyday life',
             'Reconnecting with your playfulness and innate creative capacity',
-            'Discovering you’re creative once you drop the idea that you’re not',
-            'Feeling good enough about yourself and daring to show your true self',
             'More self-assurance and the wish to keep expanding your creativity',
-            'Moving, heartfelt moments that stay with you',
-            'Rich memories to take home',
+            'Rich memories, and work made by your own hands',
           ],
         },
+
         // Previous guests' words, shown with their agreement (Igor, 25 November 2026). From the
         // Art Residency survey, September 2026: each guest approved the shortened wording.
         {
@@ -535,10 +520,7 @@ export const thespark = {
         {
           type: 'text',
           heading: 'You arrive with curiosity. You leave with something made by you.',
-          paragraphs: [
-            'By the end of the week you will have made work with your own hands, tried new ways of seeing, and allowed yourself to make without needing to be perfect.',
-            'You leave with your artwork, new connections, new insights about yourself and fresh inspiration to take home.',
-          ],
+          paragraphs: ['You leave with your artwork, new connections and fresh inspiration to take home.'],
         },
       ],
     },
@@ -559,16 +541,14 @@ export const thespark = {
         textAt: 'top',
       },
       blocks: [
-        // Philine's text, November 2026.
+        // Philine's text, November 2026, trimmed by Claude (draft, 25 November 2026).
         {
           type: 'text',
           heading: 'Step into the unknown. Discover what you can create.',
           paragraphs: [
             'A week-long retreat at Quinta Javali, near Aljezur, with a small group of strangers. The whole estate is ours for the week.',
-            'We arrive as strangers and gather around the table from the very first night. Through shared meals, conversations, life stories, creative projects, dreams, and the unexpected topics that arise, we begin to see one another more deeply.',
-            'Each morning, we dive into powerful mind–body–soul practices. During the day, creative practices invite us to explore, experiment, and express ourselves, with delicious breaks in between to rest, connect, and let inspiration settle.',
-            'Slowly, step by step, strangers become friends. The creative energy opens a different way of being: one of creation, play, and free expression. We loosen the grip of limitations and move into lightness, joy, and moments of genuine connection.',
-            'By the end of the week, we become a team of artists, working toward a shared purpose: the final exhibition. We open our doors to the local community and celebrate what we have created, together.',
+            'We arrive as strangers and gather around the table from the very first night. Each morning begins with mind–body–soul practices; during the day, creative practices invite us to explore and express ourselves, with breaks in between to rest and let inspiration settle.',
+            'By the end of the week we are a team of artists working toward a shared purpose: the final exhibition, when we open our doors to the local community and celebrate what we have made.',
           ],
         },
       ],
@@ -598,8 +578,7 @@ export const thespark = {
           type: 'text',
           heading: 'Every day, a new invitation',
           paragraphs: [
-            'The workshops are not designed to make you a professional artist in a week. They are designed to give you new tools, new perspectives and the experience of creating in a supportive environment.',
-            'Each facilitator brings their own craft, presence and way of working. Together they make a week that moves between observation, expression, material, movement and reflection.',
+            'The workshops are not designed to make you a professional artist in a week. They give you new tools, new perspectives and the experience of creating in a supportive environment.',
           ],
         },
         {
@@ -632,8 +611,7 @@ export const thespark = {
           type: 'text',
           heading: 'Your days unfold gently',
           paragraphs: [
-            'There is a rhythm to The Spark, but it is not rigid. Some days invite deeper creative exploration; others leave more space to rest, wander, connect or do nothing at all.',
-            'The intention is simple: to create the conditions in which inspiration, insight and connection can emerge naturally.',
+            'There is a rhythm to The Spark, but it is not rigid. Some days invite deeper creative exploration; others leave room to rest, swim, wander or have an unhurried conversation. On the last evening the week becomes an open-house exhibition of the work made during the retreat.',
           ],
         },
         {
@@ -649,19 +627,6 @@ export const thespark = {
             { time: '18:30–20:00', activity: 'Dinner' },
             { time: '20:00–21:30', activity: 'Performance, workshop or a free evening' },
           ],
-        },
-        {
-          type: 'text',
-          heading: 'Space to integrate',
-          paragraphs: [
-            'In the afternoons you might walk through the gardens, swim in the natural pool, journal, rest in your room or have an unhurried conversation with another guest.',
-            'Free time is not empty time. It is where the experiences of the day can settle, and where your own ideas often begin to surface.',
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'The final evening',
-          paragraphs: ['On the last evening the week becomes an open-house exhibition of the work that emerged during the retreat.'],
         },
         // Chosen by Philine, November 2026: exhibitions from a previous edition.
         {
@@ -732,8 +697,7 @@ export const thespark = {
           type: 'text',
           heading: 'The Costa Vicentina as your creative backdrop',
           paragraphs: [
-            'Aljezur lies within the Southwest Alentejo and Vicentine Coast Natural Park: a protected landscape of hills, river valleys, dunes, cliffs and Atlantic beaches. Nearby beaches include Praia da Amoreira and Praia da Arrifana, both known for their dramatic coastline and wide-open skies.',
-            'This is not a polished resort town. It is a wilder, more elemental part of Portugal, well suited to stepping out of routine and letting the landscape become part of the creative process.',
+            'Aljezur lies within the Southwest Alentejo and Vicentine Coast Natural Park: hills, river valleys, dunes, cliffs and Atlantic beaches, including Praia da Amoreira and Praia da Arrifana. A wilder, more elemental part of Portugal, well suited to letting the landscape become part of the creative process.',
           ],
         },
         {
@@ -772,8 +736,7 @@ export const thespark = {
           type: 'text',
           heading: 'Food as part of the creative experience',
           paragraphs: [
-            'At Scintillart, food is not an afterthought. It is part of the rhythm of the week: colourful, seasonal, homemade and made with care.',
-            'Our chef prepares fresh vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included, with an emphasis on fresh ingredients, shared meals and time around the table.',
+            'Our chef prepares fresh, seasonal vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included, with time around the table every day.',
           ],
         },
         // Chosen by Philine, November 2026: dishes from the retreat kitchen. Still, zooms on hover.
@@ -794,23 +757,21 @@ export const thespark = {
           type: 'text',
           heading: 'Meals that bring people together',
           paragraphs: [
-            'The first evening begins with a guided opening dinner, designed to awaken the senses and gently bring you into the week. Later, a collaborative cooking workshop invites you into the kitchen, turning food into another form of creative expression.',
-            'One dinner is intentionally left open, so you can explore a local restaurant and taste the region on your own or with fellow guests.',
+            'The week opens with a guided dinner. Later, a cooking workshop turns food into another form of creative expression. One dinner is left open, so you can try a local restaurant (not included).',
           ],
         },
         {
           type: 'text',
           heading: 'Room to rest, integrate and return to yourself',
           paragraphs: [
-            'Each morning begins with breathwork, meditation and Qi Gong, making space in body and mind before a day of creative exploration.',
-            'Between sessions, enjoy the natural swimming pool, the gardens and quiet outdoor areas; there is also a sauna. You are invited to take part fully, but never pressured: solitude, rest, journaling, walking and quiet time are part of the experience.',
+            'Between sessions, enjoy the natural swimming pool, the gardens and quiet outdoor areas; there is also a sauna. You are invited to take part fully, but never pressured: rest, journaling and walking are part of the week.',
           ],
         },
         {
           type: 'text',
           heading: 'Optional treatments',
           paragraphs: [
-            'Optional treatments may include intuitive massage, Reiki, and one-to-one inner-balance or navigation sessions, available as additions for guests who wish to deepen their personal restoration.',
+            'Intuitive massage, Reiki and one-to-one inner-balance sessions may be added for guests who wish to deepen their restoration. Details TBA.',
           ],
         },
       ],
@@ -849,8 +810,7 @@ export const thespark = {
           type: 'text',
           heading: 'A home for the week',
           paragraphs: [
-            'The Spark is intentionally small. The rooms feel personal rather than institutional: quiet spaces with views, where you can return to yourself between workshops and shared meals.',
-            'Choose a shared room if you enjoy the communal rhythm of retreat life, or a private room if you value solitude and quiet.',
+            'The rooms feel personal rather than institutional. Choose a shared room if you enjoy the communal rhythm of retreat life, or a private room if you value solitude and quiet. Prices are in euros, per person unless marked per room.',
           ],
         },
         // Step 2 adds photo galleries, amenity tags and "Show more" to these cards.
@@ -861,25 +821,23 @@ export const thespark = {
             heading: 'What your retreat includes',
             items: [
               'Six nights’ accommodation',
-              'All guided creative workshops and materials',
+              'All guided workshops and materials',
               'Daily breathwork, meditation and Qi Gong',
               'Breakfast, lunch, dinner and snacks',
               'Airport shuttle on arrival and departure days (deluxe rooms)',
-              'Access to the natural pool, gardens, communal spaces and sauna',
-              'Evening performances, shared experiences and the final exhibition',
-              'Your own artworks to take home',
+              'The natural pool, gardens, communal spaces and sauna',
+              'The final exhibition, and your own artworks to take home',
             ],
           },
           excluded: {
             heading: 'Not included',
-            items: ['Flights', 'Airport shuttle for the other rooms (add-on, price TBA)', 'Travel insurance', 'Visa fees', 'One open dinner at a local restaurant', 'Optional treatments'],
+            items: ['flights', 'the airport shuttle for the other rooms (add-on, price TBA)', 'travel insurance', 'visa fees', 'one open dinner at a local restaurant', 'optional treatments'],
           },
         },
         {
           type: 'facts',
           heading: 'Booking',
           facts: [
-            { term: 'Early-bird deadline', detail: '6 December 2026' },
             { term: 'Airport shuttle add-on', detail: TBA, note: 'Included with the deluxe rooms' },
           ],
         },

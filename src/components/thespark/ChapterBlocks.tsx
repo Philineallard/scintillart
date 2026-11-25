@@ -212,18 +212,18 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
         </div>
       )
     case 'included':
+      // One column: the included list, then what is not included as a plain sentence (Igor, 25 November 2026).
       return (
-        <div className={`${styles.block} ${styles.included}`}>
-          {[block.included, block.excluded].map((group) => (
-            <div key={group.heading}>
-              <H3>{group.heading}</H3>
-              <ul className={styles.list}>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className={styles.block}>
+          <H3>{block.included.heading}</H3>
+          <ul className={styles.list}>
+            {block.included.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className={styles.small}>
+            <span className={styles.by}>{block.excluded.heading}:</span> {block.excluded.items.join(', ')}.
+          </p>
         </div>
       )
     case 'rooms':
@@ -242,9 +242,6 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
                 <p className={styles.roomPrice}>
                   <span className={styles.priceMain}>
                     {room.price.regular} <span className={styles.priceBasis}>{room.price.basis}</span>
-                  </span>
-                  <span className={styles.priceEarly}>
-                    {thespark.interest.earlyBird} {room.price.earlyBird}
                   </span>
                 </p>
                 <p className={styles.small}>{room.details}</p>
