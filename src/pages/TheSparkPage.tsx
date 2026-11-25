@@ -352,6 +352,11 @@ export default function TheSparkPage({ embedded = false }: Props) {
             <span className={styles.descriptor}>{hero.descriptor}</span>
           </h1>
           <p className={styles.heroLead}>{hero.lead}</p>
+          <ul className={styles.heroFacts}>
+            {hero.facts.map((fact) => (
+              <li key={fact}>{fact}</li>
+            ))}
+          </ul>
           <div className={styles.heroActions}>
             <RegisterButton className={styles.button} tabIndex={tab}>
               {thespark.interest.label}

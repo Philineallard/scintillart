@@ -383,6 +383,8 @@ export const thespark = {
     /** In-page link to chapter 2 (navigation, not a second call to action). */
     explore: { label: 'Explore the experience', href: '#experience' },
     note: 'No artistic experience needed. Just curiosity, openness and a willingness to explore.',
+    /** The essentials at a glance, under the lead (Igor, 25 November 2026). Same facts as Key facts. */
+    facts: ['1–7 February 2027', 'Quinta Javali, Aljezur', '8–12 guests', 'From €2,800 per person'],
     /**
      * Full-bleed photo behind the hero (Igor, 25 November 2026: HERO1, the gardens of Quinta
      * Javali at sunset; replaces "hero-star"). Photo: Igor Świeczak, resized only.
