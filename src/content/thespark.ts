@@ -525,9 +525,10 @@ export const thespark = {
     {
       id: 'workshops',
       nav: 'Workshops & facilitators',
-      // Philine, November 2026 (line breaks are kept on the page).
-      title: 'Be guided by artists.\nYou make the art.\nMake it & bring\u00a0it\u00a0home.',
-      lead: 'A different artist, practice and creative energy each day.',
+      // Shortened by Igor, 25 November 2026, from Philine's "Be guided by artists. You make the art.
+      // Make it & bring it home." (line breaks are kept on the page). To confirm with Philine.
+      title: 'Guided by artists.\nMade by you.',
+      lead: 'A different artist and practice each day, and work you take home.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
       // A full-width band (Philine, November 2026); the heading also sits beside the text below.
       repeatHeading: true,
