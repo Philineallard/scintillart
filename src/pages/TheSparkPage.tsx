@@ -6,6 +6,7 @@ import { BrandGrain } from '../components/thespark/BrandGrain'
 import { EnvelopeGate } from '../components/thespark/EnvelopeGate'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
+import { Slogan } from '../components/thespark/Slogan'
 import { Spread } from '../components/thespark/Spread'
 import { Voices } from '../components/thespark/Voices'
 import { PhoneRegisterBar } from '../components/thespark/PhoneRegisterBar'
@@ -409,7 +410,7 @@ export default function TheSparkPage({ embedded = false }: Props) {
         <Link to="/" className={styles.footerMark} aria-label={ui.home} tabIndex={tab}>
           <Logotype />
         </Link>
-        <p className={styles.slogan}>{brand.line}</p>
+        <Slogan text={brand.line} className={styles.slogan} />
         <Link to="/privacy" className={styles.footerLink} tabIndex={tab}>
           {thespark.register.fields.privacy}
         </Link>

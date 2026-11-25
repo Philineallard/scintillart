@@ -11,6 +11,7 @@ import { useBrandTheme } from '../hooks/useBrandTheme'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import pageStyles from './TheSparkPage.module.css'
 import styles from './PrivacyPage.module.css'
+import { Slogan } from '../components/thespark/Slogan'
 
 type Doc = typeof privacy | typeof terms
 
@@ -75,7 +76,7 @@ export default function PrivacyPage({ doc = privacy }: { doc?: Doc }) {
         <Link to="/" className={pageStyles.footerMark} aria-label={ui.home}>
           <Logotype />
         </Link>
-        <p className={pageStyles.slogan}>{brand.line}</p>
+        <Slogan text={brand.line} className={pageStyles.slogan} />
       </footer>
     </div>
   )
