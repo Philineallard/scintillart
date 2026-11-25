@@ -8,6 +8,7 @@ import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
 import { Spread } from '../components/thespark/Spread'
 import { Voices } from '../components/thespark/Voices'
+import { PhoneRegisterBar } from '../components/thespark/PhoneRegisterBar'
 import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
@@ -390,6 +391,7 @@ export default function TheSparkPage({ embedded = false }: Props) {
         </Link>
       </footer>
 
+      {live && <PhoneRegisterBar />}
       {live && <RegisterPanel open={register.open} room={register.room} onClose={closeRegister} />}
     </div>
     </RegisterContext.Provider>

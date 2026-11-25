@@ -85,7 +85,7 @@
   .home {
     font-size: 1.35rem;
   }
-  /* The hero and the closing section carry the action on phones; the header keeps the theme. */
+  /* On phones the action sits in a bar at the bottom of the screen (PhoneRegisterBar); the header keeps the theme. */
   .tools .headerButton {
     display: none;
   }
@@ -663,5 +663,12 @@
 @media (max-width: 720px) {
   .noPhone {
     display: none;
+  }
+}
+
+/* Phones: room for the register bar (PhoneRegisterBar) under the last line of the footer. */
+@media (max-width: 640px) {
+  .footer {
+    padding-bottom: calc(var(--space-12) + 4.5rem + var(--safe-bottom));
   }
 }

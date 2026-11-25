@@ -520,8 +520,6 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Experience something different.',
-      closingRegister: 'Join The Spark.',
     },
 
     {
@@ -556,6 +554,7 @@ export const thespark = {
           more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
       ],
+      // Closing lines kept only here and after the venue (Igor, 25 November 2026: one per chapter was too many).
       closing: 'Become a creator.',
       closingRegister: 'Join The Spark.',
     },
@@ -606,8 +605,6 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Step out of routine.',
-      closingRegister: 'Ignite your creative spark.',
     },
 
     {
@@ -743,8 +740,6 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Nourish what wants to be created through you.',
-      closingRegister: 'Join The Spark.',
     },
 
     {
@@ -886,6 +881,8 @@ export const thespark = {
   interest: {
     /** The only call to action on the page. */
     label: 'Register your interest',
+    /** The phone register bar (Igor, 25 November 2026). */
+    fromPrice: { amount: 'From €2,800', basis: 'per person' },
     kicker: 'Register your interest',
     title: 'One week. One spark. A new way of seeing.',
     body: 'Join a small group for an artist-led creative retreat in Portugal’s wild south-west. Still have a question? Write it in the message field when you register.',
