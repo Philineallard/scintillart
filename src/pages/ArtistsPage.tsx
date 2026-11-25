@@ -173,7 +173,22 @@ export default function ArtistsPage() {
                         {w.practice}
                         {w.title && <span className={styles.workshopTitle}>{w.title}</span>}
                       </h3>
-                      <p className={styles.workshopText}>{w.text}</p>
+                      {w.points ? (
+                        <ul className={styles.workshopPoints}>
+                          {w.points.map((pt) => (
+                            <li key={pt} className={styles.workshopText}>
+                              {pt}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className={styles.workshopText}>{w.text}</p>
+                      )}
+                      {w.description?.map((para) => (
+                        <p key={para} className={styles.workshopText}>
+                          {para}
+                        </p>
+                      ))}
                     </li>
                   ))}
                 </ul>

@@ -55,7 +55,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 ## Confirmed facts (from Igor)
 - Venue: Quinta Javali, near Aljezur, Costa Vicentina, Portugal.
 - Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates confirmed by Philine (November 2026): Monday 1 to Sunday 7 February 2027.
-- Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, Arkana Within, Archetype Photoshoot, Morning Routine.
+- Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, The Inner Deck (formerly Arkana Within; Philine, 25 November 2026), Archetype Photoshoot, Morning Routine.
 - Hosts: Philine Allard (host, morning practice, Qi Gong); Igor Świeczak (photography, co-founder).
 - Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026). Booking and cancellation terms (Philine, November 2026): full text in `src/content/terms.ts`, shown at `/booking-terms` and summarised in a box in chapter 7. 50% deposit on booking (non-refundable); balance 30 days before; within 30 days of arrival full payment; cancelling more than 30 days before: deposit retained, further payments refunded; 15–30 days: 50% of the total, 14 days or less: 100%; reservation transferable to another person, subject to the organisers' approval and room availability (Philine, 21 November 2026); full refund if the organiser cancels.
   - Shared Room: €2,800 / €2,600 (twin room, two single beds 90 × 190 cm, private en-suite, countryside and mountain surroundings, A/C, Wi-Fi, terrace)
@@ -69,7 +69,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 ## Confirmed with the website copy (Igor, November 2026)
 Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with a light brand edit.
 - Group size 6–14 guests.
-- Facilitators and workshops as named: Igor (In search of beauty), Erika (Natural Creations), Bruno (Life drawing), André (Ceramics), Willpower (Performance), Manu (Arkana Within), Igor and Manu (Archetype Photoshoot), Philine (Tea Ceremony, morning practice).
+- Facilitators and workshops as named: Igor (In search of beauty), Erika (Natural Creations), Bruno (Life drawing), André (Ceramics), Willpower (Performance), Manu (The Inner Deck, formerly Arkana Within), Igor and Manu (Archetype Photoshoot), Philine (Tea Ceremony, morning practice).
 - Daily rhythm 08:00–21:30 as in the copy.
 - Food and extras: chef-made vegan and vegetarian meals (breakfast, lunch, dinner, snacks), opening dinner, cooking workshop, one open dinner (not included), optional treatments, integration call 7–14 days after, final open-house exhibition.
 - Sauna: mention in passing only, as an addition, never a headline point.

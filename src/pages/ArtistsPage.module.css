@@ -598,3 +598,17 @@
     transition: none;
   }
 }
+
+/* Workshop with short points (The Inner Deck) before its description. */
+.workshopPoints {
+  list-style: none;
+  margin: var(--space-2) 0 var(--space-4);
+  padding: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.workshopPoints .workshopText {
+  margin: 0;
+  font-weight: 500;
+}
