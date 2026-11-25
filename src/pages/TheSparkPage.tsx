@@ -4,6 +4,7 @@ import { parseRegisterHash, RegisterButton, RegisterContext, registerHash, type 
 import { RegisterPanel } from '../components/thespark/RegisterPanel'
 import { BrandGrain } from '../components/thespark/BrandGrain'
 import { EnvelopeGate } from '../components/thespark/EnvelopeGate'
+import { EarlyBirdNotice } from '../components/thespark/EarlyBirdNotice'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
 import { Spread } from '../components/thespark/Spread'
@@ -381,6 +382,8 @@ export default function TheSparkPage({ embedded = false }: Props) {
         </Link>
       </footer>
 
+      {/* Early-bird notice (Philine, 25 November 2026): hidden while the panel is open. */}
+      {live && <EarlyBirdNotice hidden={register.open} />}
       {live && <RegisterPanel open={register.open} room={register.room} onClose={closeRegister} />}
     </div>
     </RegisterContext.Provider>
