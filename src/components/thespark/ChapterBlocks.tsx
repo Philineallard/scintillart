@@ -8,6 +8,7 @@ import { Value } from './Tba'
 import { Gallery } from './Gallery'
 import { terms } from '../../content/terms'
 import { Spread } from './Spread'
+import { ArtistRow } from './ArtistRow'
 import styles from './ChapterBlocks.module.css'
 
 function H3({ children }: { children: string }) {
@@ -150,6 +151,8 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           )}
         </div>
       )
+    case 'artistRow':
+      return <ArtistRow heading={block.heading} more={block.more} tabIndex={tabIndex} />
     case 'people':
       return (
         <div className={styles.block}>

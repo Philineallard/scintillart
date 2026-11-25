@@ -31,7 +31,7 @@ type Props = {
 type Segment = { wide: false; blocks: Block[] } | { wide: true; block: Block }
 
 /** Full-width blocks get a row of their own: the galleries, the guest quotes and the room cards. */
-const isWide = (b: Block) => b.type === 'gallery' || b.type === 'rooms' || b.type === 'quotes'
+const isWide = (b: Block) => b.type === 'gallery' || b.type === 'rooms' || b.type === 'quotes' || b.type === 'artistRow'
 
 /** Splits blocks into runs of text (beside the heading) and full-width rows. */
 function segmentsOf(blocks: readonly Block[]): Segment[] {

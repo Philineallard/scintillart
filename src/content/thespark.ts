@@ -240,6 +240,8 @@ export type Block =
   | { type: 'quotes'; heading?: string; caption?: string; items: { text: string; name: string; role?: string }[] }
   | { type: 'pillars'; heading: string; items: { title: string; text: string }[] }
   | { type: 'workshops'; heading: string; items: Workshop[]; more?: { label: string; href: string } }
+  /** The workshops as a row of the artists who lead them (chapter 3; Igor, 25 November 2026). */
+  | { type: 'artistRow'; heading: string; more: { label: string; href: string } }
   | { type: 'people'; heading: string; items: Person[] }
   | { type: 'schedule'; heading: string; rows: { time: string; activity: string }[] }
   | { type: 'facts'; heading?: string; facts: Fact[] }
@@ -540,7 +542,8 @@ export const thespark = {
       lead: 'A different artist and practice each day, and work you take\u00a0home.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
       // A full-width band (Philine, November 2026); the heading is shown once, on the band (Igor, 25 November 2026).
-      sideFirst: true,
+      // The intro on the left, the row of artists full width beneath (Igor, 25 November 2026).
+      textLeft: true,
       band: {
         // Igor, 25 November 2026: another frame of the same hanging (_SCR7275), centred, so a
         // gentle 1.15× zoom moves it right of the heading. Photo: Igor Świeczak, resized only.
@@ -563,9 +566,8 @@ export const thespark = {
           ],
         },
         {
-          type: 'workshops',
+          type: 'artistRow',
           heading: 'Creative practices, guided by artists',
-          items: workshops,
           more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
       ],
