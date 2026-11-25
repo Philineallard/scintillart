@@ -435,6 +435,44 @@ export const thespark = {
           ],
         },
         {
+          type: 'text',
+          heading: 'Who is The Spark for?',
+          paragraphs: [
+            'The Spark is for thoughtful, open-minded people who may be capable and successful in many areas of life, yet feel that something essential has gone quiet: curiosity, play, self-expression or connection.',
+            'You may be a business owner, a creative professional, a parent, or someone in a period of change. You do not need to identify as an artist. You only need to arrive curious.',
+          ],
+        },
+      ],
+    },
+
+    {
+      id: 'experience',
+      nav: 'The experience',
+      title: 'An immersive week of making, being and belonging',
+      lead: 'Creative exploration, wellbeing, nature and human connection, held in a considered rhythm.',
+      // Chosen by Philine, November 2026: paints lined up along a sunlit wall (photo: Igor Świeczak).
+      panel: {
+        side: 'right',
+        name: 'experience-paints',
+        alt: 'Tubes and bottles of paint lined up along a sunlit white wall under the leaves of a fig tree',
+        width: 2048,
+        height: 1367,
+        focus: '55% 62%',
+        textAt: 'top',
+      },
+      blocks: [
+        // Philine's text, November 2026, trimmed by Claude (draft, 25 November 2026).
+        {
+          type: 'text',
+          heading: 'Step into the unknown. Discover what you can create.',
+          paragraphs: [
+            'A week-long retreat at Quinta Javali, near Aljezur, with a small group of strangers. The whole estate is ours for the week.',
+            'We arrive as strangers and gather around the table from the very first night. Each morning begins with mind–body–soul practices; during the day, creative practices invite us to explore and express ourselves, with breaks in between to rest and let inspiration settle.',
+            'By the end of the week we are a team of artists working toward a shared purpose: the final exhibition, when we open our doors to the local community and celebrate what we have made.',
+          ],
+        },
+        // Moved from the overview (Igor, 25 November 2026): the overview keeps the facts, this chapter the feel of the week.
+        {
           type: 'list',
           heading: 'A week designed to awaken your creativity',
           items: [
@@ -443,14 +481,6 @@ export const thespark = {
             'Share seasonal vegan and vegetarian meals around a long table',
             'Rest in nature and swim in the natural pool',
             'Close the week with your own open-house exhibition',
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'Who is The Spark for?',
-          paragraphs: [
-            'The Spark is for thoughtful, open-minded people who may be capable and successful in many areas of life, yet feel that something essential has gone quiet: curiosity, play, self-expression or connection.',
-            'You may be a business owner, a creative professional, a parent, or someone in a period of change. You do not need to identify as an artist. You only need to arrive curious.',
           ],
         },
         // Philine, November 2026: the three silent videos, same size, no lines, no captions. Not on phones.
@@ -493,35 +523,6 @@ export const thespark = {
           type: 'text',
           heading: 'You arrive with curiosity. You leave with something made by you.',
           paragraphs: ['You leave with your artwork, new connections and fresh inspiration to take home.'],
-        },
-      ],
-    },
-
-    {
-      id: 'experience',
-      nav: 'The experience',
-      title: 'An immersive week of making, being and belonging',
-      lead: 'Creative exploration, wellbeing, nature and human connection, held in a considered rhythm.',
-      // Chosen by Philine, November 2026: paints lined up along a sunlit wall (photo: Igor Świeczak).
-      panel: {
-        side: 'right',
-        name: 'experience-paints',
-        alt: 'Tubes and bottles of paint lined up along a sunlit white wall under the leaves of a fig tree',
-        width: 2048,
-        height: 1367,
-        focus: '55% 62%',
-        textAt: 'top',
-      },
-      blocks: [
-        // Philine's text, November 2026, trimmed by Claude (draft, 25 November 2026).
-        {
-          type: 'text',
-          heading: 'Step into the unknown. Discover what you can create.',
-          paragraphs: [
-            'A week-long retreat at Quinta Javali, near Aljezur, with a small group of strangers. The whole estate is ours for the week.',
-            'We arrive as strangers and gather around the table from the very first night. Each morning begins with mind–body–soul practices; during the day, creative practices invite us to explore and express ourselves, with breaks in between to rest and let inspiration settle.',
-            'By the end of the week we are a team of artists working toward a shared purpose: the final exhibition, when we open our doors to the local community and celebrate what we have made.',
-          ],
         },
       ],
     },
