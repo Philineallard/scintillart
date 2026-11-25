@@ -57,8 +57,13 @@ function PhotoImg({ photo, className, sizes }: { photo: ChapterPhoto; className:
       alt={photo.alt}
       width={photo.width}
       height={photo.height}
-      style={{ objectPosition: photo.focus, ...(photo.pushRight ? { ['--push' as string]: photo.pushRight } : {}) }}
+      style={{
+        objectPosition: photo.focus,
+        ...(photo.pushRight ? { ['--push' as string]: photo.pushRight } : {}),
+        ...(photo.phoneZoom ? { ['--phone-zoom' as string]: photo.phoneZoom, ['--phone-origin' as string]: photo.phoneOrigin ?? '50% 50%' } : {}),
+      }}
       data-push={photo.pushRight ? '' : undefined}
+      data-phone-zoom={photo.phoneZoom ? '' : undefined}
       loading="lazy"
       decoding="async"
     />

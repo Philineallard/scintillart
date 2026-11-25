@@ -282,6 +282,10 @@ export type ChapterPhoto = {
    * subject can't otherwise move sideways in a wide band.
    */
   pushRight?: number
+  /** Phones and tablets only: zoom the photo by this factor around phoneOrigin (e.g. 1.3). */
+  phoneZoom?: number
+  /** The point the phone zoom grows from (CSS transform-origin), e.g. '40% 45%'. */
+  phoneOrigin?: string
 }
 
 export type Chapter = {
@@ -541,6 +545,9 @@ export const thespark = {
         height: 2048,
         focus: '50% 45%',
         pushRight: 1.15,
+        // Phones: a little closer, so the white wall on the right stays out of view (Igor, 25 November 2026).
+        phoneZoom: 1.3,
+        phoneOrigin: '40% 45%',
       },
       blocks: [
         {

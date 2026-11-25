@@ -396,6 +396,14 @@
   }
 }
 
+/* Phones and tablets: a closer crop for photos that set phoneZoom (thespark.ts). */
+@media (max-width: 900px) {
+  .photoFill[data-phone-zoom] {
+    transform: scale(var(--phone-zoom));
+    transform-origin: var(--phone-origin);
+  }
+}
+
 /* Band: full width, edge to edge, at the top of the chapter; scrolls away normally. */
 /* A band without text is shown at full brightness. */
 .band:not(:has(.photoText)) .photoFill {
