@@ -138,12 +138,8 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
   return (
     <section id={chapter.id} className={flush ? `${styles.chapter} ${styles.chapterFlush}` : styles.chapter} aria-labelledby={headingId}>
       {band && (
-        <div
-          className={styles.band}
-          data-split={band.split ? '' : undefined}
-          style={band.split ? ({ '--ratio': band.width / band.height } as React.CSSProperties) : undefined}
-        >
-          <PhotoImg photo={band} className={styles.photoFill} sizes={band.split ? '(max-width: 900px) 100vw, 45vw' : '100vw'} />
+        <div className={styles.band}>
+          <PhotoImg photo={band} className={styles.photoFill} sizes="100vw" />
           {!band.plain && (
             <div className={styles.photoText}>
               <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
