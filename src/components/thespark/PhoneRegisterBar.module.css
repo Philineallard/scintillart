@@ -1,0 +1,59 @@
+/* Flat page colour, a 1px hairline on top; no shadow (brand v2.0). Phones only. */
+.bar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-3) calc(var(--gutter) + var(--safe-right, 0px)) calc(var(--space-3) + var(--safe-bottom, 0px))
+      calc(var(--gutter) + var(--safe-left, 0px));
+    background: var(--bg);
+    border-top: 1px solid var(--hairline);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition:
+      transform 0.35s ease,
+      visibility 0s linear 0.35s;
+  }
+
+  .bar[data-shown] {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.35s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .bar[data-shown] {
+    transition: none;
+  }
+}
+
+.price {
+  display: grid;
+  margin: 0;
+}
+
+.amount {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.basis {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-muted);
+}
+
+.button {
+  flex: none;
+}

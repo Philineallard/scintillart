@@ -22,7 +22,7 @@ type Props = {
 
 const DRIFT_PX_PER_S = 14
 
-function Arrow({ dir }: { dir: 'prev' | 'next' }) {
+export function Arrow({ dir }: { dir: 'prev' | 'next' }) {
   return (
     <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" className={styles.arrowSvg}>
       {dir === 'next' ? (

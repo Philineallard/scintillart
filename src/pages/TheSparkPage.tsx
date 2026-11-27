@@ -6,7 +6,10 @@ import { BrandGrain } from '../components/thespark/BrandGrain'
 import { EnvelopeGate } from '../components/thespark/EnvelopeGate'
 import { ChapterBlocks } from '../components/thespark/ChapterBlocks'
 import { ChapterNav } from '../components/thespark/ChapterNav'
+import { Slogan } from '../components/thespark/Slogan'
 import { Spread } from '../components/thespark/Spread'
+import { Voices } from '../components/thespark/Voices'
+import { PhoneRegisterBar } from '../components/thespark/PhoneRegisterBar'
 import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
@@ -28,8 +31,8 @@ type Props = {
 
 type Segment = { wide: false; blocks: Block[] } | { wide: true; block: Block }
 
-/** Full-width blocks get a row of their own: the galleries and the room cards. */
-const isWide = (b: Block) => b.type === 'gallery' || b.type === 'rooms'
+/** Full-width blocks get a row of their own: the galleries, the guest quotes and the room cards. */
+const isWide = (b: Block) => b.type === 'gallery' || b.type === 'rooms' || b.type === 'quotes' || b.type === 'artistRow'
 
 /** Splits blocks into runs of text (beside the heading) and full-width rows. */
 function segmentsOf(blocks: readonly Block[]): Segment[] {
@@ -55,8 +58,13 @@ function PhotoImg({ photo, className, sizes }: { photo: ChapterPhoto; className:
       alt={photo.alt}
       width={photo.width}
       height={photo.height}
-      style={{ objectPosition: photo.focus, ...(photo.pushRight ? { ['--push' as string]: photo.pushRight } : {}) }}
+      style={{
+        objectPosition: photo.focus,
+        ...(photo.pushRight ? { ['--push' as string]: photo.pushRight } : {}),
+        ...(photo.phoneZoom ? { ['--phone-zoom' as string]: photo.phoneZoom, ['--phone-origin' as string]: photo.phoneOrigin ?? '50% 50%' } : {}),
+      }}
       data-push={photo.pushRight ? '' : undefined}
+      data-phone-zoom={photo.phoneZoom ? '' : undefined}
       loading="lazy"
       decoding="async"
     />
@@ -104,7 +112,9 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
   const segments = segmentsOf(chapter.blocks.slice(0, from))
   const panelBlocks = panel ? chapter.blocks.slice(from) : []
   let placed = (Boolean(band) && !band?.plain) || Boolean(chapter.headingAbove)
-  const lastText = panel ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
+  // The closing line and "Next" go after the last row: beside the last text, or under a final full-width row (Igor, 25 November 2026).
+  const endsWide = !panel && segments.length > 0 && segments[segments.length - 1].wide
+  const lastText = panel || endsWide ? -1 : segments.map((g) => !g.wide).lastIndexOf(true)
 
   const end = (chapter.closing || next) && (
     <div className={styles.chapterEnd}>
@@ -169,7 +179,21 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
         }
         const withHead = !placed
         const withCopy = placed && (chapter.repeatHeading === true || (chapter.repeatHeading === 'afterRows' && i > 0 && segments[i - 1].wide))
+        const side = chapter.sideFirst && !withHead && !withCopy && i === 0 && seg.blocks.length > 1
         placed = true
+        if (side) {
+          return (
+            <div key={i} className={styles.zone}>
+              <div className={styles.chapterHead}>
+                <ChapterBlocks blocks={seg.blocks.slice(0, 1)} tabIndex={tabIndex} />
+              </div>
+              <div className={styles.chapterBody}>
+                <ChapterBlocks blocks={seg.blocks.slice(1)} tabIndex={tabIndex} />
+                {i === lastText && end}
+              </div>
+            </div>
+          )
+        }
         return (
           <div key={i} className={styles.zone}>
             {(withHead || withCopy) && (
@@ -189,9 +213,12 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
         <div className={`${styles.zone} ${side === 'right' ? styles.panelZoneRight : styles.panelZoneLeft}`}>
           <div className={`${styles.panel}${panel.textAt === 'top' ? ` ${styles.panelTop}` : ''}`}>
             <PhotoImg photo={panel} className={styles.photoFill} sizes="(max-width: 900px) 100vw, 50vw" />
-            <div className={styles.photoText}>
-              <ChapterHeading chapter={chapter} index={index} headingId={headingId} copy={placed} />
-            </div>
+            {/* The heading goes on the panel only if it isn't already shown above (Igor, 25 November 2026: no repeats). */}
+            {!placed && (
+              <div className={styles.photoText}>
+                <ChapterHeading chapter={chapter} index={index} headingId={headingId} />
+              </div>
+            )}
           </div>
           <div className={styles.panelBody}>
             <ChapterBlocks blocks={panelBlocks} tabIndex={tabIndex} />
@@ -202,7 +229,7 @@ function ChapterSection({ chapter, index, next, tabIndex }: { chapter: Chapter; 
 
       {!panel && lastText === -1 && end && (
         <div className={styles.zone}>
-          <div className={styles.chapterBody}>{end}</div>
+          <div className={chapter.textLeft ? `${styles.chapterBody} ${styles.chapterBodyLeft}` : styles.chapterBody}>{end}</div>
         </div>
       )}
     </section>
@@ -338,7 +365,7 @@ export default function TheSparkPage({ embedded = false }: Props) {
             className={styles.heroImage}
             src={`${base}thespark/${hero.image.name}.webp`}
             srcSet={`${base}thespark/${hero.image.name}-sm.webp 720w, ${base}thespark/${hero.image.name}-md.webp 1100w, ${base}thespark/${hero.image.name}.webp ${hero.image.width}w`}
-            sizes="100vw"
+            sizes="(max-aspect-ratio: 16/9) 180svh, 100vw"
             alt={hero.image.alt}
             width={hero.image.width}
             height={hero.image.height}
@@ -352,6 +379,11 @@ export default function TheSparkPage({ embedded = false }: Props) {
             <span className={styles.descriptor}>{hero.descriptor}</span>
           </h1>
           <p className={styles.heroLead}>{hero.lead}</p>
+          <ul className={styles.heroFacts}>
+            {hero.facts.map((fact) => (
+              <li key={fact}>{fact}</li>
+            ))}
+          </ul>
           <div className={styles.heroActions}>
             <RegisterButton className={styles.button} tabIndex={tab}>
               {thespark.interest.label}
@@ -362,6 +394,9 @@ export default function TheSparkPage({ embedded = false }: Props) {
           </div>
           <p className={styles.heroNote}>{hero.note}</p>
         </section>
+
+        {/* Guests' words, pinned while they change on scroll (Igor, 25 November 2026). */}
+        <Voices />
 
         {thespark.chapters.map((chapter, i) => (
           <ChapterSection key={chapter.id} chapter={chapter} index={i} next={thespark.chapters[i + 1]} tabIndex={tab} />
@@ -375,12 +410,13 @@ export default function TheSparkPage({ embedded = false }: Props) {
         <Link to="/" className={styles.footerMark} aria-label={ui.home} tabIndex={tab}>
           <Logotype />
         </Link>
-        <p className={styles.slogan}>{brand.line}</p>
+        <Slogan text={brand.line} className={styles.slogan} />
         <Link to="/privacy" className={styles.footerLink} tabIndex={tab}>
           {thespark.register.fields.privacy}
         </Link>
       </footer>
 
+      {live && <PhoneRegisterBar />}
       {live && <RegisterPanel open={register.open} room={register.room} onClose={closeRegister} />}
     </div>
     </RegisterContext.Provider>

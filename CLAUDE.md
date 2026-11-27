@@ -57,7 +57,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 - Format: 7 days / 6 nights, Monday afternoon to Sunday morning. Dates confirmed by Philine (November 2026): Monday 1 to Sunday 7 February 2027.
 - Practices: Photography, Natural Creations, Tea Ceremony, Ceramics, Performance, Life drawing, The Inner Deck (formerly Arkana Within; Philine, 25 November 2026), Archetype Photoshoot, Morning Routine.
 - Hosts: Philine Allard (host, morning practice, Qi Gong); Igor Świeczak (photography, co-founder).
-- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026). Booking and cancellation terms (Philine, November 2026): full text in `src/content/terms.ts`, shown at `/booking-terms` and summarised in a box in chapter 7. 50% deposit on booking (non-refundable); balance 30 days before; within 30 days of arrival full payment; cancelling more than 30 days before: deposit retained, further payments refunded; 15–30 days: 50% of the total, 14 days or less: 100%; reservation transferable to another person, subject to the organisers' approval and room availability (Philine, 21 November 2026); full refund if the organiser cancels.
+- Prices are in EURO and must match the BookRetreats listing exactly (first figure = regular, second = early bird; confirmed by Igor). The couples room price is per room for two people; all others are per person. Early-bird deadline: 6 December 2026 (Philine, November 2026); the site no longer features it (Igor, 25 November 2026). Booking and cancellation terms: full text in `src/content/terms.ts`, shown at `/booking-terms` and summarised in a box in chapter 7. 50% non-refundable deposit confirms the place; balance 45 days before arrival (within 45 days, full payment on booking); payments non-refundable, with a credit towards a future retreat if the place is refilled; reservation transferable to another person, subject to the organisers' approval and room availability; full refund if the organiser cancels (Igor, 25 November 2026).
   - Shared Room: €2,800 / €2,600 (twin room, two single beds 90 × 190 cm, private en-suite, countryside and mountain surroundings, A/C, Wi-Fi, terrace)
   - Private Room: €3,100 / €2,900 (single occupancy, double bed 180 × 200 cm, A/C, bathroom outside the bedroom)
   - Private room for couples: €2,700 / €2,500 per person, shown per room for two: €5,400 / €5,000 (Philine, November 2026: the private room shared by a couple; same photos)
@@ -68,7 +68,7 @@ Existing sketch at `/retreats` already follows the brand: keep its tone (practic
 
 ## Confirmed with the website copy (Igor, November 2026)
 Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with a light brand edit.
-- Group size 6–14 guests.
+- Group size (Igor, 25 November 2026): a small group of 8–12 guests, 14 at most; the retreat runs from 6 guests (internal, not shown on the site). Quinta Javali is used by our group only, for the week.
 - Facilitators and workshops as named: Igor (In search of beauty), Erika (Natural Creations), Bruno (Life drawing), André (Ceramics), Willpower (Performance), Manu (The Inner Deck, formerly Arkana Within), Igor and Manu (Archetype Photoshoot), Philine (Tea Ceremony, morning practice).
 - Daily rhythm 08:00–21:30 as in the copy.
 - Food and extras: chef-made vegan and vegetarian meals (breakfast, lunch, dinner, snacks), opening dinner, cooking workshop, one open dinner (not included), optional treatments, integration call 7–14 days after, final open-house exhibition.
@@ -77,7 +77,7 @@ Source: `the-spark-website-copy.md`, written into `src/content/thespark.ts` with
 - Booking terms: confirmed by Philine (November 2026), see above.
 
 ## Still TBA / to confirm
-- Final dates, group size (sketch says 8–16; previous listing said 6–14, venue sleeps up to 16).
+- Final dates.
 - Which facilitators lead sessions in the February 2027 edition (previous listing named Erika, André, Willpower, Bruno, Manu; no bios).
 - Daily rhythm (previous listing: 08:00 morning practice, 09:00 breakfast, 10:30–13:30 workshop, 13:30 lunch, 14:30–18:30 free time or extra workshop, 18:30 dinner, 20:00 evening session) — confirm for 2027.
 - Food details, optional treatments, integration call, final-evening exhibition: not confirmed; show as TBA or leave out.
