@@ -93,3 +93,10 @@
     font-size: 19px;
   }
 }
+
+/* Phones: sit above the fixed "Register your interest" bar at the bottom (Igor's PhoneRegisterBar). */
+@media (max-width: 640px) {
+  .notice {
+    bottom: calc(var(--space-4) + 76px + var(--safe-bottom, 0px));
+  }
+}

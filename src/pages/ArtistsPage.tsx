@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react'
 import { Link, useLocation } from 'react-router'
 import { BrandGrain } from '../components/thespark/BrandGrain'
+import { Slogan } from '../components/thespark/Slogan'
 import { Value } from '../components/thespark/Tba'
 import { ThemeToggle } from '../components/thespark/ThemeToggle'
 import { Logotype } from '../components/Logotype'
@@ -253,7 +254,7 @@ export default function ArtistsPage() {
         <Link to="/" className={pageStyles.footerMark} aria-label={ui.home}>
           <Logotype />
         </Link>
-        <p className={pageStyles.slogan}>{brand.line}</p>
+        <Slogan text={brand.line} className={pageStyles.slogan} />
         <Link to="/privacy" className={pageStyles.footerLink}>
           {thespark.register.fields.privacy}
         </Link>

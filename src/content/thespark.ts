@@ -37,7 +37,9 @@ export type Room = {
   bestFor: string
   details: string
   /** Euro prices exactly as on the listing: regular, then early bird. */
-  price: { regular: string; earlyBird: string; basis: string }
+  price: { regular: string; earlyBird: string; basis: string; /** Rooms for two: the price per person. */ perPerson?: string }
+  /** The comparison table above the cards (Igor, 25 November 2026). */
+  compare: { guests: string; bed: string; bathroom: string; shuttle: boolean }
   /** Photos in public/thespark/rooms/ (<name>.webp 900w, <name>-sm.webp 540w, 4:5), shown as a gallery in the card. */
   photos?: { name: string; alt: string }[]
 }
@@ -68,6 +70,7 @@ export const rooms: Room[] = [
     details:
       'Twin room with two single beds (90 × 190 cm), private en-suite bathroom, air conditioning, Wi-Fi and terrace access, with countryside and mountain surroundings.',
     price: { regular: '€2,800', earlyBird: '€2,600', basis: 'per person' },
+    compare: { guests: 'Two guests, shared', bed: 'Two single beds', bathroom: 'En-suite', shuttle: false },
     photos: [
       { name: 'shared-05', alt: 'Two beds in the shared room, with the bathroom door open beyond' },
       { name: 'shared-01', alt: 'A round mirror above a stone basin in the shared room’s bathroom' },
@@ -83,6 +86,7 @@ export const rooms: Room[] = [
     bestFor: 'Solo guests seeking privacy',
     details: 'Single occupancy, double bed (180 × 200 cm) and air conditioning, with a bathroom outside the bedroom.',
     price: { regular: '€3,100', earlyBird: '€2,900', basis: 'per person' },
+    compare: { guests: 'One guest', bed: 'Double bed', bathroom: 'Outside the bedroom', shuttle: false },
     photos: [
       { name: 'private-04', alt: 'A double bed between two bedside lamps in a private room' },
       { name: 'private-01', alt: 'A private room with a double bed, a ceiling fan and a bright window' },
@@ -98,7 +102,8 @@ export const rooms: Room[] = [
     bestFor: 'Couples sharing a double bed',
     details: 'For two guests sharing a double bed (180 × 200 cm), with air conditioning and a bathroom outside the bedroom.',
     // €2,700 / €2,500 per person (Philine), shown per room like the deluxe couples room.
-    price: { regular: '€5,400', earlyBird: '€5,000', basis: 'per room, for two guests' },
+    price: { regular: '€5,400', earlyBird: '€5,000', basis: 'per room, for two guests', perPerson: '€2,700' },
+    compare: { guests: 'Two guests, together', bed: 'Double bed', bathroom: 'Outside the bedroom', shuttle: false },
     // Starts on the 3rd photo (Philine's choice of thumbnail), so it differs from the private room.
     photos: [
       { name: 'private-02', alt: 'A double bed and an armchair in a private room with wooden shutters' },
@@ -113,8 +118,9 @@ export const rooms: Room[] = [
     tagline: 'A little more comfort and privacy.',
     bestFor: 'Guests seeking additional comfort',
     details:
-      'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room.',
+      'Single occupancy, double bed, private en-suite bathroom and air conditioning, with garden views or a private terrace depending on the room. Includes the shuttle on arrival and departure days.',
     price: { regular: '€3,500', earlyBird: '€3,300', basis: 'per person' },
+    compare: { guests: 'One guest', bed: 'Double bed', bathroom: 'En-suite', shuttle: true },
     photos: ensuitePhotos,
   },
   {
@@ -123,8 +129,10 @@ export const rooms: Room[] = [
     tagline: 'Share the experience, enjoy the comfort.',
     bestFor: 'Couples, friends or travel companions',
     details:
-      'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms.',
-    price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests' },
+      'For two guests: king-size or double bed (180 × 200 cm), en-suite bathroom and air conditioning, with a fireplace in selected rooms. Includes the shuttle on arrival and departure days.',
+    // Per person: half the room price.
+    price: { regular: '€6,200', earlyBird: '€6,000', basis: 'per room, for two guests', perPerson: '€3,100' },
+    compare: { guests: 'Two guests, together', bed: 'King-size or double bed', bathroom: 'En-suite', shuttle: true },
     photos: ensuitePhotosCouples,
   },
 ]
@@ -228,8 +236,12 @@ export type Faq = { q: string; a: string }
 export type Block =
   | { type: 'text'; heading?: string; paragraphs: string[] }
   | { type: 'list'; heading?: string; caption?: string; items: string[] }
+  /** Named words from previous guests, shown only with their agreement (see CLAUDE.md, Photography). */
+  | { type: 'quotes'; heading?: string; caption?: string; items: { text: string; name: string; role?: string }[] }
   | { type: 'pillars'; heading: string; items: { title: string; text: string }[] }
   | { type: 'workshops'; heading: string; items: Workshop[]; more?: { label: string; href: string } }
+  /** The workshops as a row of the artists who lead them (chapter 3; Igor, 25 November 2026). */
+  | { type: 'artistRow'; heading: string; more: { label: string; href: string } }
   | { type: 'people'; heading: string; items: Person[] }
   | { type: 'schedule'; heading: string; rows: { time: string; activity: string }[] }
   | { type: 'facts'; heading?: string; facts: Fact[] }
@@ -272,6 +284,10 @@ export type ChapterPhoto = {
    * subject can't otherwise move sideways in a wide band.
    */
   pushRight?: number
+  /** Phones and tablets only: zoom the photo by this factor around phoneOrigin (e.g. 1.3). */
+  phoneZoom?: number
+  /** The point the phone zoom grows from (CSS transform-origin), e.g. '40% 45%'. */
+  phoneOrigin?: string
 }
 
 export type Chapter = {
@@ -297,6 +313,11 @@ export type Chapter = {
    * one; 'afterRows' = only beside text that follows a full-width row (gallery, rooms).
    */
   repeatHeading?: boolean | 'afterRows'
+  /**
+   * When the heading is already shown on the band above: the first text block of the first row
+   * takes the left column (sticky), the rest sit on the right (Igor, 25 November 2026).
+   */
+  sideFirst?: boolean
   /** Text with no heading beside it sits in the left column instead of the right (wide screens). */
   textLeft?: boolean
   /**
@@ -312,46 +333,41 @@ export type Chapter = {
   closingRegister?: string
 }
 
+// Trimmed to the eight questions that decide a booking (Igor, 25 November 2026: a sales page,
+// not an editorial book). Merged: group size + venue, time alone + introverts. Left out: "Who is
+// The Spark for?" and "What will I take home?" (both covered in the overview).
 const faq: Faq[] = [
   {
     q: 'Do I need artistic experience?',
-    a: 'No. The retreat is open to everyone, whatever their experience or background. You do not need to be “creative” or good at art, only curious and willing to try. The workshops are invitations to explore and play, not tests of skill.',
+    a: 'No. You do not need to be “creative” or good at art, only curious and willing to try. The workshops are invitations to explore and play, not tests of skill.',
   },
   {
     q: 'Is this an art retreat or a wellness retreat?',
-    a: 'It is an art retreat first, supported by wellbeing. Artist-led workshops sit alongside breathwork, meditation, Qi Gong, nourishing food, nature and time to rest.',
-  },
-  {
-    q: 'Who is The Spark for?',
-    a: 'Anyone who wants to reconnect with creativity, slow down and try something new. Many guests are business owners, creatives, professionals or people in a period of change, but no particular background is needed.',
+    a: 'An art retreat first, supported by wellbeing: artist-led workshops alongside breathwork, meditation, Qi Gong, good food, nature and time to rest.',
   },
   {
     q: 'How many people attend?',
-    a: 'The group is intentionally small: between 6 and 14 guests. This allows for personal attention, real conversation and a strong sense of community.',
+    a: 'Usually 8 to 12 guests, and never more than 14. The whole of Quinta Javali is reserved for The Spark for the week, so there are no other guests.',
   },
   {
     q: 'Will I have time alone?',
-    a: 'Yes. There is a gentle daily rhythm, but also time to rest, walk in nature, swim in the natural pool, journal or simply be. You are invited, never pressured, to take part.',
-  },
-  {
-    q: 'What food is provided?',
-    a: 'Our chef prepares fresh, seasonal, homemade vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included. Please tell us about any allergies or dietary needs when you book.',
-  },
-  {
-    q: 'What will I take home?',
-    a: 'Your own artworks, new connections and ideas to keep creating at home. A complimentary integration call is included 7–14 days after the retreat.',
-  },
-  {
-    q: 'How do I get there?',
-    a: 'The retreat is near Aljezur, about 1 hour 15 minutes by car from Faro Airport and 3 hours from Lisbon Airport. Transfers are not included; we create a WhatsApp group before arrival so guests can share cars, taxis or transfers.',
-  },
-  {
-    q: 'Is it suitable for introverts?',
-    a: 'Yes. The week offers both connection and space for solitude. You can take part in the group experience and still take the quiet time you need.',
+    a: 'Yes. There is a daily rhythm, but also time to rest, walk, swim or simply be. You are invited, never pressured, to take part, so the week suits introverts too.',
   },
   {
     q: 'Can I come with a partner or friend?',
-    a: 'Yes. Solo travellers, couples, friends, family members and colleagues are all welcome.',
+    a: 'Yes. Solo travellers, couples, friends and colleagues are all welcome. Two of the rooms are priced for two guests sharing.',
+  },
+  {
+    q: 'What food is provided?',
+    a: 'Fresh, seasonal vegan and vegetarian meals made by our chef: breakfast, lunch, dinner and snacks. Tell us about any allergies or dietary needs when you register.',
+  },
+  {
+    q: 'How do I get there?',
+    a: 'Quinta Javali is about 1 hour 15 minutes by car from Faro Airport and 3 hours from Lisbon Airport. A shuttle on arrival and departure days is included with the deluxe rooms and can be added to any other room (price TBA). A WhatsApp group before arrival helps guests share cars or taxis.',
+  },
+  {
+    q: 'How does payment work, and what if I cannot come?',
+    a: 'A 50% deposit confirms your place, and the balance is due 45 days before arrival. Payments are non-refundable, but you can transfer your place to someone else with our approval, and if we fill your place we offer a credit towards a future retreat. We recommend travel and cancellation insurance.',
   },
 ]
 
@@ -373,17 +389,20 @@ export const thespark = {
     /** In-page link to chapter 2 (navigation, not a second call to action). */
     explore: { label: 'Explore the experience', href: '#experience' },
     note: 'No artistic experience needed. Just curiosity, openness and a willingness to explore.',
+    /** The essentials at a glance, under the lead (Igor, 25 November 2026). Same facts as Key facts. */
+    facts: ['1–7 February 2027', 'Quinta Javali, Aljezur', '8–12 guests', 'From €2,800 per person'],
     /**
-     * Full-bleed photo behind the hero (Philine, November 2026: "star", sun through a fig tree).
+     * Full-bleed photo behind the hero (Igor, 25 November 2026: HERO1, the gardens of Quinta
+     * Javali at sunset; replaces "hero-star"). Photo: Igor Świeczak, resized only.
      * Files in public/thespark/: <name>-sm (720w), <name>-md (1100w), <name> (full size).
-     * focus: the point kept in view when the photo is cropped (the sun's spark).
+     * focus: the point kept in view when the photo is cropped (the sun in the tree, left).
      */
     image: {
-      name: 'hero-star',
-      width: 1367,
-      height: 2048,
-      focus: '61% 36%',
-      alt: 'Low sun shining through the branches of a fig tree over hills at dusk',
+      name: 'hero-javali',
+      width: 2048,
+      height: 1152,
+      focus: '7% 38%',
+      alt: 'Low sun through a tree over the gardens of Quinta Javali, with stone steps, grasses and palms',
     },
   },
 
@@ -407,9 +426,8 @@ export const thespark = {
           type: 'text',
           paragraphs: [
             'Something shifts when you leave the familiar behind.',
-            'A new landscape. New faces. New materials. New ways of seeing, making and expressing yourself.',
-            'For seven days, Quinta Javali, in the hills near Aljezur, becomes your creative studio, your place to rest and your shared table. Guided by working artists, you will draw, photograph, shape clay, work with natural materials, move, perform, and find that creativity is not something you either have or do not have.',
-            'It is something you can return to.',
+            'For seven days, Quinta Javali, in the hills near Aljezur, becomes your creative studio, your place to rest and your shared table. Guided by working artists, you will draw, photograph, shape clay, work with natural materials, move and perform.',
+            'Creativity is not something you either have or do not have. It is something you can return to.',
           ],
         },
         {
@@ -419,21 +437,8 @@ export const thespark = {
             { term: 'Dates', detail: 'Monday 1 to Sunday 7 February 2027' },
             { term: 'Duration', detail: '7 days, 6 nights, Monday afternoon to Sunday morning' },
             { term: 'Location', detail: 'Quinta Javali, near Aljezur, Costa Vicentina, Portugal' },
-            { term: 'Group size', detail: '6–14 guests' },
-            { term: 'Includes', detail: 'Workshops, wellbeing practices, accommodation, meals, materials and the final exhibition' },
-            { term: 'Price', detail: 'From €2,800 per person; early bird from €2,600', note: 'Early bird until 6 December 2026' },
-          ],
-        },
-        {
-          type: 'list',
-          heading: 'A week designed to awaken your creativity',
-          items: [
-            'Begin each day with breathwork, meditation and Qi Gong',
-            'Explore a different creative practice with a new artist each day',
-            'Work with photography, drawing, ceramics, natural materials, movement and performance',
-            'Share seasonal vegan and vegetarian meals around a long table',
-            'Rest in nature and swim in the natural pool',
-            'Close the week by creating and presenting your own open-house exhibition',
+            { term: 'Group size', detail: '8–12 guests, 14 at most' },
+            { term: 'Price', detail: 'From €2,800 per person, with meals, materials and all workshops included' },
           ],
         },
         {
@@ -441,63 +446,7 @@ export const thespark = {
           heading: 'Who is The Spark for?',
           paragraphs: [
             'The Spark is for thoughtful, open-minded people who may be capable and successful in many areas of life, yet feel that something essential has gone quiet: curiosity, play, self-expression or connection.',
-            'You may be a business owner, a creative professional, a parent, or simply someone in a period of change. You do not need to identify as an artist. You only need to arrive curious, try something new and see what happens.',
-            'The Spark is for people who want to fill their free time with something more meaningful than an ordinary holiday.',
-            'It is for those craving a supportive, creative environment where they can connect with others, experience something new, and share joyful moments with like-minded people.',
-            'Come to make, explore, laugh, and be inspired, and leave with memories, ideas, and connections that stay with you.',
-          ],
-        },
-        // Philine, November 2026: the three silent videos, same size, no lines, no captions,
-        // moved from the top of the chapter to just above "What people take home". Not on phones.
-        {
-          type: 'figures',
-          noPhone: true,
-          items: [
-            {
-              kind: 'video',
-              name: 'mural-wall',
-              alt: 'Artists painting a large mural on a white wall while others watch',
-            },
-            {
-              kind: 'video',
-              name: 'photoshoot',
-              alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
-            },
-            {
-              kind: 'video',
-              name: 'quinta-javali-walk',
-              alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
-            },
-          ],
-        },
-        // From the first retreats page (October 2026): what previous participants said they
-        // took home, written as what you get from joining. Anonymous, as there.
-        {
-          type: 'list',
-          heading: 'What people take home',
-          caption: 'Words from previous participants',
-          items: [
-            'A wonderful, nourishing creative time',
-            'A community that feels like a family, even in a short time',
-            'Less isolation and new perspectives',
-            'Exchanging ideas, skills and motivating talks',
-            'Permission to show your emotions and be vulnerable',
-            'Seeing how your inner world can express itself through creativity',
-            'Stepping out of your comfort zone and the usual grooves of everyday life',
-            'Reconnecting with your playfulness and innate creative capacity',
-            'Discovering you’re creative once you drop the idea that you’re not',
-            'Feeling good enough about yourself and daring to show your true self',
-            'More self-assurance and the wish to keep expanding your creativity',
-            'Moving, heartfelt moments that stay with you',
-            'Rich memories to take home',
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'You arrive with curiosity. You leave with something made by you.',
-          paragraphs: [
-            'By the end of the week you will have made work with your own hands, tried new ways of seeing, and allowed yourself to make without needing to be perfect.',
-            'You leave with your artwork, new connections, new insights about yourself and fresh inspiration to take home.',
+            'You may be a business owner, a creative professional, a parent, or someone in a period of change. You do not need to identify as an artist. You only need to arrive curious.',
           ],
         },
       ],
@@ -519,56 +468,110 @@ export const thespark = {
         textAt: 'top',
       },
       blocks: [
-        // Philine's text, November 2026.
+        // Philine's text, November 2026, trimmed by Claude (draft, 25 November 2026).
         {
           type: 'text',
           heading: 'Step into the unknown. Discover what you can create.',
           paragraphs: [
-            'A week-long retreat in a shared two-house villa in the Algarve, with 6–11 strangers.',
-            'We arrive as strangers and gather around the table from the very first night. Through shared meals, conversations, life stories, creative projects, dreams, and the unexpected topics that arise, we begin to see one another more deeply.',
-            'Each morning, we dive into powerful mind–body–soul practices. During the day, creative practices invite us to explore, experiment, and express ourselves, with delicious breaks in between to rest, connect, and let inspiration settle.',
-            'Slowly, step by step, strangers become friends. The creative energy opens a different way of being: one of creation, play, and free expression. We loosen the grip of limitations and move into lightness, joy, and moments of genuine connection.',
-            'By the end of the week, we become a team of artists, working toward a shared purpose: the final exhibition. We open our doors to the local community and celebrate what we have created, together.',
+            'We arrive as strangers and gather around the table from the very first night. Each morning begins with mind–body–soul practices; during the day, creative practices invite us to explore and express ourselves, with breaks in between to rest and let inspiration settle.',
+            'By the end of the week we are a team of artists working toward a shared purpose: the final exhibition, when we open our doors to the local community and celebrate what we have made.',
           ],
         },
+        // Moved from the overview (Igor, 25 November 2026): the overview keeps the facts, this chapter the feel of the week.
+        {
+          type: 'list',
+          heading: 'A week designed to awaken your creativity',
+          items: [
+            'Begin each day with breathwork, meditation and Qi Gong',
+            'Explore a different creative practice with a new artist each day',
+            'Share seasonal vegan and vegetarian meals around a long table',
+            'Rest in nature and swim in the natural pool',
+            'Close the week with your own open-house exhibition',
+          ],
+        },
+        // Philine, November 2026: the three silent videos, same size, no lines, no captions. Not on phones.
+        {
+          type: 'figures',
+          noPhone: true,
+          items: [
+            {
+              kind: 'video',
+              name: 'mural-wall',
+              alt: 'Artists painting a large mural on a white wall while others watch',
+            },
+            {
+              kind: 'video',
+              name: 'photoshoot',
+              alt: 'Two people in costume posing for a camera on a tripod in front of red curtains',
+            },
+            {
+              kind: 'video',
+              name: 'quinta-javali-walk',
+              alt: 'A walk through the garden at Quinta Javali towards the pool and the hills',
+            },
+          ],
+        },
+        // Trimmed from 13 lines (Igor, 25 November 2026: a sales page, not an editorial book).
+        {
+          type: 'list',
+          heading: 'What people take home',
+          caption: 'Words from previous participants',
+          items: [
+            'A community that feels like a family, even in a short time',
+            'Permission to show your emotions and be vulnerable',
+            'Reconnecting with your playfulness and innate creative capacity',
+            'More self-assurance and the wish to keep expanding your creativity',
+            'Rich memories, and work made by your own hands',
+          ],
+        },
+
+        {
+          type: 'text',
+          heading: 'You arrive with curiosity. You leave with something made by you.',
+          paragraphs: ['You leave with your artwork, new connections and fresh inspiration to take home.'],
+        },
       ],
-      closing: 'Experience something different.',
-      closingRegister: 'Join The Spark.',
     },
 
     {
       id: 'workshops',
       nav: 'Workshops & facilitators',
-      // Philine, November 2026 (line breaks are kept on the page).
-      title: 'Be guided by artists.\nYou make the art.\nMake it & bring\u00a0it\u00a0home.',
-      lead: 'A different artist, practice and creative energy each day.',
+      // Shortened by Igor, 25 November 2026, from Philine's "Be guided by artists. You make the art.
+      // Make it & bring it home." (line breaks are kept on the page). To confirm with Philine.
+      title: 'Guided by artists.\nMade by you.',
+      lead: 'A different artist and practice each day, and work you take\u00a0home.',
       // Chosen by Philine, November 2026: a shell and driftwood hanging by ALL ARD (photo: Igor Świeczak).
-      // A full-width band (Philine, November 2026); the heading also sits beside the text below.
-      repeatHeading: true,
+      // A full-width band (Philine, November 2026); the heading is shown once, on the band (Igor, 25 November 2026).
+      // The intro on the left, the row of artists full width beneath (Igor, 25 November 2026).
+      textLeft: true,
       band: {
-        name: 'workshops-shells',
+        // Igor, 25 November 2026: another frame of the same hanging (_SCR7275), centred, so a
+        // gentle 1.15× zoom moves it right of the heading. Photo: Igor Świeczak, resized only.
+        name: 'workshops-hanging',
         alt: 'A hanging made of driftwood, jute, shells and feathers beside small painted canvases',
         width: 1367,
         height: 2048,
-        focus: '45% 30%',
-        pushRight: 1.45,
+        focus: '50% 45%',
+        pushRight: 1.15,
+        // Phones: a little closer, so the white wall on the right stays out of view (Igor, 25 November 2026).
+        phoneZoom: 1.3,
+        phoneOrigin: '40% 45%',
       },
       blocks: [
         {
           type: 'text',
           heading: 'Every day, a new invitation',
           paragraphs: [
-            'The workshops are not designed to make you a professional artist in a week. They are designed to give you new tools, new perspectives and the experience of creating in a supportive environment.',
-            'Each facilitator brings their own craft, presence and way of working. Together they make a week that moves between observation, expression, material, movement and reflection.',
+            'The workshops are not designed to make you a professional artist in a week. They give you new tools, new perspectives and the experience of creating in a supportive environment.',
           ],
         },
         {
-          type: 'workshops',
+          type: 'artistRow',
           heading: 'Creative practices, guided by artists',
-          items: workshops,
           more: { label: 'Meet the artists', href: '/thespark-artists' },
         },
       ],
+      // Closing lines kept only here and after the venue (Igor, 25 November 2026: one per chapter was too many).
       closing: 'Become a creator.',
       closingRegister: 'Join The Spark.',
     },
@@ -592,8 +595,7 @@ export const thespark = {
           type: 'text',
           heading: 'Your days unfold gently',
           paragraphs: [
-            'There is a rhythm to The Spark, but it is not rigid. Some days invite deeper creative exploration; others leave more space to rest, wander, connect or do nothing at all.',
-            'The intention is simple: to create the conditions in which inspiration, insight and connection can emerge naturally.',
+            'There is a rhythm to The Spark, but it is not rigid. Some days invite deeper creative exploration; others leave room to rest, swim, wander or have an unhurried conversation. On the last evening the week becomes an open-house exhibition of the work made during the retreat.',
           ],
         },
         {
@@ -610,19 +612,6 @@ export const thespark = {
             { time: '20:00–21:30', activity: 'Performance, workshop or a free evening' },
           ],
         },
-        {
-          type: 'text',
-          heading: 'Space to integrate',
-          paragraphs: [
-            'In the afternoons you might walk through the gardens, swim in the natural pool, journal, rest in your room or have an unhurried conversation with another guest.',
-            'Free time is not empty time. It is where the experiences of the day can settle, and where your own ideas often begin to surface.',
-          ],
-        },
-        {
-          type: 'text',
-          heading: 'The final evening',
-          paragraphs: ['On the last evening the week becomes an open-house exhibition of the work that emerged during the retreat.'],
-        },
         // Chosen by Philine, November 2026: exhibitions from a previous edition.
         {
           type: 'figures',
@@ -633,8 +622,6 @@ export const thespark = {
           ],
         },
       ],
-      closing: 'Step out of routine.',
-      closingRegister: 'Ignite your creative spark.',
     },
 
     {
@@ -644,6 +631,8 @@ export const thespark = {
       lead: 'Wild landscapes, quiet space and the Atlantic coast.',
       // Chosen by Philine, November 2026: the main house (levelled). A full-width band first;
       // after the gallery the same photo becomes the pinned panel beside the text.
+      // The text sits on the left under the band, like the accommodation chapter (Igor, 25 November 2026).
+      textLeft: true,
       band: {
         name: 'venue-house',
         alt: 'The whitewashed main house at Quinta Javali, with a wooden pergola, a long dining table and a stepping-stone path',
@@ -667,6 +656,7 @@ export const thespark = {
           paragraphs: [
             'The Spark takes place at Quinta Javali, a private estate near Aljezur on the Costa Vicentina. Set among rolling hills, gardens, cork oaks and walking trails, it offers privacy, comfort and a rare sense of space.',
             'With two houses, open-air spaces, a natural swimming pool and gardens, it suits groups who want to slow down and reconnect with something quieter.',
+            'The whole estate is reserved for The Spark for the week, so there are no other guests.',
           ],
         },
         // Chosen by Philine, November 2026: the estate, the houses and the kitchen.
@@ -691,8 +681,7 @@ export const thespark = {
           type: 'text',
           heading: 'The Costa Vicentina as your creative backdrop',
           paragraphs: [
-            'Aljezur lies within the Southwest Alentejo and Vicentine Coast Natural Park: a protected landscape of hills, river valleys, dunes, cliffs and Atlantic beaches. Nearby beaches include Praia da Amoreira and Praia da Arrifana, both known for their dramatic coastline and wide-open skies.',
-            'This is not a polished resort town. It is a wilder, more elemental part of Portugal, well suited to stepping out of routine and letting the landscape become part of the creative process.',
+            'Aljezur lies within the Southwest Alentejo and Vicentine Coast Natural Park: hills, river valleys, dunes, cliffs and Atlantic beaches, including Praia da Amoreira and Praia da Arrifana. A wilder, more elemental part of Portugal, well suited to letting the landscape become part of the creative process.',
           ],
         },
         {
@@ -701,7 +690,7 @@ export const thespark = {
           items: [
             'Faro Airport: about 108 km, around 1 hour 15 minutes by car',
             'Lisbon Airport: about 238 km, around 3 hours by car',
-            'Transfers are not included. A WhatsApp group is created before arrival so guests can share cars, taxis or private transfers.',
+            'A shuttle on arrival and departure days is included with the deluxe rooms and can be added to any other room (add-on price, pick-up point and times TBA). A WhatsApp group is created before arrival so guests can also share cars or taxis.',
           ],
         },
       ],
@@ -731,8 +720,7 @@ export const thespark = {
           type: 'text',
           heading: 'Food as part of the creative experience',
           paragraphs: [
-            'At Scintillart, food is not an afterthought. It is part of the rhythm of the week: colourful, seasonal, homemade and made with care.',
-            'Our chef prepares fresh vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included, with an emphasis on fresh ingredients, shared meals and time around the table.',
+            'Our chef prepares fresh, seasonal vegan and vegetarian meals. Breakfast, lunch, dinner and snacks are included, with time around the table every day.',
           ],
         },
         // Chosen by Philine, November 2026: dishes from the retreat kitchen. Still, zooms on hover.
@@ -753,28 +741,24 @@ export const thespark = {
           type: 'text',
           heading: 'Meals that bring people together',
           paragraphs: [
-            'The first evening begins with a guided opening dinner, designed to awaken the senses and gently bring you into the week. Later, a collaborative cooking workshop invites you into the kitchen, turning food into another form of creative expression.',
-            'One dinner is intentionally left open, so you can explore a local restaurant and taste the region on your own or with fellow guests.',
+            'The week opens with a guided dinner. Later, a cooking workshop turns food into another form of creative expression. One dinner is left open, so you can try a local restaurant (not included).',
           ],
         },
         {
           type: 'text',
           heading: 'Room to rest, integrate and return to yourself',
           paragraphs: [
-            'Each morning begins with breathwork, meditation and Qi Gong, making space in body and mind before a day of creative exploration.',
-            'Between sessions, enjoy the natural swimming pool, the gardens and quiet outdoor areas; there is also a sauna. You are invited to take part fully, but never pressured: solitude, rest, journaling, walking and quiet time are part of the experience.',
+            'Between sessions, enjoy the natural swimming pool, the gardens and quiet outdoor areas; there is also a sauna. You are invited to take part fully, but never pressured: rest, journaling and walking are part of the week.',
           ],
         },
         {
           type: 'text',
           heading: 'Optional treatments',
           paragraphs: [
-            'Optional treatments may include intuitive massage, Reiki, and one-to-one inner-balance or navigation sessions, available as additions for guests who wish to deepen their personal restoration.',
+            'Intuitive massage, Reiki and one-to-one inner-balance sessions may be added for guests who wish to deepen their restoration. Details TBA.',
           ],
         },
       ],
-      closing: 'Nourish what wants to be created through you.',
-      closingRegister: 'Join The Spark.',
     },
 
     {
@@ -808,8 +792,7 @@ export const thespark = {
           type: 'text',
           heading: 'A home for the week',
           paragraphs: [
-            'The Spark is intentionally small. The rooms feel personal rather than institutional: quiet spaces with views, where you can return to yourself between workshops and shared meals.',
-            'Choose a shared room if you enjoy the communal rhythm of retreat life, or a private room if you value solitude and quiet.',
+            'The rooms feel personal rather than institutional. Choose a shared room if you enjoy the communal rhythm of retreat life, or a private room if you value solitude and quiet. Prices are in euros, per person unless marked per room.',
           ],
         },
         // Step 2 adds photo galleries, amenity tags and "Show more" to these cards.
@@ -820,23 +803,25 @@ export const thespark = {
             heading: 'What your retreat includes',
             items: [
               'Six nights’ accommodation',
-              'All guided creative workshops and materials',
+              'All guided workshops and materials',
               'Daily breathwork, meditation and Qi Gong',
               'Breakfast, lunch, dinner and snacks',
-              'Access to the natural pool, gardens, communal spaces and sauna',
-              'Evening performances, shared experiences and the final exhibition',
-              'Your own artworks to take home',
+              'Airport shuttle on arrival and departure days (deluxe rooms)',
+              'The natural pool, gardens, communal spaces and sauna',
+              'The final exhibition, and your own artworks to take home',
             ],
           },
           excluded: {
             heading: 'Not included',
-            items: ['Flights', 'Airport transfers', 'Travel insurance', 'Visa fees', 'One open dinner at a local restaurant', 'Optional treatments'],
+            items: ['flights', 'the airport shuttle for the other rooms (add-on, price TBA)', 'travel insurance', 'visa fees', 'one open dinner at a local restaurant', 'optional treatments'],
           },
         },
         {
           type: 'facts',
           heading: 'Booking',
-          facts: [{ term: 'Early-bird deadline', detail: '6 December 2026' }],
+          facts: [
+            { term: 'Airport shuttle add-on', detail: TBA, note: 'Included with the deluxe rooms' },
+          ],
         },
         // Deposit and cancellation in short, linking to /booking-terms (Philine, November 2026).
         { type: 'terms' },
@@ -868,20 +853,74 @@ export const thespark = {
       id: 'faq',
       nav: 'FAQ',
       title: 'Everything you need to know',
-      lead: 'We want you to arrive feeling informed, welcome and free of expectations. Here are the questions guests most often ask before joining The Spark.',
+      lead: 'The questions guests most often ask before joining.',
       blocks: [{ type: 'faq', items: faq }],
     },
   ] satisfies Chapter[],
 
+  /**
+   * Previous guests' words, in their own band straight after the hero (Igor, 25 November 2026).
+   * Shown with their agreement (Igor, 25 November 2026); from the Art Residency survey, September
+   * 2026: each guest approved the shortened wording.
+   */
+  voices: {
+    kicker: 'From a previous retreat',
+    title: 'In their own words',
+    /** lead: the opening words of each quote, set large (must be the exact start of text). */
+    items: [
+      {
+        lead: 'A truly nourishing experience.',
+        text: 'A truly nourishing experience. Being part of other artists’ workshops, sharing a living and creative space, exchanging ideas and skills, and becoming a little community or family in such a short time was so beautiful. I reconnected with my innate creativity and the joy of sharing it with others. It reminded me that I can step outside the boxes that unconsciously keep me trapped in everyday life. If you’ve lost touch with your playfulness and the simple joy of creating, experimenting and connecting, give yourself this gift.',
+        name: 'Jyoti Graziano',
+        role: 'Photographer and web designer',
+      },
+      {
+        lead: 'A wonderful and creative experience',
+        text: 'A wonderful and creative experience that left me with rich memories, a beautiful birthday song that moved me to tears, and a sculpture I created myself. Being immersed in such a creative environment is truly a blessing.',
+        name: 'Simon Benedict Smith',
+        role: 'Artist',
+      },
+      {
+        lead: 'Heartwarming, transformative and full of love.',
+        text: 'Heartwarming, transformative and full of love. I discovered how beautifully my inner world can express itself through creativity. I left feeling more confident in myself, daring to show my true self and embracing the possibility of living more from my heart and soul. An experience that can bring you deeper insights into who you are than you might initially imagine.',
+        name: 'Mandy',
+        role: 'Workshop participant',
+      },
+      {
+        // The first sentence of the approved text ("It was the best creative experience I’ve ever had!")
+        // is left out: the brand rules allow no exclamation marks or superlatives.
+        lead: 'I discovered that I am creative after all,',
+        text: 'I discovered that I am creative after all, once I let go of the belief that I’m not and simply allowed myself to have fun. I left feeling more confident in my creativity and inspired to explore and expand it further. I would recommend this experience to anyone who feels a little stuck and wants to rediscover the joy of creating.',
+        name: 'Dhyano',
+        role: 'Studied textile and handcrafts',
+      },
+      ],
+  },
+
   interest: {
     /** The only call to action on the page. */
     label: 'Register your interest',
+    /** The phone register bar (Igor, 25 November 2026). */
+    fromPrice: { amount: 'From €2,800', basis: 'per person' },
     kicker: 'Register your interest',
     title: 'One week. One spark. A new way of seeing.',
     body: 'Join a small group for an artist-led creative retreat in Portugal’s wild south-west. Still have a question? Write it in the message field when you register.',
     /** Room cards: price line labels. */
     earlyBird: 'Early bird',
     bestFor: 'Best for',
+    /** The room comparison table. */
+    compare: {
+      caption: 'The rooms at a glance',
+      room: 'Room',
+      guests: 'Guests',
+      bed: 'Bed',
+      bathroom: 'Bathroom',
+      shuttle: 'Airport shuttle',
+      price: 'Price',
+      included: 'Included',
+      addOn: 'Add-on',
+      perPerson: 'per person',
+    },
   },
 
   /**
@@ -1027,6 +1066,8 @@ export const thespark = {
     next: 'Next',
     galleryPrev: 'Previous photos',
     galleryNext: 'Next photos',
+    artistsPrev: 'Previous artists',
+    artistsNext: 'Next artists',
   },
 }
 
@@ -1044,5 +1085,44 @@ export function faqJsonLd(): string {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faq.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  })
+}
+
+/** Event and price structured data (schema.org), from the same facts as the page. */
+export function eventJsonLd(): string {
+  const euros = (v: string) => Number(v.replace(/[^\d]/g, ''))
+  const url = 'https://scintillart.com/thespark'
+  const offers = rooms.flatMap((r) => [
+    {
+      '@type': 'Offer',
+      name: `${r.name} (${r.price.basis})`,
+      price: euros(r.price.regular),
+      priceCurrency: 'EUR',
+      url,
+    },
+    {
+      '@type': 'Offer',
+      name: `${r.name}, early bird (${r.price.basis})`,
+      price: euros(r.price.earlyBird),
+      priceCurrency: 'EUR',
+      validThrough: '2026-12-06',
+      url,
+    },
+  ])
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: 'The Spark',
+    description: thespark.meta.description,
+    startDate: '2027-02-01',
+    endDate: '2027-02-07',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: {
+      '@type': 'Place',
+      name: 'Quinta Javali',
+      address: { '@type': 'PostalAddress', addressLocality: 'Aljezur', addressCountry: 'PT' },
+    },
+    organizer: { '@type': 'Organization', name: 'Scintillart', url: 'https://scintillart.com' },
+    offers,
   })
 }

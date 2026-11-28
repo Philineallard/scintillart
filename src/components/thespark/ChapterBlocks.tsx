@@ -1,13 +1,14 @@
 import { Link } from 'react-router'
 import { artists, artistsPage, workshopArtists } from '../../content/artists'
 import { ArtistHover } from './ArtistHover'
-import { thespark, type Block, type Fact } from '../../content/thespark'
+import { thespark, type Block, type Fact, type Room } from '../../content/thespark'
 import pageStyles from '../../pages/TheSparkPage.module.css'
 import { RegisterButton } from './register'
 import { Value } from './Tba'
 import { Gallery } from './Gallery'
 import { terms } from '../../content/terms'
 import { Spread } from './Spread'
+import { ArtistRow } from './ArtistRow'
 import styles from './ChapterBlocks.module.css'
 
 function H3({ children }: { children: string }) {
@@ -76,6 +77,26 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           </ul>
         </div>
       )
+    case 'quotes':
+      return (
+        <div className={styles.block}>
+          {block.heading && <H3>{block.heading}</H3>}
+          {block.caption && <p className={styles.listCaption}>{block.caption}</p>}
+          <div className={styles.quotes}>
+            {block.items.map((q) => (
+              <figure key={q.name} className={styles.quote}>
+                <blockquote className={styles.quoteText}>
+                  <p>“{q.text}”</p>
+                </blockquote>
+                <figcaption className={styles.quoteBy}>
+                  <span className={styles.quoteName}>{q.name}</span>
+                  {q.role ? <span className={styles.quoteRole}>{q.role}</span> : null}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      )
     case 'facts':
       return (
         <div className={styles.block}>
@@ -130,6 +151,8 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
           )}
         </div>
       )
+    case 'artistRow':
+      return <ArtistRow heading={block.heading} more={block.more} tabIndex={tabIndex} />
     case 'people':
       return (
         <div className={styles.block}>
@@ -192,28 +215,29 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
         </div>
       )
     case 'included':
+      // One column: the included list, then what is not included as a plain sentence (Igor, 25 November 2026).
       return (
-        <div className={`${styles.block} ${styles.included}`}>
-          {[block.included, block.excluded].map((group) => (
-            <div key={group.heading}>
-              <H3>{group.heading}</H3>
-              <ul className={styles.list}>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className={styles.block}>
+          <H3>{block.included.heading}</H3>
+          <ul className={styles.list}>
+            {block.included.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className={styles.small}>
+            <span className={styles.by}>{block.excluded.heading}:</span> {block.excluded.items.join(', ')}.
+          </p>
         </div>
       )
     case 'rooms':
       return (
         <div className={styles.block}>
           <H3>{block.heading}</H3>
-          {/* Still to add: amenity tags and "Show more". */}
+          {/* All five rooms side by side before the cards (Igor, 25 November 2026). */}
+          <RoomTable rooms={block.items} tabIndex={tabIndex} />
           <ul className={styles.rooms}>
             {block.items.map((room) => (
-              <li key={room.id} className={styles.room}>
+              <li key={room.id} id={`room-${room.id}`} className={styles.room}>
                 <h4 className={styles.roomName}>{room.name}</h4>
                 <p className={styles.roomTagline}>{room.tagline}</p>
                 {room.photos && (
@@ -223,9 +247,11 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
                   <span className={styles.priceMain}>
                     {room.price.regular} <span className={styles.priceBasis}>{room.price.basis}</span>
                   </span>
-                  <span className={styles.priceEarly}>
-                    {thespark.interest.earlyBird} {room.price.earlyBird}
-                  </span>
+                  {room.price.perPerson && (
+                    <span className={styles.priceBasis}>
+                      {room.price.perPerson} {thespark.interest.compare.perPerson}
+                    </span>
+                  )}
                 </p>
                 <p className={styles.small}>{room.details}</p>
                 <p className={styles.roomBestFor}>
@@ -285,6 +311,49 @@ function BlockView({ block, tabIndex }: { block: Block; tabIndex?: number }) {
 }
 
 /** A chapter's content blocks, in the order they appear in the content file. */
+/** The rooms at a glance: one row per room, each name links to its card. Rows stack on phones. */
+function RoomTable({ rooms, tabIndex }: { rooms: Room[]; tabIndex?: number }) {
+  const t = thespark.interest.compare
+  return (
+    <table className={styles.compare}>
+      <caption className={styles.compareCaption}>{t.caption}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{t.room}</th>
+          <th scope="col">{t.guests}</th>
+          <th scope="col">{t.bed}</th>
+          <th scope="col">{t.bathroom}</th>
+          <th scope="col">{t.shuttle}</th>
+          <th scope="col">{t.price}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rooms.map((room) => (
+          <tr key={room.id}>
+            <th scope="row" className={styles.compareRoom}>
+              <a href={`#room-${room.id}`} tabIndex={tabIndex}>
+                {room.name}
+              </a>
+            </th>
+            <td data-label={t.guests}>{room.compare.guests}</td>
+            <td data-label={t.bed}>{room.compare.bed}</td>
+            <td data-label={t.bathroom}>{room.compare.bathroom}</td>
+            <td data-label={t.shuttle}>{room.compare.shuttle ? t.included : t.addOn}</td>
+            <td data-label={t.price} className={styles.comparePrice}>
+              <span>
+                <span className={styles.priceMain}>{room.price.regular}</span>{' '}
+                <span className={styles.priceBasis}>
+                  {room.price.perPerson ? `per room (${room.price.perPerson} ${t.perPerson})` : room.price.basis}
+                </span>
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 export function ChapterBlocks({ blocks, tabIndex }: { blocks: readonly Block[]; tabIndex?: number }) {
   return (
     <>

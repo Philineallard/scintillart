@@ -85,7 +85,7 @@
   .home {
     font-size: 1.35rem;
   }
-  /* The hero and the closing section carry the action on phones; the header keeps the theme. */
+  /* On phones the action sits in a bar at the bottom of the screen (PhoneRegisterBar); the header keeps the theme. */
   .tools .headerButton {
     display: none;
   }
@@ -220,6 +220,40 @@
   margin: var(--space-8) 0 var(--space-8);
   font-size: 18px;
   line-height: 29px;
+}
+
+/* The essentials at a glance: one line on wide screens, separated by 1px hairlines. */
+.heroFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) 0;
+  margin: 0 0 var(--space-8);
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.heroFacts li {
+  padding-inline: var(--space-4);
+  border-left: 1px solid currentColor;
+}
+
+.heroFacts li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+@media (max-width: 600px) {
+  .heroFacts {
+    flex-direction: column;
+  }
+
+  .heroFacts li {
+    padding-inline: 0;
+    border-left: 0;
+  }
 }
 
 .heroActions {
@@ -362,9 +396,18 @@
   }
 }
 
+/* Phones and tablets: a closer crop for photos that set phoneZoom (thespark.ts). */
+@media (max-width: 900px) {
+  .photoFill[data-phone-zoom] {
+    transform: scale(var(--phone-zoom));
+    transform-origin: var(--phone-origin);
+  }
+}
+
 /* Band: full width, edge to edge, at the top of the chapter; scrolls away normally. */
 /* A band without text is shown at full brightness. */
-.band:not(:has(.photoText)) .photoFill {
+.band:not(:has(.photoText)) .photoFill,
+.panel:not(:has(.photoText)) .photoFill {
   filter: none;
 }
 
@@ -478,6 +521,11 @@
   margin-top: var(--space-16);
   padding-top: var(--space-8);
   border-top: 1px solid var(--hairline);
+}
+
+/* Straight after a full-width row, the row's own margin is the gap: no second one. */
+.wideRow + .zone .chapterEnd {
+  margin-top: 0;
 }
 
 /* Closing line: the occasional italic accent the brand allows for selected statements. */
@@ -629,5 +677,12 @@
 @media (max-width: 720px) {
   .noPhone {
     display: none;
+  }
+}
+
+/* Phones: room for the register bar (PhoneRegisterBar) under the last line of the footer. */
+@media (max-width: 640px) {
+  .footer {
+    padding-bottom: calc(var(--space-12) + 4.5rem + var(--safe-bottom));
   }
 }
