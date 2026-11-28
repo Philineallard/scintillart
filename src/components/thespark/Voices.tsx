@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { thespark } from '../../content/thespark'
 import styles from './Voices.module.css'
+import galleryStyles from './Gallery.module.css'
+import { Arrow } from './Gallery'
 
 /** Time each guest's words stay before the next slide in (long enough to read). */
 const SLIDE_MS = 9000
@@ -88,53 +90,43 @@ export function Voices() {
             </h2>
           </div>
           {ready && (
-            <div className={styles.controls}>
-              <p className={styles.counter} aria-hidden="true">
-                <span>
-                  <span className={styles.counterNow}>{String(active + 1).padStart(2, '0')}</span> /{' '}
-                  {String(items.length).padStart(2, '0')}
-                </span>
-                <span className={styles.bar}>
-                  {/* Fills while the slide is shown; restarts on each slide. */}
-                  <span
-                    key={active}
-                    className={styles.barFill}
-                    data-running={running ? '' : undefined}
-                    style={{ animationDuration: `${SLIDE_MS}ms` }}
-                  />
-                </span>
-              </p>
-              <div className={styles.buttons}>
-                {!reduced && (
-                  <button
-                    type="button"
-                    className={styles.arrow}
-                    onClick={() => setPaused((p) => !p)}
-                    aria-label={paused ? play : pause}
-                    aria-pressed={paused}
-                  >
+            // Same counter, rule and arrows as the artists row and the galleries (Philine, 28 November 2026).
+            <div className={`${galleryStyles.controls} ${styles.controls}`}>
+              <span className={galleryStyles.counter} aria-hidden="true">
+                {String(active + 1).padStart(2, '0')} <span className={galleryStyles.counterOf}>/ {String(items.length).padStart(2, '0')}</span>
+              </span>
+              <span className={`${galleryStyles.rule} ${styles.rule}`} aria-hidden="true">
+                {/* Fills while the words are shown; restarts with each guest. */}
+                <span
+                  key={active}
+                  className={styles.timer}
+                  data-running={running ? '' : undefined}
+                  style={{ animationDuration: `${SLIDE_MS}ms` }}
+                />
+              </span>
+              {!reduced && (
+                <button
+                  type="button"
+                  className={`${galleryStyles.arrow} ${styles.pauseBtn}`}
+                  onClick={() => setPaused((p) => !p)}
+                  aria-label={paused ? play : pause}
+                  aria-pressed={paused}
+                >
+                  <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" className={galleryStyles.arrowSvg}>
                     {paused ? (
-                      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
-                        <path d="M6 4l10 6-10 6z" fill="currentColor" />
-                      </svg>
+                      <path d="M2.5 1l8 5-8 5z" fill="none" stroke="currentColor" strokeWidth="1" />
                     ) : (
-                      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
-                        <path d="M6 4h3v12H6zM11 4h3v12h-3z" fill="currentColor" />
-                      </svg>
+                      <path d="M3.5 1v10M8.5 1v10" fill="none" stroke="currentColor" strokeWidth="1" />
                     )}
-                  </button>
-                )}
-                <button type="button" className={styles.arrow} onClick={() => go(-1)} aria-label={previous}>
-                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-                    <path d="M20 12H4M10 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.4" fill="none" />
                   </svg>
                 </button>
-                <button type="button" className={styles.arrow} onClick={() => go(1)} aria-label={next}>
-                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-                    <path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" strokeWidth="1.4" fill="none" />
-                  </svg>
-                </button>
-              </div>
+              )}
+              <button type="button" className={`${galleryStyles.arrow} ${styles.prevBtn}`} onClick={() => go(-1)} aria-label={previous}>
+                <Arrow dir="prev" />
+              </button>
+              <button type="button" className={`${galleryStyles.arrow} ${styles.nextBtn}`} onClick={() => go(1)} aria-label={next}>
+                <Arrow dir="next" />
+              </button>
             </div>
           )}
         </div>

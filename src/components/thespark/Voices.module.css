@@ -111,39 +111,31 @@
 /* ---------- Slider (Philine, 28 November 2026) ---------- */
 
 .controls {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--space-8);
+  flex: 0 1 26rem;
+  margin-top: 0;
 }
 
-.counter {
-  display: grid;
-  gap: var(--space-3);
-  margin: 0;
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
+/* Hover nudges: none for pause, left for previous, right for next. */
+.voices .controls .pauseBtn {
+  --nudge: 0px;
 }
 
-.counterNow {
-  color: var(--text);
+.voices .controls .prevBtn {
+  --nudge: -4px;
 }
 
-.bar {
-  display: block;
-  width: 8rem;
-  height: 1px;
-  background: var(--hairline);
+.voices .controls .nextBtn {
+  --nudge: 4px;
+}
+
+.rule {
   overflow: hidden;
 }
 
-/* The bar fills while a slide is shown, and stops while paused. */
-.barFill {
-  display: block;
-  height: 100%;
+/* The rule fills while the words are shown, and stops while paused. */
+.timer {
+  position: absolute;
+  inset: 0;
   background: var(--text);
   transform-origin: left;
   transform: scaleX(0);
@@ -151,7 +143,7 @@
   animation-play-state: paused;
 }
 
-.barFill[data-running] {
+.timer[data-running] {
   animation-play-state: running;
 }
 
@@ -161,35 +153,10 @@
   }
 }
 
-.buttons {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.arrow {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  background: none;
-  color: var(--text);
-  border: 1px solid var(--hairline);
-  border-radius: 0;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-@media (hover: hover) {
-  .arrow:hover {
-    background: var(--text);
-    color: var(--bg);
+@media (prefers-reduced-motion: reduce) {
+  .timer {
+    animation: none;
   }
-}
-
-.arrow:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
 }
 
 /* All quotes share one cell, so the stage is as tall as the longest: nothing jumps. */
@@ -278,14 +245,10 @@
     font-size: 1.625rem;
   }
 
-  .bar {
-    width: 5rem;
-  }
 }
 
 @media (max-width: 640px) {
   .controls {
-    width: 100%;
-    justify-content: space-between;
+    flex-basis: 100%;
   }
 }
