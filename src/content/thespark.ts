@@ -948,6 +948,19 @@ export const thespark = {
   },
 
   /**
+   * Small early-bird notice in the corner of /thespark (Philine, 25 November 2026).
+   * Shows a few seconds after arrival, can be closed (remembered), and disappears by
+   * itself once the early-bird deadline has passed (`until`, end of 6 December, Lisbon time).
+   */
+  earlyBirdNotice: {
+    until: '2026-12-07T00:00:00Z',
+    kicker: 'The Spark',
+    text: 'Early bird prices until 6\u00a0December\u00a02026.',
+    close: 'Close',
+    label: 'Early bird prices',
+  },
+
+  /**
    * The "Register your interest" panel. Lines marked DRAFT were written by Claude and
    * await Igor's approval (TBA): replace or confirm, then remove the marker.
    */
