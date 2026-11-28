@@ -1,81 +1,87 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { thespark } from '../../content/thespark'
 import styles from './Voices.module.css'
+import galleryStyles from './Gallery.module.css'
+import { Arrow } from './Gallery'
+
+/** Time each guest's words stay before the next slide in (long enough to read). */
+const SLIDE_MS = 9000
 
 /**
  * Guests' words, straight after the hero (Igor, 25 November 2026).
  *
- * Pinned: the heading stays in place while the four quotes replace one another as the page
- * scrolls, then the page moves on. Scroll speed is never changed (no hijacking): the section is
- * simply taller than the screen and its panel is `position: sticky`.
+ * A slider (Philine, 28 November 2026): the words slide on to the next guest by themselves,
+ * and arrows let people go through them faster. It pauses while hovered or focused, while
+ * off screen, and with the pause button; with reduced motion it never moves by itself.
  *
- * Falls back to the plain list of rows (also the server-rendered markup) when motion is
- * reduced, without JavaScript, or when the tallest quote would not fit on the screen.
+ * Without JavaScript (and in the server-rendered markup) the quotes are a plain list of rows.
  */
 export function Voices() {
-  const { kicker, title, items } = thespark.voices
+  const { kicker, title, items, previous, next, pause, play } = thespark.voices
   const sectionRef = useRef<HTMLElement>(null)
-  const panelRef = useRef<HTMLDivElement>(null)
-  const [pinned, setPinned] = useState(false)
+  const touchX = useRef(0)
+  const [ready, setReady] = useState(false)
   const [active, setActive] = useState(0)
+  const [dir, setDir] = useState<1 | -1>(1)
+  const [paused, setPaused] = useState(false) // pause button
+  const [held, setHeld] = useState(false) // hover or keyboard focus inside
+  const [visible, setVisible] = useState(false)
+  const [reduced, setReduced] = useState(false)
 
-  // Decide whether the pinned version fits: re-checked on resize.
   useEffect(() => {
-    const section = sectionRef.current
-    const panel = panelRef.current
-    if (!section || !panel) return
+    setReady(true)
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const check = () => {
-      if (motion.matches) return setPinned(false)
-      // Measure the panel as it would be pinned: its natural height must fit the space below the header.
-      section.dataset.measure = ''
-      const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 72
-      const fits = panel.scrollHeight <= window.innerHeight - header
-      delete section.dataset.measure
-      setPinned(fits)
-    }
-    check()
-    const ro = new ResizeObserver(check)
-    ro.observe(document.documentElement)
-    motion.addEventListener('change', check)
+    const onMotion = () => setReduced(motion.matches)
+    onMotion()
+    motion.addEventListener('change', onMotion)
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.35 })
+    if (sectionRef.current) io.observe(sectionRef.current)
     return () => {
-      ro.disconnect()
-      motion.removeEventListener('change', check)
+      motion.removeEventListener('change', onMotion)
+      io.disconnect()
     }
   }, [])
 
-  // While pinned: the scroll position through the section picks the quote shown.
+  const go = useCallback(
+    (step: 1 | -1) => {
+      setDir(step)
+      setActive((a) => (a + step + items.length) % items.length)
+    },
+    [items.length],
+  )
+
+  const running = ready && visible && !paused && !held && !reduced
+
+  // Auto-advance: restarts whenever the slide changes, so an arrow click gives the full time.
   useEffect(() => {
-    const section = sectionRef.current
-    if (!pinned || !section) return
-    let frame = 0
-    const update = () => {
-      frame = 0
-      const rect = section.getBoundingClientRect()
-      const travel = rect.height - window.innerHeight
-      const progress = travel > 0 ? Math.min(1, Math.max(0, -rect.top / travel)) : 0
-      setActive(Math.min(items.length - 1, Math.floor(progress * items.length)))
-    }
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update)
-    }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      cancelAnimationFrame(frame)
-    }
-  }, [pinned, items.length])
+    if (!running) return
+    const t = window.setTimeout(() => go(1), SLIDE_MS)
+    return () => window.clearTimeout(t)
+  }, [running, active, go])
 
   return (
     <section
       ref={sectionRef}
       className={styles.voices}
       aria-labelledby="voices-title"
-      data-pinned={pinned ? '' : undefined}
-      style={{ '--count': items.length } as React.CSSProperties}
+      aria-roledescription="carousel"
+      data-slider={ready ? '' : undefined}
+      // Mouse hover pauses (touch taps don't), and on phones a swipe changes the words.
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setHeld(true)}
+      onPointerLeave={(e) => e.pointerType === 'mouse' && setHeld(false)}
+      onTouchStart={(e) => {
+        touchX.current = e.touches[0].clientX
+      }}
+      onTouchEnd={(e) => {
+        const dx = e.changedTouches[0].clientX - touchX.current
+        if (ready && Math.abs(dx) > 50) go(dx < 0 ? 1 : -1)
+      }}
+      onFocus={(e) => e.target.matches(':focus-visible') && setHeld(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHeld(false)
+      }}
     >
-      <div ref={panelRef} className={styles.panel}>
+      <div className={styles.panel}>
         <div className={styles.head}>
           <div>
             <p className={styles.kicker}>{kicker}</p>
@@ -83,42 +89,77 @@ export function Voices() {
               {title}
             </h2>
           </div>
-          {pinned && (
-            <p className={styles.counter} aria-hidden="true">
-              <span>
-                <span className={styles.counterNow}>{String(active + 1).padStart(2, '0')}</span> /{' '}
-                {String(items.length).padStart(2, '0')}
+          {ready && (
+            // Same counter, rule and arrows as the artists row and the galleries (Philine, 28 November 2026).
+            <div className={`${galleryStyles.controls} ${styles.controls}`}>
+              <span className={galleryStyles.counter} aria-hidden="true">
+                {String(active + 1).padStart(2, '0')} <span className={galleryStyles.counterOf}>/ {String(items.length).padStart(2, '0')}</span>
               </span>
-              <span className={styles.bar}>
-                <span className={styles.barFill} style={{ transform: `scaleX(${(active + 1) / items.length})` }} />
+              <span className={`${galleryStyles.rule} ${styles.rule}`} aria-hidden="true">
+                {/* Fills while the words are shown; restarts with each guest. */}
+                <span
+                  key={active}
+                  className={styles.timer}
+                  data-running={running ? '' : undefined}
+                  style={{ animationDuration: `${SLIDE_MS}ms` }}
+                />
               </span>
-            </p>
+              {!reduced && (
+                <button
+                  type="button"
+                  className={`${galleryStyles.arrow} ${styles.pauseBtn}`}
+                  onClick={() => setPaused((p) => !p)}
+                  aria-label={paused ? play : pause}
+                  aria-pressed={paused}
+                >
+                  <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" className={galleryStyles.arrowSvg}>
+                    {paused ? (
+                      <path d="M2.5 1l8 5-8 5z" fill="none" stroke="currentColor" strokeWidth="1" />
+                    ) : (
+                      <path d="M3.5 1v10M8.5 1v10" fill="none" stroke="currentColor" strokeWidth="1" />
+                    )}
+                  </svg>
+                </button>
+              )}
+              <button type="button" className={`${galleryStyles.arrow} ${styles.prevBtn}`} onClick={() => go(-1)} aria-label={previous}>
+                <Arrow dir="prev" />
+              </button>
+              <button type="button" className={`${galleryStyles.arrow} ${styles.nextBtn}`} onClick={() => go(1)} aria-label={next}>
+                <Arrow dir="next" />
+              </button>
+            </div>
           )}
         </div>
         {/* One quote per row: the guest's opening words set large, the rest beneath. */}
-        <ol className={styles.list}>
-          {items.map((q, i) => (
-            <li
-              key={q.name}
-              className={styles.item}
-              data-state={pinned ? (i === active ? 'now' : i < active ? 'past' : 'next') : undefined}
-            >
-              <figure className={styles.figure}>
-                <figcaption className={styles.by}>
-                  <span className={styles.number} aria-hidden="true">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span className={styles.name}>{q.name}</span>
-                  {q.role ? <span className={styles.role}>{q.role}</span> : null}
-                </figcaption>
-                <blockquote className={styles.text}>
-                  <p>
-                    <span className={styles.lead}>“{q.lead}</span> {q.text.slice(q.lead.length).trim()}”
-                  </p>
-                </blockquote>
-              </figure>
-            </li>
-          ))}
+        <ol className={styles.list} aria-live={running ? 'off' : 'polite'}>
+          {items.map((q, i) => {
+            const state = i === active ? 'now' : (i - active) * dir > 0 ? 'next' : 'past'
+            return (
+              <li
+                key={q.name}
+                className={styles.item}
+                data-state={ready ? state : undefined}
+                aria-hidden={ready && i !== active ? true : undefined}
+                aria-roledescription="slide"
+                aria-label={`${i + 1} / ${items.length}`}
+              >
+                <figure className={styles.figure}>
+                  <figcaption className={styles.by}>
+                    <span className={styles.number} aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className={styles.name}>{q.name}</span>
+                    {q.role ? <span className={styles.role}>{q.role}</span> : null}
+                  </figcaption>
+                  <blockquote className={styles.text}>
+                    <p>
+                      <span className={styles.lead}>“{q.lead}</span> {q.text.slice(q.lead.length).trim()}”
+                    </p>
+                  </blockquote>
+                </figure>
+              </li>
+            )
+          })}
         </ol>
       </div>
     </section>

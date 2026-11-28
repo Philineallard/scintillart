@@ -866,6 +866,11 @@ export const thespark = {
   voices: {
     kicker: 'From a previous retreat',
     title: 'In their own words',
+    /** Slider controls (Philine, 28 November 2026). */
+    previous: 'Previous words',
+    next: 'Next words',
+    pause: 'Pause',
+    play: 'Play',
     /** lead: the opening words of each quote, set large (must be the exact start of text). */
     items: [
       {

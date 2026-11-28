@@ -108,100 +108,96 @@
   color: var(--text);
 }
 
-/* ---------- Counter (pinned only) ---------- */
+/* ---------- Slider (Philine, 28 November 2026) ---------- */
 
-.counter {
-  display: grid;
-  grid-template-columns: auto;
-  gap: var(--space-3);
-  margin: 0;
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
+.controls {
+  flex: 0 1 26rem;
+  margin-top: 0;
 }
 
-.counterNow {
-  color: var(--text);
+/* Hover nudges: none for pause, left for previous, right for next. */
+.voices .controls .pauseBtn {
+  --nudge: 0px;
 }
 
-.bar {
-  display: block;
-  width: 8rem;
-  height: 1px;
-  background: var(--hairline);
+.voices .controls .prevBtn {
+  --nudge: -4px;
 }
 
-.barFill {
-  display: block;
-  height: 100%;
+.voices .controls .nextBtn {
+  --nudge: 4px;
+}
+
+.rule {
+  overflow: hidden;
+}
+
+/* The rule fills while the words are shown, and stops while paused. */
+.timer {
+  position: absolute;
+  inset: 0;
   background: var(--text);
   transform-origin: left;
-  transition: transform 0.6s ease;
+  transform: scaleX(0);
+  animation: fill linear forwards;
+  animation-play-state: paused;
 }
 
-/* ---------- Pinned: the section is taller than the screen, its panel sticks ---------- */
-
-/* While measuring, and when pinned: all quotes share one grid cell, so the stage is as tall as the longest. */
-.voices[data-measure] .list,
-.voices[data-pinned] .list {
-  display: grid;
+.timer[data-running] {
+  animation-play-state: running;
 }
 
-.voices[data-measure] .item,
-.voices[data-pinned] .item {
-  grid-area: 1 / 1;
-}
-
-.voices[data-pinned] {
-  /* One screen per quote, roughly; scroll speed is untouched. */
-  height: calc(var(--count) * 70svh + 40svh);
-}
-
-.voices[data-measure] .panel {
-  padding-block: var(--space-8);
-}
-
-.voices[data-pinned] .panel {
-  position: sticky;
-  top: var(--header-h, 72px);
-  min-height: calc(100svh - var(--header-h, 72px));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: var(--space-8);
-}
-
-.voices[data-pinned] .item {
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.voices[data-pinned] .item[data-state='next'] {
-  opacity: 0;
-  transform: translateY(1.5rem);
-  pointer-events: none;
-}
-
-.voices[data-pinned] .item[data-state='past'] {
-  opacity: 0;
-  transform: translateY(-1.5rem);
-  pointer-events: none;
-}
-
-/* Hairlines stay put while the quotes change. */
-.voices[data-pinned] .item[data-state='next'],
-.voices[data-pinned] .item[data-state='past'] {
-  border-top-color: transparent;
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .voices[data-pinned] .item,
-  .barFill {
-    transition: none;
+  .timer {
+    animation: none;
+  }
+}
+
+/* All quotes share one cell, so the stage is as tall as the longest: nothing jumps. */
+.voices[data-slider] .list {
+  display: grid;
+  overflow: hidden;
+}
+
+.voices[data-slider] .item {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.voices[data-slider] .item[data-state='next'] {
+  opacity: 0;
+  transform: translateX(3rem);
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    visibility 0s linear 0.7s;
+}
+
+.voices[data-slider] .item[data-state='past'] {
+  opacity: 0;
+  transform: translateX(-3rem);
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    visibility 0s linear 0.7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voices[data-slider] .item {
+    transition: none !important;
+    transform: none !important;
   }
 }
 
@@ -228,32 +224,31 @@
   }
 }
 
-/* Phones, pinned: a little tighter so the longest quote fits one screen. */
+/* Phones: a little tighter. */
 @media (max-width: 900px) {
-  .voices[data-measure] .figure,
-  .voices[data-pinned] .figure {
+  .voices[data-slider] .figure {
     gap: var(--space-4);
     padding-block: var(--space-4);
   }
 
-  .voices[data-measure] .list,
-  .voices[data-pinned] .list {
+  .voices[data-slider] .list {
     margin-top: var(--space-6);
   }
 
-  .voices[data-measure] .text p,
-  .voices[data-pinned] .text p {
+  .voices[data-slider] .text p {
     font-size: 15px;
     line-height: 24px;
   }
 
-  .voices[data-measure] .lead,
-  .voices[data-pinned] .lead {
+  .voices[data-slider] .lead {
     margin-bottom: var(--space-3);
     font-size: 1.625rem;
   }
 
-  .bar {
-    width: 5rem;
+}
+
+@media (max-width: 640px) {
+  .controls {
+    flex-basis: 100%;
   }
 }
